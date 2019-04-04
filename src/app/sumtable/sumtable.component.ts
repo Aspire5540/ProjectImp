@@ -16,11 +16,9 @@ export class SumtableComponent implements OnInit {
 
     //Select option
     projects = [];
-    causeNames = [
-      {name: 'แรงดันตก'},
-      {name: 'หม้อแปลงโหลดเกินพิกัด'},
-      {name: 'งานเสริมความมั่นคง'},
-    ];
+    causeNames = [];
+    solveMets = [];
+    show: boolean = false;
     //dataSource = new UserDataSource(this.userService);
     public dataSource = new MatTableDataSource<User>();
     displayedColumns = ['name', 'email', 'phone', 'company'];
@@ -43,27 +41,46 @@ export class SumtableComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registerForm);  // { first: '', last: '' }
-    this.registerForm.setValue({membershipRadios: "option2",
-                                name: "1111",
-                                project: "",
-                                wbs: "111123"});
+
     
   }
-  chgRmProject(){
-    this.projects = [
-      {name: 'I-59-B.41'},
-      {name: 'I-60-B.41'},
-      {name: 'I-60-B.MR'},
-      {name: 'I-61-B.MR'},
-      {name: 'I-62-B.MR'},
+  chgProject(){
+
+    if(this.registerForm.value["projectType"]=="movePole"){
+        this.projects = [ 'I-62-B.MR',
+          'I-59-B.41',
+          'I-60-B.41',
+          'I-60-B.MR',
+          'I-61-B.MR',
+         
+        ];
+        this.causeNames = ['กีดขว้างงานสร้างถนน',
+          'อยู่ในที่ผู้ใช้ไฟฟ้า',
+          'งานเสริมความมั่นคง',
+        ];
+        this.solveMets=[];
+        this.show=false;
+      }
+    else{
+      this.projects = ['I-62-B.BY',
+        'PDD01.4',
+        'I-60-B.BY',
+        
+      ];
+      this.causeNames = ['แรงดันตก',
+      'หม้อแปลงโหลดเกินพิกัด',
+      'งานเสริมความมั่นคง',
     ];
+      this.solveMets=['ตัดจ่ายใหม่',
+      'เพิ่มขนาดหม้อแปลง',
+      'เพิ่มเฟส',
+      'เพิ่มขนาดสาย']
+      this.show=true;
+    }
+    
   }
 
-  chgImProject(){
-    this.projects = [
-        {name: 'คพจ.1 แผน 4'},
-        {name: 'I-60-B.BY'},
-        {name: 'I-62-B.BY'},
-      ];
-    }
+  selProject() {
+    console.log(this.registerForm.value["project"]);
+}
 }
