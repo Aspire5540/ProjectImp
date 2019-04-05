@@ -40,8 +40,16 @@ export class SumtableComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registerForm);  // { first: '', last: '' }
+    console.log(this.registerForm.value);  // { first: '', last: '' }
+    this.configService.postdata('wrimjob.php',this.registerForm.value).subscribe((data=>{
+      if(data.status==1){
+          this.registerForm.resetForm();
+          alert("เก็บข้อมูลแล้วเสร็จ");
+      }else{
+        alert(data.data);
+      }
 
+    }))
     
   }
   chgProject(){

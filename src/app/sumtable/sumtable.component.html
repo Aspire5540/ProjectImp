@@ -69,7 +69,7 @@
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label input-lg">ชื่องาน</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control input-lg" name="name" ngModel required> 
+                  <input type="text" class="form-control input-lg" name="jobName" ngModel required> 
                 </div>
               </div>
             </div>
@@ -116,7 +116,7 @@
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label  input-lg">แรงสูง</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control  input-lg" name="MV" placeholder="วงจร-กม" ngMode>
+                  <input type="text" class="form-control  input-lg" name="mv" placeholder="วงจร-กม" ngMode>
                 </div>
               </div>
             </div>
@@ -125,7 +125,7 @@
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label  input-lg">หม้อแปลง</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control  input-lg" name="Tr" placeholder="kVA" ngModel> 
+                  <input type="text" class="form-control  input-lg" name="tr" placeholder="kVA" ngModel> 
                 </div>
               </div>
             </div>
@@ -134,7 +134,7 @@
             <div class="form-group row">
               <label class="col-sm-3 col-form-label  input-lg">แรงต่ำ</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control  input-lg" name="LV" placeholder="วงจร-กม" ngModel> 
+                <input type="text" class="form-control  input-lg" name="lv" placeholder="วงจร-กม" ngModel> 
               </div>
             </div>
           </div>
@@ -176,6 +176,7 @@
                     <label for="file">Choose File</label>
                     <input type="file"
                            id="file"
+                           name="docName"
                            (change)="handleFileInput($event.target.files)">
                 </div>
 

@@ -28,6 +28,7 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { SumtableComponent } from './sumtable/sumtable.component';
 import { HttpClientModule } from '@angular/common/http';
+import {HttpModule} from '@angular/http'
 import {ConfigService} from './config/config.service';
 //Addddd
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -100,7 +101,8 @@ import {
     TooltipsComponent,
     CarouselComponent,
     TabsComponent,
-    SumtableComponent
+    SumtableComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -151,6 +153,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    HttpModule,
   ],
   providers: [ConfigService],
   bootstrap: [AppComponent]
