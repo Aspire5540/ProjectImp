@@ -1,8 +1,100 @@
+ <!------------------------------------Project summary Start------------------------------------------------->
+<div class="row">
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+    <div class="card card-statistics">
+      <div class="card-body bg-info">
+        <div class="clearfix">
+          <div class="float-left">
+            <i class="mdi mdi-numeric-1-box text-white icon-lg"></i>
+          </div>
+          <div class="float-right">
+            <p class="mb-0 text-right wrfont">คพจ1.4 คงค้าง</p>
+            <div class="fluid-container">
+              <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
+            </div>
+          </div>
+        </div>
+        <p class="text-white mt-3 mb-0">
+          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน 65%
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+    <div class="card card-statistics">
+      <div class="card-body bg-success">
+        <div class="clearfix">
+          <div class="float-left">
+            <i class="mdi mdi-numeric-2-box text-white icon-lg"></i>
+          </div>
+          <div class="float-right">
+            <p class="mb-0 text-right wrfont">I.BY คงค้าง</p>
+            <div class="fluid-container">
+              <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
+            </div>
+          </div>
+        </div>
+        <p class="text-white mt-3 mb-0">
+          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน 65%
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+    <div class="card card-statistics">
+      <div class="card-body bg-primary">
+        <div class="clearfix">
+          <div class="float-left">
+            <i class="mdi mdi-numeric-3-box text-white icon-lg"></i>
+          </div>
+          <div class="float-right">
+            <p class="mb-0 text-right wrfont">I.MR,I.41 คงค้าง</p>
+            <div class="fluid-container">
+              <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
+            </div>
+          </div>
+        </div>
+        <p class="text-white mt-3 mb-0">
+          <i class="mdi mdi-alert-octagon  mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน 65%
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+    <div class="card card-statistics">
+      <div class="card-body bg-danger">
+        <div class="clearfix">
+          <div class="float-left">
+            <i class="mdi mdi-numeric-4-box text-white icon-lg"></i>
+          </div>
+          <div class="float-right">
+            <p class="mb-0 text-right wrfont">คงค้างรวม</p>
+            <div class="fluid-container">
+              <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
+            </div>
+          </div>
+        </div>
+        <p class="text-white mt-3 mb-0">
+          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน 65%
+        </p>
+      </div>
+    </div>
+  </div>
+  
+</div>
+  <!------------------------------------Project summary end------------------------------------------------->
+
+
+
+
+
 <div class="row">
   <div class="col-12 grid-margin">
     <div class="card">
       <div class="card-body">
-        <h2 class="card-title input-lg">ของบประมาณงานปรับปรุงระบบจำหน่ายและงานย้ายแนว</h2>
+          
+        <h1 class="card-title"> ของบประมาณงานปรับปรุงระบบจำหน่ายและงานย้ายแนว</h1>
+          
         <form class="form-sample" #f="ngForm" (ngSubmit)="onSubmit()">
           <p class="card-description">
             รายละเอียดงาน
@@ -16,7 +108,7 @@
                 <div class="col-sm-4">
                   <div class="form-radio">
                     <label class="form-check-label  input-lg">
-                      <input type="radio" class="form-check-input" name="projectType" id="membershipRadios1" value="impPro" (change) ="chgProject()" ngModel>
+                      <input type="radio" class="form-check-input" name="projectType" id="membershipRadios1" value="impPro" (change) ="chgProject()" ngModel required>
                       งานปรับปรุงระบบไฟฟ้า
                     </label>
                   </div>
@@ -24,7 +116,7 @@
                 <div class="col-sm-5">
                   <div class="form-radio">
                     <label class="form-check-label  input-lg">
-                      <input type="radio" class="form-check-input" name="projectType" id="membershipRadios2" value="movePole" (change) ="chgProject()" ngModel>
+                      <input type="radio" class="form-check-input" name="projectType" id="membershipRadios2" value="movePole" (change) ="chgProject()" ngModel required>
                       งานย้ายแนว
                     </label>
                   </div>
@@ -35,7 +127,7 @@
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label input-lg">บันทึกเลขที่</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-lg" name="wbs" ngModel required>
+                    <input type="text" class="form-control input-lg" name="docName" ngModel required>
                   </div>
                 </div>
               </div>            
@@ -79,7 +171,7 @@
           <div class="row">
 
 
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label  input-lg">สาเหตุ</label>
                 <div class="col-sm-9">
@@ -92,12 +184,13 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6" *ngIf="show">
+
+            <div class="col-md-4" *ngIf="show">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">วิธีการดำเนินการ</label>
+                <label class="col-sm-3 col-form-label  input-lg">การแก้ไข</label>
                 <div class="col-sm-9">
                   <select  class="form-control form-control-sm  input-lg" name="solveMet" ngModel>
-                    <option value="" disabled>วิธีการดำเนินการ</option>
+                    <option value="" disabled>วิธีการแก้ไข</option>
                     <option *ngFor="let solveMet of solveMets" [ngValue]="solveMet">
                       {{ solveMet }}
                     </option>
@@ -105,23 +198,35 @@
                 </div>
               </div>
             </div>    
-
+            <div class="col-md-4">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label  input-lg">หมายเหตุ</label>
+                  <div class="col-sm-9">
+                    <select  class="form-control form-control-sm  input-lg" name="note" ngModel>
+                      <option value="" disabled>หมายเหตุ</option>
+                      <option *ngFor="let note of notes" [ngValue]="note">
+                        {{ note }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
 
           </div>
           <!-----------------------------END------------------------------------------------>    
        
           <div *ngIf="show" class="row">
 
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label  input-lg">แรงสูง</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control  input-lg" name="mv" placeholder="วงจร-กม" ngMode>
+                  <input type="text" class="form-control  input-lg" name="mv" placeholder="วงจร-กม" ngModel>
                 </div>
               </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label  input-lg">หม้อแปลง</label>
                 <div class="col-sm-9">
@@ -130,7 +235,7 @@
               </div>
             </div>
     
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label  input-lg">แรงต่ำ</label>
               <div class="col-sm-9">
@@ -142,16 +247,16 @@
           <!-----------------------------END------------------------------------------------>        
         <div *ngIf="show" class="row">
 
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label  input-lg">PEA หม้อแปลง</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control  input-lg" name="peatr" placeholder="00-000000" ngMode>
+                    <input type="text" class="form-control  input-lg" name="peatr" placeholder="00-000000" ngModel>
                   </div>
                 </div>
               </div>
   
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label  input-lg">แรงดันปลายสาย</label>
                   <div class="col-sm-9">
@@ -160,7 +265,7 @@
                 </div>
               </div>
       
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label  input-lg">%โหลดหม้อแปลง</label>
                 <div class="col-sm-9">
@@ -170,21 +275,21 @@
             </div>
         </div>
           <!-----------------------------END------------------------------------------------>   
-         <div class="row">
+        <div class="row">
             <div class="col-md-9">
                 <div class="form-group">
-                    <label for="file">Choose File</label>
+                    <label class="input-lg" for="file">เลือกไฟล์แผนผัง</label>
                     <input type="file"
                            id="file"
-                           name="docName"
-                           (change)="handleFileInput($event.target.files)">
+                           name="filename"
+                           (change)="handleFileInput($event.target.files)" ngModel required>
                 </div>
 
             </div>
             <div class="col-md-3">
               <button type="submit" [disabled]="!f.valid" class="btn btn-success mr-2">Submit</button>
             </div>
-          </div>
+        </div>
          </form>
       </div>
     </div>
@@ -193,38 +298,59 @@
 </div>
  
 <div class="row">
-  <div class="col-lg-12 grid-margin">
+  <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Orders</h4>
-                 
+        <h4 class="card-title">งานที่ขออนุมัติ</h4>
+               
         <input type="text" class="form-control" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
                 
         <div class="table-responsive">
-            <table class="table table-bordered" mat-table [dataSource]="dataSource">
-              <ng-container matColumnDef="name">
-                <thead><th mat-header-cell *matHeaderCellDef> Name </th></thead>
-                <tbody><td mat-cell *matCellDef="let user"> {{user.name}} </td></tbody>
+            <table class="table table-bordered" mat-table [dataSource]="dataSource">   
+
+              <ng-container matColumnDef="wbs">
+              <th class="table-lg" mat-header-cell *matHeaderCellDef> wbs </th>
+              <td class="table-lg" mat-cell *matCellDef="let wbsdata"> {{wbsdata.wbs}} </td>
               </ng-container>
-              <ng-container matColumnDef="email">
-                <th mat-header-cell *matHeaderCellDef> E-Mail </th>
-                <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+
+              <ng-container matColumnDef="jobName">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef>ชื่องาน </th>
+                <td class="table-lg" mat-cell *matCellDef="let wbsdata"> {{wbsdata.jobName}} </td>
               </ng-container>
-              <ng-container matColumnDef="phone">
-                <th mat-header-cell *matHeaderCellDef> Phone </th>
-                <td mat-cell *matCellDef="let user"> {{user.phone}} </td>
+
+              <ng-container matColumnDef="causeName">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef> สาเหตุการดำเนินการ </th>
+                <td class="table-lg" mat-cell *matCellDef="let wbsdata">{{wbsdata.causeName}}</td>
               </ng-container>
-              <ng-container matColumnDef="company">
-                <th mat-header-cell *matHeaderCellDef> Company </th>
-                <td mat-cell *matCellDef="let user"> {{user.company.name}} </td>
+
+              <ng-container matColumnDef="solveMet">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef> วิธีการแก้ไข </th>
+                <td class="table-lg" mat-cell *matCellDef="let wbsdata"> {{wbsdata.solveMet}} </td>
               </ng-container>
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              <ng-container matColumnDef="note">
+                  <th class="table-lg" mat-header-cell *matHeaderCellDef>หมายเหตุ</th>
+                  <td class="table-lg" mat-cell *matCellDef="let wbsdata"> {{wbsdata.note}} </td>
+                </ng-container>
+
+              <ng-container matColumnDef="status">
+                  <th class="table-lg" mat-header-cell *matHeaderCellDef> สถานะงาน </th>
+                  <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <div *ngIf="wbsdata.status == 1"><label class="badge badge-warning">In progress</label> </div> </td>
+                </ng-container>
+
+              <ng-container matColumnDef="del">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef>  </th>
+                <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <div *ngIf="wbsdata.status == 0"><button type="button" class="btn btn-danger btn-fw btn-sm" (click)="delWbs(wbsdata)">Del</button></div>  </td>
+              </ng-container>
+
+              <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
         </div>
       </div>
     </div>
   </div>
+
 </div>
 

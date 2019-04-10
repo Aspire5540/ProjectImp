@@ -27,6 +27,7 @@ export interface Product {
     profile_image:string;
 
 }
+/*
 export interface User {
   name: string;
   email: string;
@@ -34,4 +35,22 @@ export interface User {
   company: {
       name: string;
   }
+
+}
+*/
+export interface wbsdata {
+  projectType : string;
+  wbs : string;
+  jobName : string;
+  docName : string;
+  causeName : string;
+  solveMet  : string;
+  mv  : number;
+  tr  : number;
+  lv : number;
+  filename : string;
+  peatr : number;
+  vdrop : number;
+  loadTr : number;
+
 }

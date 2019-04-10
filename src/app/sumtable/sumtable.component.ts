@@ -3,7 +3,7 @@ import {NgForm} from '@angular/forms';
 import { ConfigService } from '../config/config.service';
 import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
-import { User  } from '../model/user.model';
+import { wbsdata  } from '../model/user.model';
 
 
 @Component({
@@ -20,8 +20,10 @@ export class SumtableComponent implements OnInit {
     solveMets = [];
     show: boolean = false;
     //dataSource = new UserDataSource(this.userService);
-    public dataSource = new MatTableDataSource<User>();
-    displayedColumns = ['name', 'email', 'phone', 'company'];
+    public dataSource = new MatTableDataSource<wbsdata>();
+    //displayedColumns = ['name', 'email', 'phone', 'company'];
+    displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','status','del'];
+    notes =  ['1.งานร้องเรียน','2.PM/PS','3.งานเร่งด่วน','4.งานปกติ']
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private configService :ConfigService) {}
@@ -32,7 +34,7 @@ export class SumtableComponent implements OnInit {
   public getAllOwners = () => {
     this.configService.getUser()
     .subscribe(res => {
-      this.dataSource.data = res as User[];
+      this.dataSource.data = res as wbsdata[];
     })
   }
   applyFilter(filterValue: string) {
@@ -44,6 +46,7 @@ export class SumtableComponent implements OnInit {
     this.configService.postdata('wrimjob.php',this.registerForm.value).subscribe((data=>{
       if(data.status==1){
           this.registerForm.resetForm();
+          this.getAllOwners();
           alert("เก็บข้อมูลแล้วเสร็จ");
       }else{
         alert(data.data);
@@ -88,7 +91,21 @@ export class SumtableComponent implements OnInit {
     
   }
 
-  selProject() {
+selProject() {
     console.log(this.registerForm.value["project"]);
 }
+delWbs(wbsdata){
+  console.log(wbsdata.wbs);
+  this.configService.postdata('delimjob.php',wbsdata).subscribe((data=>{
+    if(data.status==1){
+        this.registerForm.resetForm();
+        this.getAllOwners();
+        alert("ลบข้อมูลแล้วเสร็จ");
+    }else{
+      alert(data.data);
+    }
+
+  }))
+} 
+
 }
