@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +27,8 @@ import { TooltipsComponent } from './tooltips/tooltips.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { SumtableComponent } from './sumtable/sumtable.component';
+
+
 import { HttpClientModule } from '@angular/common/http';
 import {HttpModule} from '@angular/http'
 import {ConfigService} from './config/config.service';
@@ -77,7 +79,8 @@ import {
   MatTreeModule,
   MatFormFieldModule,
 } from '@angular/material';
-
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -102,6 +105,7 @@ import {
     CarouselComponent,
     TabsComponent,
     SumtableComponent,
+    LoginComponent,
     
   ],
   imports: [
@@ -110,6 +114,7 @@ import {
     RouterModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule ,
     NgbModule.forRoot(),
     BrowserAnimationsModule,
     MatFormFieldModule,
@@ -155,7 +160,7 @@ import {
     MatTreeModule,
     HttpModule,
   ],
-  providers: [ConfigService],
+  providers: [ConfigService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

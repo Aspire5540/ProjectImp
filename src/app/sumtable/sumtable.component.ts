@@ -4,7 +4,8 @@ import { ConfigService } from '../config/config.service';
 import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
 import { wbsdata  } from '../model/user.model';
-
+import { AuthService } from '../config/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sumtable',
@@ -18,6 +19,7 @@ export class SumtableComponent implements OnInit {
     projects = [];
     causeNames = [];
     solveMets = [];
+    id: string;
     show: boolean = false;
     //dataSource = new UserDataSource(this.userService);
     public dataSource = new MatTableDataSource<wbsdata>();
@@ -26,10 +28,16 @@ export class SumtableComponent implements OnInit {
     notes =  ['1.งานร้องเรียน','2.PM/PS','3.งานเร่งด่วน','4.งานปกติ']
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private configService :ConfigService) {}
+  constructor(private configService :ConfigService,private router: Router,public authService: AuthService) {}
   ngOnInit() {
+    this.id = localStorage.getItem('token');
+    if (this.id==null){
+      this.router.navigate(['/login']);
+    }
     this.getAllOwners();
     this.dataSource.paginator = this.paginator; 
+    
+    console.log(this.id);
   }
   public getAllOwners = () => {
     this.configService.getUser()
