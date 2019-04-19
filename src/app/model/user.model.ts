@@ -27,17 +27,14 @@ export interface Product {
     profile_image:string;
 
 }
-/*
-export interface User {
+export class User {
+  id: number;
+  userName: string;
+  password: string;
   name: string;
-  email: string;
-  phone: string;
-  company: {
-      name: string;
-  }
-
+  peacode: string;
+  peaname: string;
 }
-*/
 export interface wbsdata {
   projectType : string;
   wbs : string;

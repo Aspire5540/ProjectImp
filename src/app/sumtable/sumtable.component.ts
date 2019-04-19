@@ -34,13 +34,13 @@ export class SumtableComponent implements OnInit {
     if (this.id==null){
       this.router.navigate(['/login']);
     }
-    this.getAllOwners();
+    this.getData();
     this.dataSource.paginator = this.paginator; 
     
     console.log(this.id);
   }
-  public getAllOwners = () => {
-    this.configService.getUser()
+  public getData = () => {
+    this.configService.getWbs()
     .subscribe(res => {
       this.dataSource.data = res as wbsdata[];
     })
@@ -54,7 +54,7 @@ export class SumtableComponent implements OnInit {
     this.configService.postdata('wrimjob.php',this.registerForm.value).subscribe((data=>{
       if(data.status==1){
           this.registerForm.resetForm();
-          this.getAllOwners();
+          this.getData();
           alert("เก็บข้อมูลแล้วเสร็จ");
       }else{
         alert(data.data);
@@ -107,7 +107,7 @@ delWbs(wbsdata){
   this.configService.postdata('delimjob.php',wbsdata).subscribe((data=>{
     if(data.status==1){
         this.registerForm.resetForm();
-        this.getAllOwners();
+        this.getData();
         alert("ลบข้อมูลแล้วเสร็จ");
     }else{
       alert(data.data);

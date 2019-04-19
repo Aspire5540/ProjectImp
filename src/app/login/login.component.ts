@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ILogin } from '../login';
 import { AuthService } from '../config/auth.service';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
 
 
 
-  constructor(private formBuilder: FormBuilder,private router: Router, public authService: AuthService) { }
+  constructor(private configService :ConfigService,private formBuilder: FormBuilder,private router: Router, public authService: AuthService) { }
 
 
 
@@ -38,10 +39,18 @@ export class LoginComponent implements OnInit {
   login() {
 
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
-        return;
-    }
-    else{
+      console.log({ user: this.f.userid.value, password: this.f.password.value });
+      this.configService.postdata('login.php',{ userName: this.f.userid.value, password: this.f.password.value }).subscribe((data=>{
+        if(data.status==1){
+          alert(data.data);
+          console.log(data.data);
+            //alert("เก็บข้อมูลแล้วเสร็จ");
+        }else{
+          alert(data.data);
+          console.log(data.data);
+        }
+  
+      }))
       if(this.f.userid.value == this.model.userid && this.f.password.value == this.model.password){
         console.log("Login successful");
         //this.authService.authLogin(this.model);
@@ -53,7 +62,7 @@ export class LoginComponent implements OnInit {
         this.message = "Please check your userid and password";
       }
     }    
-}
+
 
 
 

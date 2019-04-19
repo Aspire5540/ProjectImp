@@ -26,7 +26,7 @@ export class ConfigService {
     this.options.headers = this.headers;
    }
   
-  getUser(): Observable<wbsdata[]> {
+  getWbs(): Observable<wbsdata[]> {
     return this.http.get<wbsdata[]>(this.serviceUrl);
   }
 
@@ -37,6 +37,10 @@ export class ConfigService {
   getdata(endpoint){
     return this.http2.get(this.hostUrl+endpoint,this.options).map(res=>res.json());
   }
+
+  
+
+
 
 
 }
