@@ -87,7 +87,6 @@
 
 
 
-
 <div class="row">
   <div class="col-12 grid-margin">
     <div class="card">
@@ -282,7 +281,9 @@
                     <input type="file"
                            id="file"
                            name="filename"
-                           (change)="handleFileInput($event.target.files)" ngModel required>
+                           (change)="handleFileInput($event)" ngModel required>
+                    <label class="input-lg"> {{uploadResponse.status}} </label>
+                   
                 </div>
 
             </div>
@@ -337,7 +338,10 @@
                   <th class="table-lg" mat-header-cell *matHeaderCellDef> สถานะงาน </th>
                   <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <div *ngIf="wbsdata.status == 1"><label class="badge badge-warning">In progress</label> </div> </td>
                 </ng-container>
-
+                <ng-container matColumnDef="download">
+                    <th class="table-lg" mat-header-cell *matHeaderCellDef>แผนผัง</th>
+                    <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <a target="_blank" rel="noopener noreferrer" href={{URL+wbsdata.filename}}>Download</a> </td>
+                  </ng-container>
               <ng-container matColumnDef="del">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef>  </th>
                 <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <div *ngIf="wbsdata.status == 0"><button type="button" class="btn btn-danger btn-fw btn-sm" (click)="delWbs(wbsdata)">Del</button></div>  </td>

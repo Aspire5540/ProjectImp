@@ -49,5 +49,7 @@ export interface wbsdata {
   peatr : number;
   vdrop : number;
   loadTr : number;
-
+  status : string;
+  user : string;
+  peaCode : string;
 }

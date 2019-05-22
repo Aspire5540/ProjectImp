@@ -27,7 +27,7 @@ import { TooltipsComponent } from './tooltips/tooltips.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { SumtableComponent } from './sumtable/sumtable.component';
-
+import {FileuploadService} from './config/fileupload.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import {HttpModule} from '@angular/http'
@@ -160,7 +160,7 @@ import { AuthGuard } from './auth.guard';
     MatTreeModule,
     HttpModule,
   ],
-  providers: [ConfigService,AuthGuard],
+  providers: [ConfigService,AuthGuard,FileuploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

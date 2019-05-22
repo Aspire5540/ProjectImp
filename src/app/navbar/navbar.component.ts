@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,6 +10,9 @@ import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NavbarComponent implements OnInit {
   public sidebarOpened = false;
+  message:string;
+
+
   toggleOffcanvas() {
     this.sidebarOpened = !this.sidebarOpened;
     if (this.sidebarOpened) {
@@ -18,10 +22,12 @@ export class NavbarComponent implements OnInit {
       document.querySelector('.sidebar-offcanvas').classList.remove('active');
     }
   }
-  constructor(config: NgbDropdownConfig) {
+  constructor(private configService :ConfigService,config: NgbDropdownConfig) {
     config.placement = 'bottom-right';
   }
   ngOnInit() {
+    this.configService.currentMessage.subscribe(message => this.message = message)
+    //console.log(this.message);
   }
 
 }

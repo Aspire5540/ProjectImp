@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ILogin } from '../login';
 import { AuthService } from '../config/auth.service';
 import { ConfigService } from '../config/config.service';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +13,11 @@ import { ConfigService } from '../config/config.service';
 })
 export class LoginComponent implements OnInit {
 
-  model: ILogin = { userid: "admin", password: "admin123" };
+  //model: ILogin = { userid: "admin", password: "admin123" };
   loginForm: FormGroup;
   message: string;
   returnUrl: string;
-
+  islogin : boolean;
 
 
 
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
       userid: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.returnUrl = '/dashboard';
+    this.returnUrl = '/sumtable';
     this.authService.logout();
   }
   get f() { return this.loginForm.controls; }
@@ -39,31 +40,46 @@ export class LoginComponent implements OnInit {
   login() {
 
     // stop here if form is invalid
-      console.log({ user: this.f.userid.value, password: this.f.password.value });
+    
+      console.log({ userName: this.f.userid.value, password: this.f.password.value });
+      
       this.configService.postdata('login.php',{ userName: this.f.userid.value, password: this.f.password.value }).subscribe((data=>{
+        //console.log(data);
+        
         if(data.status==1){
-          alert(data.data);
-          console.log(data.data);
-            //alert("เก็บข้อมูลแล้วเสร็จ");
-        }else{
-          alert(data.data);
-          console.log(data.data);
-        }
-  
+          this.islogin=true;
+          localStorage.setItem('isLoggedIn', "true");
+          localStorage.setItem('token', this.f.userid.value);
+          localStorage.setItem('name', data.data["Name"]);
+          localStorage.setItem('peaName', data.data["peaName"]);
+          localStorage.setItem('peaCode', data.data["Peacode"]);
+          this.configService.changeMessage();
+          //window.location.reload();
+          //this.router.navigate([this.returnUrl]);
+          
+      }else{
+        this.message =data.data;
+        this.islogin=false;
+      }
+        
       }))
-      if(this.f.userid.value == this.model.userid && this.f.password.value == this.model.password){
-        console.log("Login successful");
-        //this.authService.authLogin(this.model);
-        localStorage.setItem('isLoggedIn', "true");
-        localStorage.setItem('token', this.f.userid.value);
+
+      if (this.islogin){
+
+        this.configService.postdata('rdpea.php',{ peaCode: localStorage.getItem('peaCode')}).subscribe((data=>{
+        localStorage.setItem('peaEng', data.data["peaEng"]);
+        this.configService.changeMessage();
+        //window.location.reload();
         this.router.navigate([this.returnUrl]);
-      }
-      else{
-        this.message = "Please check your userid and password";
-      }
+        console.log(data);
+        
+
+
+
+      }))
+
+
     }    
 
-
-
-
+  }
 }

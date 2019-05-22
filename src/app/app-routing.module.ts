@@ -19,10 +19,10 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { TabsComponent } from './tabs/tabs.component';
 import {SumtableComponent} from './sumtable/sumtable.component';
 import {LoginComponent} from './login/login.component';
-
+import {AuthGuard} from './auth.guard'
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent,canActivate:[AuthGuard]},
   { path: 'forms', component: FormsComponent },
   { path: 'buttons', component: ButtonsComponent },
   { path: 'tables', component: TablesComponent },
@@ -38,7 +38,7 @@ const routes: Routes = [
   { path: 'tooltips', component: TooltipsComponent },
   { path: 'carousel', component: CarouselComponent },
   { path: 'tabs', component: TabsComponent },
-  { path: 'sumtable', component: SumtableComponent },
+  { path: 'sumtable', component: SumtableComponent,canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent }
 ];
 
