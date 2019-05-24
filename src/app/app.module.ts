@@ -81,6 +81,7 @@ import {
 } from '@angular/material';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
+import { UploadComponent } from './upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { AuthGuard } from './auth.guard';
     TabsComponent,
     SumtableComponent,
     LoginComponent,
+    UploadComponent,
     
   ],
   imports: [

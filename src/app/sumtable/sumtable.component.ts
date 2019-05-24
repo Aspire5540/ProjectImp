@@ -5,7 +5,6 @@ import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
 import { wbsdata  } from '../model/user.model';
 import { AuthService } from '../config/auth.service';
-import { Router } from '@angular/router';
 import { HttpClient} from '@angular/common/http';
 import {FileuploadService} from '../config/fileupload.service';
 
@@ -37,14 +36,9 @@ export class SumtableComponent implements OnInit {
     notes =  ['1.งานร้องเรียน','2.PM/PS','3.งานเร่งด่วน','4.งานปกติ']
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private configService :ConfigService,private router: Router,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
+  constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
   ngOnInit() {
-    /*
-    this.id = localStorage.getItem('token');
-    if (this.id==null){
-      this.router.navigate(['/login']);
-    }
-    */
+  
     this.getData();
     
     this.dataSource.paginator = this.paginator; 

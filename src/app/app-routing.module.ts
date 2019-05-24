@@ -20,6 +20,9 @@ import { TabsComponent } from './tabs/tabs.component';
 import {SumtableComponent} from './sumtable/sumtable.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './auth.guard'
+import {UploadComponent} from'./upload/upload.component';
+
+
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent,canActivate:[AuthGuard]},
@@ -39,7 +42,8 @@ const routes: Routes = [
   { path: 'carousel', component: CarouselComponent },
   { path: 'tabs', component: TabsComponent },
   { path: 'sumtable', component: SumtableComponent,canActivate:[AuthGuard]},
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'upload', component: UploadComponent }
 ];
 
 @NgModule({
