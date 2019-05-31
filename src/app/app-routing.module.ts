@@ -21,7 +21,7 @@ import {SumtableComponent} from './sumtable/sumtable.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './auth.guard'
 import {UploadComponent} from'./upload/upload.component';
-
+import { JobapproveComponent } from './jobapprove/jobapprove.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -43,7 +43,8 @@ const routes: Routes = [
   { path: 'tabs', component: TabsComponent },
   { path: 'sumtable', component: SumtableComponent,canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent },
-  { path: 'upload', component: UploadComponent }
+  { path: 'upload', component: UploadComponent },
+  { path: 'jobapprove', component: JobapproveComponent }
 ];
 
 @NgModule({

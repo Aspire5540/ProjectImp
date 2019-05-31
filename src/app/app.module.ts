@@ -82,6 +82,7 @@ import {
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 import { UploadComponent } from './upload/upload.component';
+import { JobapproveComponent } from './jobapprove/jobapprove.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { UploadComponent } from './upload/upload.component';
     SumtableComponent,
     LoginComponent,
     UploadComponent,
+    JobapproveComponent,
     
   ],
   imports: [

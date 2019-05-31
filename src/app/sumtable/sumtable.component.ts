@@ -46,7 +46,7 @@ export class SumtableComponent implements OnInit {
     //console.log(this.id);
   }
   public getData = () => {
-    this.configService.getWbs('http://127.0.0.1/psisservice/rdimjob.php?peaCode='+localStorage.getItem('peaEng'))
+    this.configService.getWbs('rdimjob.php?peaCode='+localStorage.getItem('peaEng'))
     .subscribe(res => {
       this.dataSource.data = res as wbsdata[];
     })
@@ -121,7 +121,7 @@ selProject() {
 }
 */
 delWbs(wbsdata){
-  console.log(wbsdata.wbs);
+  //console.log(wbsdata.wbs);
   this.configService.postdata('delimjob.php',wbsdata).subscribe((data=>{
     if(data.status==1){
         this.registerForm.resetForm();

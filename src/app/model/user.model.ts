@@ -53,3 +53,24 @@ export interface wbsdata {
   user : string;
   peaCode : string;
 }
+
+export interface jobreq {
+  projectType : string;
+  wbs : string;
+  jobName : string;
+  docName : string;
+  causeName : string;
+  solveMet  : string;
+  mv  : number;
+  tr  : number;
+  lv : number;
+  filename : string;
+  peatr : number;
+  vdrop : number;
+  loadTr : number;
+  status : string;
+  user : string;
+  peaCode : string;
+  workCostPln : number;
+  matCostPln : number;
+}
