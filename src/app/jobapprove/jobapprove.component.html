@@ -1,42 +1,32 @@
 
 <div class="row">
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-          
-        <h1 class="card-title"> ของบประมาณงานปรับปรุงระบบจำหน่ายและงานย้ายแนว</h1>
+   
+        <mat-form-field>
+            <mat-label>กฟฟ. </mat-label>
+            <mat-select (selectionChange)="selectPea($event)">
+              <mat-option *ngFor="let pea of peaname" [value]="pea.peaEng">
+                {{pea.peaCode +" "+pea.peaEng}} 
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        
+        <mat-form-field>
+            <mat-label>งบ</mat-label>
+            <mat-select (selectionChange)="selectBudget($event)">
+              <mat-option *ngFor="let budjet of budjets" [value]="budjet.value">
+                {{budjet.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <div class="col-md-12">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label  input-lg">งบ</label>
-            <div class="col-sm-9">
-              <select  class="form-control form-control-sm  input-lg" name="causeName" ngModel>
-                <option value="" disabled>เลือกประเภทงบ</option>
-                <option *ngFor="let causeName of causeNames" [ngValue]="causeName">
-                  {{ causeName }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-12">
-          <div class="form-group row">
-            <label class="col-sm-3 col-form-label  input-lg">กฟฟ</label>
-            <div class="col-sm-9">
-              <select  class="form-control form-control-sm  input-lg" name="causeName" ngModel>
-                <option value="" disabled>เลือก กฟฟ.</option>
-                <option *ngFor="let causeName of causeNames" [ngValue]="causeName">
-                  {{ causeName }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>
   </div>
+
   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
     <div class="card card-statistics">
       <div class="card-body bg-info">
@@ -45,18 +35,19 @@
             <i class="mdi mdi-numeric-1-box text-white icon-lg"></i>
           </div>
           <div class="float-right">
-            <p class="mb-0 text-right wrfont">จำนวนงานคงค้าง</p>
+            <p class="mb-0 text-right wrfont">คชจ. หน้างาน คงเหลือ</p>
             <div class="fluid-container">
               <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
             </div>
           </div>
         </div>
         <p class="text-white mt-3 mb-0">
-          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน 65%
+          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คชจ. หน้างานคงเหลือ 65%
         </p>
       </div>
     </div>
   </div>
+
   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
     <div class="card card-statistics">
       <div class="card-body bg-success">
@@ -77,6 +68,28 @@
       </div>
     </div>
   </div>
+
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+      <div class="card card-statistics">
+        <div class="card-body bg-danger">
+          <div class="clearfix">
+            <div class="float-left">
+              <i class="mdi mdi-numeric-3-box text-white icon-lg"></i>
+            </div>
+            <div class="float-right">
+              <p class="mb-0 text-right wrfont">คงค้างรวม</p>
+              <div class="fluid-container">
+                <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
+              </div>
+            </div>
+          </div>
+          <p class="text-white mt-3 mb-0">
+            <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน 65%
+          </p>
+        </div>
+      </div>
+    </div>
+
 </div>
 <!-----------------------------------Show job------------------------------------------------->
 <div class="row">
@@ -131,7 +144,10 @@
 
               <ng-container matColumnDef="del">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef>  </th>
-                <td class="table-lg" mat-cell *matCellDef="let jobreq"> <div *ngIf="jobreq.status == 0"><button type="button" class="btn btn-success btn-fw btn-sm" (click)="selWbs(jobreq)"><i class="fa fa-plus-square"></i>อนุมัติ</button></div>  </td>
+                <td class="table-lg" mat-cell *matCellDef="let jobreq">
+                   <div *ngIf="jobreq.status == 0"><button type="button" class="btn btn-success btn-fw btn-sm" (click)="selWbs(jobreq)"><i class="fa fa-plus-square"></i>อนุมัติ</button></div>
+                   <div *ngIf="jobreq.status == 1"><button type="button" class="btn btn-warning btn-fw btn-sm" (click)="delWbs(jobreq)"><i class="fa fa-minus-square"></i>ยกเลิก</button></div>
+                </td>
               </ng-container>
 
               <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>

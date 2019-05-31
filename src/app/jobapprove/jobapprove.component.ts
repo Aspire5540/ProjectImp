@@ -16,7 +16,15 @@ import {FileuploadService} from '../config/fileupload.service';
 export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
   WorkCost =0 ;
-  
+  peaname = [];
+  budjets= [
+    {value: ['PTDD01.4',''], viewValue: 'คพจ.1.4'},
+    {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
+    {value: ['I-62-B','.41.1'], viewValue: 'I62.41'},
+    {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'}
+  ];
+  selPea='';
+  selBudjet=['',''];
   URL ="http://127.0.0.1/psisservice/uploads/";
   displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','status','download','user','del'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -24,15 +32,16 @@ export class JobapproveComponent implements OnInit {
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
   ngOnInit() {
   
-    this.getData();
+    this.getData(this.selPea,this.selBudjet);
     this.rdsumcost();
     this.dataSource.paginator = this.paginator; 
-    
+    this.getpeaall();
     //console.log(this.id);
   }
 
-  public getData = () => {
-    this.configService.getJob('rdimjobview.php?peaCode=')
+  public getData = (pea,data) => {
+    
+    this.configService.getJob('rdimjobview.php?peaCode='+pea+'&filter1='+data[0]+'&filter2='+data[1])
     .subscribe(res => {
       this.dataSource.data = res as jobreq[];
     })
@@ -42,14 +51,37 @@ export class JobapproveComponent implements OnInit {
     this.dataSource.filter = (filterValue).trim().toLowerCase();
   }
 
-  selWbs(wbsdata){
-    //console.log(wbsdata);
-    this.WorkCost=this.WorkCost+Number(wbsdata.workCostPln);
-   
-    
-    this.configService.postdata('addjob.php',wbsdata).subscribe((data=>{
+  selWbs(wbsdata){ 
+    this.configService.postdata('addjob.php',{ wbs: wbsdata.wbs, status : 1 }).subscribe((data=>{
       if(data.status==1){
-          this.getData();
+          this.getData(this.selPea,this.selBudjet);
+          this.rdsumcost();
+          //alert("ลบข้อมูลแล้วเสร็จ");
+      }else{
+        alert(data.data);
+      }
+  
+    }))
+    
+  } 
+  getpeaall(){ 
+    this.configService.postdata('rdpeaall.php',{}).subscribe((data=>{
+      if(data.status==1){
+        //console.log(data.data);
+        this.peaname=data.data;
+        //console.log(this.peaname);
+      }else{
+        alert(data.data);
+      }
+  
+    }))
+    
+  } 
+  delWbs(wbsdata){
+    //console.log(wbsdata);
+    this.configService.postdata('addjob.php',{ wbs: wbsdata.wbs, status : 0 }).subscribe((data=>{
+      if(data.status==1){
+          this.getData(this.selPea,this.selBudjet);
           this.rdsumcost();
           //alert("ลบข้อมูลแล้วเสร็จ");
       }else{
@@ -62,11 +94,18 @@ export class JobapproveComponent implements OnInit {
   rdsumcost(){
     this.configService.postdata('rdsummary.php',[]).subscribe((data=>{
   
-        this.getData();
-        this.WorkCost=Number(data.sumWorkCostPln);
-          //alert("ลบข้อมูลแล้วเสร็จ");
-
+      this.getData(this.selPea,this.selBudjet);
+      this.WorkCost=Number(data.sumWorkCostPln);
     }))
   }
+  selectBudget(event){
+    this.selBudjet=event.value;
+    this.getData(this.selPea,this.selBudjet);
 
+  }
+  selectPea(event){
+    this.selPea=event.value;
+    this.getData(this.selPea,this.selBudjet);
+
+  }
 }
