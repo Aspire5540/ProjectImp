@@ -2,30 +2,44 @@ input.ng-invalid.ng-touched{
     border: solid 1px red;
     }
     
-    .input-lg {
-        font-size: 15px;
-      }
-    
-    
-      .table-lg {
-        font-size: 14px;
-      }
-    
-    
-    
-    .mat-row:nth-child(even){
-        background-color: #c5dff6;
-        }
-    
-    .mat-row:nth-child(odd){
-        background-color : #b8f1d5;
-        }
-    
-    .mat-paginator{
-      font-size: 14px;
+.input-lg {
+    font-size: 15px;
+  }
+
+
+  .table-lg {
+    font-size: 14px;
+  }
+
+.mat-row:nth-child(even){
+    background-color: #dae8f5;
     }
-    
-    .wrfont{
-     color: #FFF;
-    
-    }
+
+.mat-paginator{
+  font-size: 14px;
+}
+
+.wrfont{
+  color: #FFF;
+
+}
+table {
+  width: 100%;
+
+}
+th.mat-header-cell{
+  color: rgb(10, 6, 223);
+  font-weight: bold
+}
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+.ppadd{
+    padding-left: 50px;
+}

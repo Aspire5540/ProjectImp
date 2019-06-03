@@ -7,7 +7,7 @@ import { jobreq  } from '../model/user.model';
 import { AuthService } from '../config/auth.service';
 import { HttpClient} from '@angular/common/http';
 import {FileuploadService} from '../config/fileupload.service';
-
+import {MatSort} from '@angular/material/sort';
 @Component({
   selector: 'app-jobapprove',
   templateUrl: './jobapprove.component.html',
@@ -26,16 +26,20 @@ export class JobapproveComponent implements OnInit {
   selPea='';
   selBudjet=['',''];
   URL ="http://127.0.0.1/psisservice/uploads/";
-  displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','status','download','user','del'];
+  nWbs =0;
+  displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','workCostPln','user','del'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
   ngOnInit() {
   
     this.getData(this.selPea,this.selBudjet);
     this.rdsumcost();
     this.dataSource.paginator = this.paginator; 
+    this.dataSource.sort = this.sort;
     this.getpeaall();
+    
     //console.log(this.id);
   }
 
@@ -92,20 +96,28 @@ export class JobapproveComponent implements OnInit {
     
   } 
   rdsumcost(){
-    this.configService.postdata('rdsummary.php',[]).subscribe((data=>{
+    this.configService.postdata('rdsummary.php',{ filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
   
       this.getData(this.selPea,this.selBudjet);
+      this.nWbs=Number(data.nWbs);
       this.WorkCost=Number(data.sumWorkCostPln);
     }))
   }
   selectBudget(event){
     this.selBudjet=event.value;
     this.getData(this.selPea,this.selBudjet);
-
+    this.configService.postdata('rdsummary.php',{ filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+      this.nWbs=Number(data.nWbs);
+      this.WorkCost=Number(data.sumWorkCostPln);
+    }))
   }
   selectPea(event){
     this.selPea=event.value;
     this.getData(this.selPea,this.selBudjet);
-
+    this.configService.postdata('rdsummary.php',{ filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+  
+      this.nWbs=Number(data.nWbs);
+      this.WorkCost=Number(data.sumWorkCostPln);
+    }))
   }
 }
