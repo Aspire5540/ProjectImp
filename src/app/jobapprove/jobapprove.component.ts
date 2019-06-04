@@ -16,6 +16,9 @@ import {MatSort} from '@angular/material/sort';
 export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
   WorkCost =0 ;
+  WorkCostPercent=0;
+  
+  nwbs=0;
   peaname = [];
   budjets= [
     {value: ['PTDD01.4',''], viewValue: 'คพจ.1.4'},
@@ -35,11 +38,12 @@ export class JobapproveComponent implements OnInit {
   ngOnInit() {
   
     this.getData(this.selPea,this.selBudjet);
-    this.rdsumcost();
+    //this.rdsumcost();
     this.dataSource.paginator = this.paginator; 
     this.dataSource.sort = this.sort;
-    this.getpeaall();
-    
+    this.getpeaList();
+    //this.getJobProgress();
+
     //console.log(this.id);
   }
 
@@ -68,7 +72,7 @@ export class JobapproveComponent implements OnInit {
     }))
     
   } 
-  getpeaall(){ 
+  getpeaList(){ 
     this.configService.postdata('rdpeaall.php',{}).subscribe((data=>{
       if(data.status==1){
         //console.log(data.data);
@@ -81,6 +85,22 @@ export class JobapproveComponent implements OnInit {
     }))
     
   } 
+  getJobProgress(){
+
+    this.configService.postdata('rdprogress.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+      if(data.status==1){
+        console.log(data.data.nwbs);
+        this.nwbs=data.data.nwbs;
+        this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
+        //console.log(this.peaname);
+      }else{
+        alert(data.data);
+      }
+  
+    }))
+
+
+  }
   delWbs(wbsdata){
     //console.log(wbsdata);
     this.configService.postdata('addjob.php',{ wbs: wbsdata.wbs, status : 0 }).subscribe((data=>{
@@ -96,7 +116,7 @@ export class JobapproveComponent implements OnInit {
     
   } 
   rdsumcost(){
-    this.configService.postdata('rdsummary.php',{ filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+    this.configService.postdata('rdsummary.php',{ peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
   
       this.getData(this.selPea,this.selBudjet);
       this.nWbs=Number(data.nWbs);
@@ -106,15 +126,17 @@ export class JobapproveComponent implements OnInit {
   selectBudget(event){
     this.selBudjet=event.value;
     this.getData(this.selPea,this.selBudjet);
-    this.configService.postdata('rdsummary.php',{ filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+    this.getJobProgress();
+    this.configService.postdata('rdsummary.php',{ peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       this.nWbs=Number(data.nWbs);
       this.WorkCost=Number(data.sumWorkCostPln);
     }))
   }
   selectPea(event){
     this.selPea=event.value;
+    this.getJobProgress();
     this.getData(this.selPea,this.selBudjet);
-    this.configService.postdata('rdsummary.php',{ filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+    this.configService.postdata('rdsummary.php',{peaEng : this.selPea, filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
   
       this.nWbs=Number(data.nWbs);
       this.WorkCost=Number(data.sumWorkCostPln);

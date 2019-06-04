@@ -36,6 +36,7 @@ export class ConfigService {
     return this.http.get<jobreq[]>(this.hostUrl+endpoint);
   }
 
+ 
 
   postdata (endpoint,params){
     return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).map(res=>res.json());
