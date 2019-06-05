@@ -74,3 +74,27 @@ export interface jobreq {
   workCostPln : number;
   matCostPln : number;
 }
+
+export interface trdata {
+  PEA_TR : string;
+  Feeder : number;
+  LineSize : string;
+  Aoj : string;
+  Kva : number;
+  minV  : number;
+  NumberCus  : number;
+  I  : number;
+  Load : number;
+  PLoad : number;
+  PLoadTOT : number;
+  Loss : number;
+  PLoss : number;
+  LoadFlowStatus : string;
+  MaxLen : number;
+  PEAName : string;
+  PEAName2 : string;
+  VRange : number;
+  TotalCus : number;
+  TRRange : number;
+  PLoadPortion : number;
+}
