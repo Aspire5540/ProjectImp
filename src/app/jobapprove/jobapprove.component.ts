@@ -17,13 +17,14 @@ export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
   WorkCost =0 ;
   WorkCostPercent=0;
-  
+  WorkCostApp=0;
+  projectBudget=0;
   nwbs=0;
   peaname = [];
   budjets= [
-    {value: ['PTDD01.4',''], viewValue: 'คพจ.1.4'},
     {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
-    {value: ['I-62-B','.41.1'], viewValue: 'I62.41'},
+    {value: ['I-62-B','.41.11'], viewValue: 'I62.41.1100'},
+    {value: ['I-62-B','.41.12'], viewValue: 'I62.41.1200'},
     {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'}
   ];
   selPea='';
@@ -85,6 +86,20 @@ export class JobapproveComponent implements OnInit {
     }))
     
   } 
+  getApproved(){ 
+    this.configService.postdata('rdapproved.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+      if(data.status==1){
+        
+        this.WorkCostApp=Number(data.data.sumWorkCostPln)*0.8;
+        this.projectBudget=Number(data.data.budget);
+        //console.log(this.peaname);
+      }else{
+        alert(data.data);
+      }
+  
+    }))
+    
+  } 
   getJobProgress(){
 
     this.configService.postdata('rdprogress.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
@@ -124,7 +139,10 @@ export class JobapproveComponent implements OnInit {
     }))
   }
   selectBudget(event){
+
     this.selBudjet=event.value;
+    
+    this.getApproved();
     this.getData(this.selPea,this.selBudjet);
     this.getJobProgress();
     this.configService.postdata('rdsummary.php',{ peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{

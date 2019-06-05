@@ -38,12 +38,12 @@
           <div class="float-right">
             <p class="mb-0 text-right wrfont">คชจ. หน้างาน คงเหลือ</p>
             <div class="fluid-container">
-              <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
+              <h3 class="font-weight-medium text-right mb-0 wrfont"> {{(this.projectBudget-this.WorkCostApp)/1000000 | number}} ล้านบาท</h3>
             </div>
           </div>
         </div>
         <p class="text-white mt-3 mb-0" style="font-size:120%;">
-          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คชจ. หน้างานคงเหลือ 65%
+          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คชจ. หน้างานอนุมัติแล้ว {{this.WorkCostApp/1000000 | number}} ล้านบาท
         </p>
       </div>
     </div>
@@ -57,14 +57,14 @@
             <i class="mdi mdi-numeric-2-box text-white icon-lg"></i>
           </div>
           <div class="float-right">
-            <p class="mb-0 text-right wrfont">คชจ. หน้างานอนุมัติ</p>
+            <p class="mb-0 text-right wrfont">คชจ. หน้างานอนุมัติครั้งนี้</p>
             <div class="fluid-container">
               <h3 class="font-weight-medium text-right mb-0 wrfont">{{this.WorkCost | number}} บาท</h3>
             </div>
           </div>
         </div>
         <p class="text-white mt-3 mb-0" style="font-size:120%;">
-          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> งานที่อนุมัติ {{this.nWbs}} งาน
+          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> งานที่อนุมัติครั้งนี้ {{this.nWbs}} งาน
         </p>
       </div>
     </div>
