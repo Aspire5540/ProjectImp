@@ -17,15 +17,8 @@ import {MatSort} from '@angular/material/sort';
 export class LVProComponent implements OnInit {
 
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
-  ngOnInit() {this.getData(this.TRNo);
+  ngOnInit() {
   }
-  public getData = (TRNo) => {
-    
-    this.configService.getJob('rdimjobview.php?peaCode='+pea+'&filter1='+data[0]+'&filter2='+data[1])
-    .subscribe(res => {
-      this.dataSource.data = res as jobreq[];
-    })
-  }
- 
+
 
 }
