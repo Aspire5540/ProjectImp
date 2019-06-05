@@ -83,6 +83,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 import { UploadComponent } from './upload/upload.component';
 import { JobapproveComponent } from './jobapprove/jobapprove.component';
+import { LVProComponent } from './lvpro/lvpro.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { JobapproveComponent } from './jobapprove/jobapprove.component';
     LoginComponent,
     UploadComponent,
     JobapproveComponent,
+    LVProComponent,
     
   ],
   imports: [

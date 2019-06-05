@@ -22,6 +22,7 @@ import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './auth.guard'
 import {UploadComponent} from'./upload/upload.component';
 import { JobapproveComponent } from './jobapprove/jobapprove.component';
+import {LVProComponent} from'./lvpro/lvpro.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -44,7 +45,8 @@ const routes: Routes = [
   { path: 'sumtable', component: SumtableComponent,canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent },
   { path: 'upload', component: UploadComponent },
-  { path: 'jobapprove', component: JobapproveComponent }
+  { path: 'jobapprove', component: JobapproveComponent },
+  { path: 'lvpro', component: LVProComponent }
 ];
 
 @NgModule({
