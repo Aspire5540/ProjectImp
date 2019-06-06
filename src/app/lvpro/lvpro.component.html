@@ -1,3 +1,87 @@
-<p>
-  lvpro works!
-</p>
+
+<!-----------------------------------Table------------------------------------------------->
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 >LVPro</h4>
+        <div class="form-group">
+
+            <div class="row">
+              <div class="col-md-9">    
+                <!---
+                <input type="text" class="form-control border-primary" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  --> 
+                  <mat-form-field appearance="legacy">
+                      <mat-label>ค้นหา</mat-label>
+                      <input matInput placeholder="ระบุหมายเลขหม้อแปลง" matInput (keyup)="applyFilter($event.target.value)">
+                    </mat-form-field>
+              </div>
+              <!--
+              <div class="col-md-3">
+                    <a target="_blank" href="http://127.0.0.1/psisservice/wpdf/wpdf.php?filter1={{selBudjet[0]}}&filter2={{selBudjet[1]}}"><button class="btn btn-success mr-2">พิมพ์ใบสรุปงบ</button></a>  
+              </div>
+              -->
+
+          </div>
+        </div>
+        <div class="col-md-12">
+        
+            <table class="mat-elevation-z8" mat-table  matSort [dataSource]="dataSource">   
+
+              <ng-container matColumnDef="PEA_TR">
+              <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> PEA No. </th>
+              <td class="table-lg" mat-cell *matCellDef="let trdata"> {{trdata.PEA_TR}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Location">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>สถานที่ติดตั้ง</th>
+                <td class="table-lg" mat-cell *matCellDef="let trdata"> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="PLoadTOT">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> % Load </th>
+                <td class="table-lg" mat-cell *matCellDef="let trdata">{{trdata.PLoadTOT}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="minV">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> แรงดันที่ปลายสาย </th>
+                <td class="table-lg" mat-cell *matCellDef="let trdata"> {{trdata.minV}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="WBS">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเลข WBS</th>
+                <td class="table-lg" mat-cell *matCellDef="let trdata"> 
+                    <mat-form-field >
+                        <input name ="WBS" matInput placeholder="ใส่หมายเลข WBS">
+                    </mat-form-field>
+                 </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Note">
+                  <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเหตุ</th>
+                  <td class="table-lg" mat-cell *matCellDef="let trdata">  
+                      <mat-form-field>
+                          <mat-label >{{trdata.Status}}</mat-label>
+                          <mat-select (selectionChange)="selectStatus($event)">
+                            <mat-option *ngFor="let Status of Statuss" [value]="[Status.value,trdata]">
+                              {{Status.value}}
+                            </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </td>
+              </ng-container>
+
+
+              <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+        </div> 
+      </div>
+    </div>
+  </div>
+
+</div>
+
