@@ -77,6 +77,7 @@ export interface jobreq {
 
 export interface trdata {
   PEA_TR : string;
+  Location : string;
   Feeder : number;
   LineSize : string;
   Aoj : string;
@@ -97,4 +98,5 @@ export interface trdata {
   TotalCus : number;
   TRRange : number;
   PLoadPortion : number;
+  Status : string;
 }
