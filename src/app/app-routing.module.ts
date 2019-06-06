@@ -42,7 +42,7 @@ const routes: Routes = [
   { path: 'tooltips', component: TooltipsComponent },
   { path: 'carousel', component: CarouselComponent },
   { path: 'tabs', component: TabsComponent },
-  { path: 'sumtable', component: SumtableComponent,canActivate:[AuthGuard]},
+  { path: 'sumtable', component: SumtableComponent},
   { path: 'login', component: LoginComponent },
   { path: 'upload', component: UploadComponent },
   { path: 'jobapprove', component: JobapproveComponent },

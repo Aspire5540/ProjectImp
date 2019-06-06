@@ -15,18 +15,21 @@ import {MatSort} from '@angular/material/sort';
 })
 export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
+  @ViewChild('f') registerForm: NgForm;
   WorkCost =0 ;
   WorkCostPercent=0;
   WorkCostApp=0;
   projectBudget=0;
   nwbs=0;
   peaname = [];
+  
   budjets= [
     {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
     {value: ['I-62-B','.41.11'], viewValue: 'I62.41.1100'},
     {value: ['I-62-B','.41.12'], viewValue: 'I62.41.1200'},
     {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'}
   ];
+  selected :any;
   selPea='';
   selBudjet=['',''];
   URL ="http://127.0.0.1/psisservice/uploads/";
@@ -37,7 +40,7 @@ export class JobapproveComponent implements OnInit {
 
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
   ngOnInit() {
-  
+    
     this.getData(this.selPea,this.selBudjet);
     //this.rdsumcost();
     this.dataSource.paginator = this.paginator; 
@@ -90,7 +93,7 @@ export class JobapproveComponent implements OnInit {
     this.configService.postdata('rdapproved.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       if(data.status==1){
         
-        this.WorkCostApp=Number(data.data.sumWorkCostPln)*0.8;
+        this.WorkCostApp=Number(data.data.sumWorkCostPln);
         this.projectBudget=Number(data.data.budget);
         //console.log(this.peaname);
       }else{
@@ -135,7 +138,7 @@ export class JobapproveComponent implements OnInit {
   
       this.getData(this.selPea,this.selBudjet);
       this.nWbs=Number(data.nWbs);
-      this.WorkCost=Number(data.sumWorkCostPln);
+      this.WorkCost=Number(data.sumWorkCostPln)*0.8;
     }))
   }
   selectBudget(event){
@@ -158,6 +161,19 @@ export class JobapproveComponent implements OnInit {
   
       this.nWbs=Number(data.nWbs);
       this.WorkCost=Number(data.sumWorkCostPln);
+    }))
+  }
+  onSubmit(){
+    console.log(this.registerForm.value);
+    this.configService.postdata('wrAppJob.php',this.registerForm.value).subscribe((data=>{
+      if(data.status==1){
+          this.getData(this.selPea,this.selBudjet);
+          this.rdsumcost();
+          //alert("ลบข้อมูลแล้วเสร็จ");
+      }else{
+        alert(data.data);
+      }
+  
     }))
   }
 }
