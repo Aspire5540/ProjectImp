@@ -8,6 +8,7 @@ import { AuthService } from '../config/auth.service';
 import { HttpClient} from '@angular/common/http';
 import {FileuploadService} from '../config/fileupload.service';
 import {MatSort} from '@angular/material/sort';
+import {Chart} from 'chart.js';
 @Component({
   selector: 'app-jobapprove',
   templateUrl: './jobapprove.component.html',
@@ -22,7 +23,10 @@ export class JobapproveComponent implements OnInit {
   projectBudget=0;
   nwbs=0;
   peaname = [];
-  
+  WorkCostPlnPea=[];
+  WorkCostActPea=[];
+  WorkCostPea=[];
+  myPieChart:any;
   budjets= [
     {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
     {value: ['I-62-B','.41.11'], viewValue: 'I62.41.1100'},
@@ -31,6 +35,7 @@ export class JobapproveComponent implements OnInit {
   ];
   selected :any;
   selPea='';
+  totalWbs=0;
   selBudjet=['',''];
   URL ="http://127.0.0.1/psisservice/uploads/";
   nWbs =0;
@@ -40,7 +45,7 @@ export class JobapproveComponent implements OnInit {
 
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
   ngOnInit() {
-    
+    this.getJobProgressPea();
     this.getData(this.selPea,this.selBudjet);
     //this.rdsumcost();
     this.dataSource.paginator = this.paginator; 
@@ -48,7 +53,21 @@ export class JobapproveComponent implements OnInit {
     this.getpeaList();
     //this.getJobProgress();
 
+    this.myPieChart = new Chart('myPieChart', {
+      type: 'bar',
+      data: {
+        datasets: [{
+            data: this.WorkCostPlnPea,
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
+        }],
+    
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: this.WorkCostPea
+    },
+     // options: 
+  });
     //console.log(this.id);
+
   }
 
   public getData = (pea,data) => {
@@ -59,7 +78,7 @@ export class JobapproveComponent implements OnInit {
     })
   }
   applyFilter(filterValue: string) {
-    console.log((filterValue+" "+localStorage.getItem('peaEng')).trim().toLowerCase());
+    //console.log((filterValue+" "+localStorage.getItem('peaEng')).trim().toLowerCase());
     this.dataSource.filter = (filterValue).trim().toLowerCase();
   }
 
@@ -89,6 +108,30 @@ export class JobapproveComponent implements OnInit {
     }))
     
   } 
+  getJobProgressPea(){ 
+    this.configService.postdata('rdJobProgressPea.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+      if(data.status==1){
+        
+        data.data.forEach(element => {
+          //console.log(element);
+          this.WorkCostPea.push(element.Pea);
+        
+          this.WorkCostPlnPea.push((Number(element.workCostAct)/Number(element.workCostPln)*100).toFixed(2));
+          
+        });
+
+        //this.nwbs=data.data.nwbs;
+        //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
+        console.log(this.WorkCostPea);
+      }else{
+        alert(data.data);
+      }
+  
+    }));
+
+
+
+  }
   getApproved(){ 
     this.configService.postdata('rdapproved.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       if(data.status==1){
@@ -100,11 +143,10 @@ export class JobapproveComponent implements OnInit {
         alert(data.data);
       }
   
-    }))
+    }));
     
   } 
   getJobProgress(){
-
     this.configService.postdata('rdprogress.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       if(data.status==1){
         console.log(data.data.nwbs);
@@ -115,7 +157,7 @@ export class JobapproveComponent implements OnInit {
         alert(data.data);
       }
   
-    }))
+    }));
 
 
   }
@@ -138,7 +180,9 @@ export class JobapproveComponent implements OnInit {
   
       this.getData(this.selPea,this.selBudjet);
       this.nWbs=Number(data.nWbs);
-      this.WorkCost=Number(data.sumWorkCostPln)*0.8;
+      this.WorkCost=Number(data.sumWorkCostPln);
+      this.totalWbs=Number(data.totalWbs);
+      console.log( this.totalWbs);
     }))
   }
   selectBudget(event){
@@ -148,20 +192,13 @@ export class JobapproveComponent implements OnInit {
     this.getApproved();
     this.getData(this.selPea,this.selBudjet);
     this.getJobProgress();
-    this.configService.postdata('rdsummary.php',{ peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
-      this.nWbs=Number(data.nWbs);
-      this.WorkCost=Number(data.sumWorkCostPln);
-    }))
+    this.rdsumcost();
   }
   selectPea(event){
     this.selPea=event.value;
     this.getJobProgress();
     this.getData(this.selPea,this.selBudjet);
-    this.configService.postdata('rdsummary.php',{peaEng : this.selPea, filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
-  
-      this.nWbs=Number(data.nWbs);
-      this.WorkCost=Number(data.sumWorkCostPln);
-    }))
+    this.rdsumcost();
   }
   onSubmit(){
     console.log(this.registerForm.value);

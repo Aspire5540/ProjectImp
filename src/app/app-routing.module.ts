@@ -23,10 +23,10 @@ import {AuthGuard} from './auth.guard'
 import {UploadComponent} from'./upload/upload.component';
 import { JobapproveComponent } from './jobapprove/jobapprove.component';
 import {LVProComponent} from'./lvpro/lvpro.component';
-
+//,canActivate:[AuthGuard]
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent,canActivate:[AuthGuard]},
+  { path: 'dashboard', component: DashboardComponent},
   { path: 'forms', component: FormsComponent },
   { path: 'buttons', component: ButtonsComponent },
   { path: 'tables', component: TablesComponent },
