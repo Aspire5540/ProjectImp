@@ -8,14 +8,25 @@
         <div class="form-group">
 
             <div class="row">
-              <div class="col-md-9">    
+              <div class="col-md-3">    
                 <!---
                 <input type="text" class="form-control border-primary" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
                   --> 
                   <mat-form-field appearance="legacy">
                       <mat-label>ค้นหา</mat-label>
                       <input matInput placeholder="ระบุหมายเลขหม้อแปลง" matInput (keyup)="applyFilter($event.target.value)">
-                    </mat-form-field>
+                  </mat-form-field>
+              </div>
+
+              <div class="col-md-3">    
+                  <mat-form-field appearance="legacy">
+                      <mat-label>ระบุเงื่อนไข</mat-label>
+                            <mat-select (selectionChange)="selectCondition($event)">
+                              <mat-option *ngFor="let Condition of Conditions" [value]="[Condition.value]">
+                                {{Condition.viewvalue}}
+                              </mat-option>
+                            </mat-select>
+                  </mat-form-field>
               </div>
               <!--
               <div class="col-md-3">
@@ -53,7 +64,7 @@
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเลข WBS</th>
                 <td class="table-lg" mat-cell *matCellDef="let trdata"> 
                     <mat-form-field >
-                        <input name ="WBS" matInput placeholder="ใส่หมายเลข WBS">
+                        <input value = {{trdata.WBS}} name = "WBS" matInput placeholder="ใส่หมายเลข WBS" matInput (keyup.enter)="applyWBS([$event.target.value,trdata])">
                     </mat-form-field>
                  </td>
               </ng-container>

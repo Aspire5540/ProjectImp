@@ -99,4 +99,5 @@ export interface trdata {
   TRRange : number;
   PLoadPortion : number;
   Status : string;
+  WBS : string;
 }

@@ -17,14 +17,24 @@ import {MatSort} from '@angular/material/sort';
 export class LVProComponent implements OnInit {
   displayedColumns = ['PEA_TR','Location','PLoadTOT', 'minV', 'WBS','Note'];
   TRNo = "00-050333";
+  @ViewChild('f') registerForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  condition =0;
 
   Statuss= [
+    {value: '-'},
     {value: 'อยู่ระหว่างตรวจสอบ'},
     {value: 'อยู่ระหว่างสำรวจประมาณการ'},
     {value: 'อยู่ระหว่างแก้ไขข้อมูล GIS'},
     {value: 'ไม่พบปัญหา'}
+  ];
+
+  
+  Conditions= [
+    {value: 1,viewvalue: 'แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80%'},
+    {value: 2,viewvalue: 'แรงดันต่ำกว่า 200 Volt'},
+    {value: 3,viewvalue: 'โหลดเกิน 80%'}
   ];
   
   public dataSource = new MatTableDataSource<trdata>();
@@ -36,7 +46,7 @@ export class LVProComponent implements OnInit {
   }
   public getTrData = () => {
     
-    this.configService.getTr('TR.php?TRNumber='+this.TRNo)
+    this.configService.getTr('TR.php?condition='+this.condition)
     .subscribe(res => {
       this.dataSource.data = res as trdata[];
     })
@@ -45,6 +55,22 @@ export class LVProComponent implements OnInit {
     console.log((filterValue+" "+localStorage.getItem('peaEng')).trim().toLowerCase());
     this.dataSource.filter = (filterValue).trim().toLowerCase();
   }
+
+  applyWBS(event) {
+    console.log(event);
+    this.configService.postdata('wriWBS.php',{TRNumber:event[1].PEA_TR,WBS :event[0]}).subscribe((data=>{
+      if(data.status==1){
+         console.log(data.data);
+         this.getTrData();
+        //console.log(this.peaname);
+      }else{
+        alert(data.data);
+      }
+  
+    }))
+    
+  }
+
   selectStatus(event){
     console.log(event);
     this.configService.postdata('wristatus.php',{TRNumber:event.value[1].PEA_TR,status :event.value[0]}).subscribe((data=>{
@@ -57,6 +83,12 @@ export class LVProComponent implements OnInit {
       }
   
     }))
+  }
+
+  selectCondition(event){
+    this.condition=event.value[0];
+    this.getTrData();
+
   }
   /*
   getTrData(){ 
