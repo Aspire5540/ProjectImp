@@ -1,6 +1,6 @@
 
 <div class="row">
-    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
 
@@ -20,16 +20,82 @@
             <mat-form-field>
                 <mat-label>กฟฟ. </mat-label>
                 <mat-select (selectionChange)="selectPea($event)">
-                  <mat-option *ngFor="let pea of peaname" [value]="pea.peaEng">
+                  <mat-option *ngFor="let pea of peaname" [value]="[pea.peaEng,pea.peaCode]">
                     {{pea.peaCode +" "+pea.peaName}} 
                   </mat-option>
                 </mat-select>
               </mat-form-field>
           </div>
+         
+            <div class="card card-statistics">
+              <div class="card-body bg-info">
+                <div class="clearfix">
+                  <div class="float-left">
+                    <i class="mdi mdi-numeric-1-box text-white icon-lg"></i>
+                  </div>
+                  <div class="float-right">
+                    <p class="mb-0 text-right wrfont">คชจ. หน้างาน คงเหลือ</p>
+                    <div class="fluid-container">
+                      <h3 class="font-weight-medium text-right mb-0 wrfont"> {{(this.projectBudget-this.WorkCostApp)/1000000 | number}} ล้านบาท</h3>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-white mt-3 mb-0" style="font-size:120%;">
+                  <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> อนุมัติแล้ว {{this.WorkCostApp/1000000 | number}} ล้านบาท
+                </p>
+              </div>
+            </div>
+          
+         
+            <div class="card card-statistics">
+              <div class="card-body bg-success">
+                <div class="clearfix">
+                  <div class="float-left">
+                    <i class="mdi mdi-numeric-2-box text-white icon-lg"></i>
+                  </div>
+                  <div class="float-right">
+                    <p class="mb-0 text-right wrfont">คชจ. หน้างานอนุมัติครั้งนี้</p>
+                    <div class="fluid-container">
+                      <h3 class="font-weight-medium text-right mb-0 wrfont">{{this.WorkCost | number}} บาท</h3>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-white mt-3 mb-0" style="font-size:120%;">
+                  <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> อนุมัติครั้งนี้ {{this.nWbs}}/{{this.totalWbs}} งาน
+                </p>
+              </div>
+            </div>
+        
+
       </div>
     </div>
-  </div>
 
+
+
+
+
+  </div>
+  
+  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 grid-margin stretch-card">
+    <div class="card card-statistics">
+      <div class="card-body">
+         
+        <mat-form-field>
+            <mat-label>ชนิดข้อมูล</mat-label>
+            <mat-select (selectionChange)="selectDataType($event)" value={{this.selected}}>               
+              <mat-option *ngFor="let dataType of dataTypes" [value]="dataType.value" >
+                {{dataType.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+         
+        <canvas id='myPieChart'></canvas>
+      </div>
+    </div>
+  
+
+</div>
+<!--
   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
     <div class="card card-statistics">
       <div class="card-body bg-info">
@@ -91,8 +157,8 @@
           </p>
         </div>
       </div>
-    </div>
-
+  </div>
+  -->
 </div>
 <!-----------------------------------Show job------------------------------------------------->
 <div class="row">
@@ -212,10 +278,9 @@
 
 </div>
 <!---                       -->
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card">
+<div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 grid-margin stretch-card">
     <div class="card card-statistics">
       <div class="card-body">
-
         <canvas id='myPieChart'></canvas>
       </div>
     </div>

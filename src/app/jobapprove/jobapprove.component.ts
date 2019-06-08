@@ -4,9 +4,7 @@ import { ConfigService } from '../config/config.service';
 import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
 import { jobreq  } from '../model/user.model';
-import { AuthService } from '../config/auth.service';
-import { HttpClient} from '@angular/common/http';
-import {FileuploadService} from '../config/fileupload.service';
+
 import {MatSort} from '@angular/material/sort';
 import {Chart} from 'chart.js';
 @Component({
@@ -17,60 +15,60 @@ import {Chart} from 'chart.js';
 export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
   @ViewChild('f') registerForm: NgForm;
+  selPeapeaCode = 'B000';
   WorkCost =0 ;
   WorkCostPercent=0;
   WorkCostApp=0;
   projectBudget=0;
   nwbs=0;
+  nwbsArr=[];
   peaname = [];
-  WorkCostPlnPea=[];
-  WorkCostActPea=[];
+
+  WorkCostPercentPea=[];
+  matCostPercentPea=[];
   WorkCostPea=[];
-  myPieChart:any;
+  myPieChart: Chart;
+  chartData: any;
+  chartTitle:string;
   budjets= [
     {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
     {value: ['I-62-B','.41.11'], viewValue: 'I62.41.1100'},
     {value: ['I-62-B','.41.12'], viewValue: 'I62.41.1200'},
     {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'}
   ];
-  selected :any;
+  dataTypes=[
+    {value: 0, viewValue: 'จำนวนงานคงค้าง'},
+    {value: 1, viewValue: 'คชจ.หน้างาน'},
+
+  ];
   selPea='';
   totalWbs=0;
   selBudjet=['',''];
-  URL ="http://127.0.0.1/psisservice/uploads/";
+  selected=1;
   nWbs =0;
   displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','workCostPln','user','del'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
+  constructor(private configService :ConfigService) {}
   ngOnInit() {
-    this.getJobProgressPea();
+    
     this.getData(this.selPea,this.selBudjet);
     //this.rdsumcost();
     this.dataSource.paginator = this.paginator; 
     this.dataSource.sort = this.sort;
     this.getpeaList();
     //this.getJobProgress();
-
-    this.myPieChart = new Chart('myPieChart', {
-      type: 'bar',
-      data: {
-        datasets: [{
-            data: this.WorkCostPlnPea,
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
-        }],
+    //this.getJobProgressPea();
     
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: this.WorkCostPea
-    },
-     // options: 
-  });
     //console.log(this.id);
 
   }
-
-  public getData = (pea,data) => {
+  selectDataType(event){
+    this.selected=event.value;
+    this.getJobProgressPea();
+  }
+  getData = (pea,data) => {
     
     this.configService.getJob('rdimjobview.php?peaCode='+pea+'&filter1='+data[0]+'&filter2='+data[1])
     .subscribe(res => {
@@ -109,20 +107,82 @@ export class JobapproveComponent implements OnInit {
     
   } 
   getJobProgressPea(){ 
-    this.configService.postdata('rdJobProgressPea.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+    this.configService.postdata('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       if(data.status==1){
-        
+        this.WorkCostPea=[];
+        this.WorkCostPercentPea=[];
+  
+        this.nwbsArr=[];
+        this.matCostPercentPea=[];
         data.data.forEach(element => {
-          //console.log(element);
-          this.WorkCostPea.push(element.Pea);
+ 
+
+
         
-          this.WorkCostPlnPea.push((Number(element.workCostAct)/Number(element.workCostPln)*100).toFixed(2));
+        
+          this.nwbsArr.push(element.nWBS);
+          this.WorkCostPea.push(element.Pea);
+          this.WorkCostPercentPea.push((Number(element.workCostAct)/Number(element.workCostPln)*100).toFixed(2));
+          this.matCostPercentPea.push((Number(element.matCostAct)/Number(element.matCostPln)*100).toFixed(2));
+         
           
         });
+        
+        if (this.selected==0) {
+          this.chartData={
+            labels: this.WorkCostPea,
+            datasets: [{
+            label: 'จำนวนงานคงค้าง',
+            data: this.nwbsArr,
+            backgroundColor:'#07CCD6',
+           }]};
+          this.chartTitle='จำนวนงานคงค้าง'}
+        else {
+          this.chartData= {
+            labels: this.WorkCostPea,
+            datasets:[
+            {
+            label: 'คชจ.หน้างาน',
+            data: this.WorkCostPercentPea,
+            backgroundColor: '#07CCD6',
+        },
+      {
+        label: 'ค่าพัสดุ',
+        data: this.matCostPercentPea,
+        backgroundColor: '#DAF7A6',
+      }]};
+          this.chartTitle='% การเบิกจ่าย';
+        }
+        
+        
+        if (this.myPieChart) this.myPieChart.destroy();
 
+        this.myPieChart = new Chart('myPieChart', {
+          type: 'bar',
+          data:  this.chartData,
+        options: {
+          // Elements options apply to all of the options unless overridden in a dataset
+          // In this case, we are setting the border of each horizontal bar to be 2px wide
+          elements: {
+            rectangle: {
+              borderWidth: 2,
+            }
+          },
+          responsive: true,
+          legend: {
+            position: 'bottom',
+            display: true,
+          
+          },
+          title: {
+            display: true,
+            text: this.chartTitle
+          }
+        } 
+      });
         //this.nwbs=data.data.nwbs;
         //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
-        console.log(this.WorkCostPea);
+        
       }else{
         alert(data.data);
       }
@@ -149,7 +209,7 @@ export class JobapproveComponent implements OnInit {
   getJobProgress(){
     this.configService.postdata('rdprogress.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       if(data.status==1){
-        console.log(data.data.nwbs);
+        
         this.nwbs=data.data.nwbs;
         this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
         //console.log(this.peaname);
@@ -182,7 +242,7 @@ export class JobapproveComponent implements OnInit {
       this.nWbs=Number(data.nWbs);
       this.WorkCost=Number(data.sumWorkCostPln);
       this.totalWbs=Number(data.totalWbs);
-      console.log( this.totalWbs);
+     
     }))
   }
   selectBudget(event){
@@ -193,15 +253,20 @@ export class JobapproveComponent implements OnInit {
     this.getData(this.selPea,this.selBudjet);
     this.getJobProgress();
     this.rdsumcost();
+    this.getJobProgressPea();
   }
   selectPea(event){
-    this.selPea=event.value;
+   
+    this.selPea=event.value[0];
+    this.selPeapeaCode=event.value[1];
     this.getJobProgress();
     this.getData(this.selPea,this.selBudjet);
     this.rdsumcost();
+    this.getJobProgressPea();
+ 
   }
   onSubmit(){
-    console.log(this.registerForm.value);
+ 
     this.configService.postdata('wrAppJob.php',this.registerForm.value).subscribe((data=>{
       if(data.status==1){
           this.getData(this.selPea,this.selBudjet);
@@ -213,4 +278,5 @@ export class JobapproveComponent implements OnInit {
   
     }))
   }
+ 
 }
