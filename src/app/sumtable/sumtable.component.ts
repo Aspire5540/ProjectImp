@@ -4,9 +4,8 @@ import { ConfigService } from '../config/config.service';
 import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
 import { wbsdata  } from '../model/user.model';
-import { AuthService } from '../config/auth.service';
-import { HttpClient} from '@angular/common/http';
 import {FileuploadService} from '../config/fileupload.service';
+import {Chart} from 'chart.js';
 
 @Component({
   selector: 'app-sumtable',
@@ -16,10 +15,20 @@ import {FileuploadService} from '../config/fileupload.service';
 export class SumtableComponent implements OnInit {
     @ViewChild('f') registerForm: NgForm;
 
+    
     //Select option
+    myDonut: Chart;
     projects = [];
     causeNames = [];
     solveMets = [];
+    nwbsPTDD : number;
+    workCostPerPTDD:number;
+    nwbsMR : number;
+    workCostPerMR:number;
+    nwbsBY : number;
+    workCostPerBY:number;
+    nwbsAll : number;
+    workCostPerAll:number;
     //id: string;
     show: boolean = false;
     wdata=[];
@@ -35,25 +44,25 @@ export class SumtableComponent implements OnInit {
     displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','status','download','del'];
     notes =  ['1.งานร้องเรียน','2.PM/PS','3.งานเร่งด่วน','4.งานปกติ']
     @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
+//,public authService: AuthService,private http: HttpClient
+  constructor(private configService :ConfigService,private uploadService : FileuploadService) {}
   ngOnInit() {
-  
+    localStorage.setItem('peaEng', '');
     this.getData();
-    
+    this.getJobProgress();
     this.dataSource.paginator = this.paginator; 
     
     //console.log(this.id);
   }
   public getData = () => {
-    this.configService.getWbs('rdimjob.php?peaCode='+localStorage.getItem('peaEng'))
+    this.configService.getWbs('rdimjob.php?peaCode='+localStorage.getItem('peaEng')) 
     .subscribe(res => {
       this.dataSource.data = res as wbsdata[];
     })
   }
 
   applyFilter(filterValue: string) {
-    console.log((filterValue+" "+localStorage.getItem('peaEng')).trim().toLowerCase());
+    //console.log((filterValue+" "+localStorage.getItem('peaEng')).trim().toLowerCase());
     this.dataSource.filter = (filterValue).trim().toLowerCase();
   }
 
@@ -152,7 +161,63 @@ handleFileInput(event) {
  
 }
 
+getJobProgress(){
+  this.configService.postdata('rdprogress.php',{peaEng : localStorage.getItem('peaEng')}).subscribe((data=>{
+    if(data.status==1){
+      this.nwbsPTDD =data.data.PTDD.nwbs;
+      this.workCostPerPTDD=Number(data.data.PTDD.workCostAct)/Number(data.data.PTDD.workCostPln)*100;
+      this.nwbsMR =data.data.MR.nwbs;
+      this.workCostPerMR=Number(data.data.MR.workCostAct)/Number(data.data.MR.workCostPln)*100;
+      this.nwbsBY =data.data.BY.nwbs;
+      this.workCostPerBY=Number(data.data.BY.workCostAct)/Number(data.data.BY.workCostPln)*100;
+      this.nwbsAll =data.data.BY.All;
+      this.workCostPerAll=Number(data.data.All.workCostAct)/Number(data.data.All.workCostPln)*100;
+      //this.nwbs=data.data.nwbs;
+      //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
+      if (this.myDonut) this.myDonut.destroy();
 
+      this.myDonut = new Chart('myDonut', {
+        type: 'doughnut',
+        data:  {
+          datasets: [{
+            data: [this.workCostPerAll.toFixed(2),100-this.workCostPerAll
+            ],
+            backgroundColor: [
+              "#FFC300","#E8F6F5",
+            ],
+          }],
+          labels: [
+            '%เบิกจ่าย คชจ.หน้างาน',
+            '',]
+        },
+      options: {
+        // Elements options apply to all of the options unless overridden in a dataset
+        // In this case, we are setting the border of each horizontal bar to be 2px wide
+        elements: {
+          rectangle: {
+            borderWidth: 2,
+          }
+        },
+        responsive: true,
+        legend: {
+          position: 'bottom',
+          display: false,
+        
+        },
+        title: {
+          display: false,
+          text: "tst"
+        }
+      } 
+    });
+    }else{
+      alert(data.data);
+    }
+
+  }));
+
+
+}
 
 
 

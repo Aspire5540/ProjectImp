@@ -59,7 +59,7 @@ export class JobapproveComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.getpeaList();
     //this.getJobProgress();
-    //this.getJobProgressPea();
+    this.getJobProgressPea();
     
     //console.log(this.id);
 
@@ -206,6 +206,7 @@ export class JobapproveComponent implements OnInit {
     }));
     
   } 
+  /*
   getJobProgress(){
     this.configService.postdata('rdprogress.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       if(data.status==1){
@@ -221,6 +222,7 @@ export class JobapproveComponent implements OnInit {
 
 
   }
+  */
   delWbs(wbsdata){
     //console.log(wbsdata);
     this.configService.postdata('addjob.php',{ wbs: wbsdata.wbs, status : 0 }).subscribe((data=>{
@@ -251,7 +253,7 @@ export class JobapproveComponent implements OnInit {
     
     this.getApproved();
     this.getData(this.selPea,this.selBudjet);
-    this.getJobProgress();
+    //this.getJobProgress();
     this.rdsumcost();
     this.getJobProgressPea();
   }
@@ -259,7 +261,7 @@ export class JobapproveComponent implements OnInit {
    
     this.selPea=event.value[0];
     this.selPeapeaCode=event.value[1];
-    this.getJobProgress();
+    //this.getJobProgress();
     this.getData(this.selPea,this.selBudjet);
     this.rdsumcost();
     this.getJobProgressPea();

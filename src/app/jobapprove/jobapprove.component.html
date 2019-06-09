@@ -166,26 +166,26 @@
     <div class="card">
       <div class="card-body">
         <h4 >งานที่ขออนุมัติ</h4>
-        <div class="form-group">
+          <div class="form-group">
 
-            <div class="row">
-              <div class="col-md-9">    
-                <!---
-                <input type="text" class="form-control border-primary" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-                  --> 
-                  <mat-form-field appearance="legacy">
-                      <mat-label>ค้นหาข้อมูล</mat-label>
-                      <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput (keyup)="applyFilter($event.target.value)">
-                    </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                    <a target="_blank" href="http://127.0.0.1/psisservice/wpdf/wpdf.php?filter1={{selBudjet[0]}}&filter2={{selBudjet[1]}}"><button class="btn btn-success mr-2">พิมพ์ใบสรุปงบ</button></a>  
-              </div>
+              <div class="row">
+                <div class="col-md-9">    
+                  <!---
+                  <input type="text" class="form-control border-primary" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                    --> 
+                    <mat-form-field appearance="legacy">
+                        <mat-label>ค้นหาข้อมูล</mat-label>
+                        <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput (keyup)="applyFilter($event.target.value)">
+                      </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                      <a target="_blank" href="http://127.0.0.1/psisservice/wpdf/wpdf.php?filter1={{selBudjet[0]}}&filter2={{selBudjet[1]}}"><button class="btn btn-success mr-2">พิมพ์ใบสรุปงบ</button></a>  
+                </div>
 
+            </div>
           </div>
-        </div>
-        <div class="col-md-12">
         
+          <div class="table-responsive">
             <table class="mat-elevation-z8" mat-table  matSort [dataSource]="dataSource">   
 
               <ng-container matColumnDef="wbs">
@@ -238,7 +238,7 @@
 
             </table>
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
-        </div> 
+       </div>
       </div>
     </div>
   </div>

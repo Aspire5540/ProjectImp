@@ -10,12 +10,12 @@
           <div class="float-right">
             <p class="mb-0 text-right wrfont">คพจ1.4 คงค้าง</p>
             <div class="fluid-container">
-              <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
+              <h3 class="font-weight-medium text-right mb-0 wrfont">{{nwbsPTDD}} งาน</h3>
             </div>
           </div>
         </div>
         <p class="text-white mt-3 mb-0">
-          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน 65%
+          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน {{workCostPerPTDD | number}}%
         </p>
       </div>
     </div>
@@ -30,12 +30,12 @@
           <div class="float-right">
             <p class="mb-0 text-right wrfont">I.BY คงค้าง</p>
             <div class="fluid-container">
-              <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
+              <h3 class="font-weight-medium text-right mb-0 wrfont">{{nwbsBY}} งาน</h3>
             </div>
           </div>
         </div>
         <p class="text-white mt-3 mb-0">
-          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน 65%
+          <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน {{workCostPerBY | number}}%
         </p>
       </div>
     </div>
@@ -50,16 +50,17 @@
           <div class="float-right">
             <p class="mb-0 text-right wrfont">I.MR,I.41 คงค้าง</p>
             <div class="fluid-container">
-              <h3 class="font-weight-medium text-right mb-0 wrfont">200 งาน</h3>
+              <h3 class="font-weight-medium text-right mb-0 wrfont">{{nwbsMR}} งาน</h3>
             </div>
           </div>
         </div>
         <p class="text-white mt-3 mb-0">
-          <i class="mdi mdi-alert-octagon  mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน 65%
+          <i class="mdi mdi-alert-octagon  mr-1" aria-hidden="true"></i> ใช้ คชจ. หน้างาน {{workCostPerMR | number}}%
         </p>
       </div>
     </div>
   </div>
+  <!--
   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
     <div class="card card-statistics">
       <div class="card-body bg-danger">
@@ -80,8 +81,17 @@
       </div>
     </div>
   </div>
-  
+  -->
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+      <div class="card card-statistics">
+        <div class="card bg-white text-dark">
+            <p class="mb-0 text-left ">%เบิก คชจ. หน้างานรวม</p>
+              <canvas id='myDonut' style="height: 100%;"></canvas>
+          </div>
+      </div>
+  </div>
 </div>
+
   <!------------------------------------Project summary end------------------------------------------------->
 
 
@@ -214,13 +224,13 @@
           </div>
           <!-----------------------------END------------------------------------------------>    
        
-          <div *ngIf="show" class="row">
+          <div class="row">
 
             <div class="col-md-4">
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label  input-lg">แรงสูง</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control  input-lg" name="mv" placeholder="วงจร-กม" ngModel>
+                  <input type="text" class="form-control form-control-warning input-lg" name="mv" placeholder="วงจร-กม" ngModel>
                 </div>
               </div>
             </div>
@@ -229,7 +239,7 @@
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label  input-lg">หม้อแปลง</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control  input-lg" name="tr" placeholder="kVA" ngModel> 
+                  <input type="text" class="form-control" name="tr" placeholder="kVA" ngModel> 
                 </div>
               </div>
             </div>
@@ -275,9 +285,9 @@
         </div>
           <!-----------------------------END------------------------------------------------>   
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12 row">
                 <div class="form-group">
-                    <label class="input-lg" for="file">เลือกไฟล์แผนผัง</label>
+                    <label class="input-lg" for="file">1.เลือกไฟล์อนุมัติประมาณการ</label>
                     <input type="file"
                            id="file"
                            name="filename"
@@ -285,6 +295,15 @@
                     <label class="input-lg"> {{uploadResponse.status}} </label>
                    
                 </div>
+                <div class="form-group">
+                  <label class="input-lg" for="file">2.เลือกไฟล์แผนผัง</label>
+                  <input type="file"
+                         id="file"
+                         name="filename"
+                         (change)="handleFileInput($event)" ngModel required>
+                  <label class="input-lg"> {{uploadResponse.status}} </label>
+                 
+              </div>
 
             </div>
             <div class="col-md-3">
@@ -304,10 +323,13 @@
       <div class="card-body">
         <h4 class="card-title">งานที่ขออนุมัติ</h4>
                
-        <input type="text" class="form-control" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        <mat-form-field appearance="legacy">
+            <mat-label>ค้นหาข้อมูล</mat-label>
+            <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput (keyup)="applyFilter($event.target.value)">
+          </mat-form-field>
                 
         <div class="table-responsive">
-            <table class="table table-bordered" mat-table [dataSource]="dataSource">   
+            <table class="mat-elevation-z8" mat-table  matSort [dataSource]="dataSource">      
 
               <ng-container matColumnDef="wbs">
               <th class="table-lg" mat-header-cell *matHeaderCellDef> wbs </th>
