@@ -268,7 +268,7 @@ export class JobapproveComponent implements OnInit {
  
   }
   onSubmit(){
- 
+    
     this.configService.postdata('wrAppJob.php',this.registerForm.value).subscribe((data=>{
       if(data.status==1){
           this.getData(this.selPea,this.selBudjet);

@@ -52,6 +52,7 @@ export interface wbsdata {
   status : string;
   user : string;
   peaCode : string;
+  note:string;
 }
 
 export interface jobreq {

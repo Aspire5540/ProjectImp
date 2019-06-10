@@ -18,6 +18,8 @@ export class SumtableComponent implements OnInit {
     
     //Select option
     myDonut: Chart;
+    chgWbs=0;
+    Doc='doc';
     projects = [];
     causeNames = [];
     solveMets = [];
@@ -41,7 +43,7 @@ export class SumtableComponent implements OnInit {
     //dataSource = new UserDataSource(this.userService);
     public dataSource = new MatTableDataSource<wbsdata>();
     //displayedColumns = ['name', 'email', 'phone', 'company'];
-    displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','status','download','del'];
+    displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','status','del'];
     notes =  ['1.งานร้องเรียน','2.PM/PS','3.งานเร่งด่วน','4.งานปกติ']
     @ViewChild(MatPaginator) paginator: MatPaginator;
 //,public authService: AuthService,private http: HttpClient
@@ -62,13 +64,13 @@ export class SumtableComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    //console.log((filterValue+" "+localStorage.getItem('peaEng')).trim().toLowerCase());
+    
     this.dataSource.filter = (filterValue).trim().toLowerCase();
   }
 
   onSubmit() {
-
-    //console.log(this.registerForm.value);  // { first: '', last: '' }
+    console.log(this.registerForm);
+    
     this.wdata=this.registerForm.value;
     this.wdata["user"]=localStorage.getItem('name');
     this.wdata["peaCode"]=localStorage.getItem('peaCode');
@@ -151,16 +153,35 @@ handleFileInput(event) {
   this.uploadService.upload(formData).subscribe(
     (res) => {
       this.uploadResponse = res;
+        //console.log(res);
+    },
+    (err) => {  
+      //console.log(err);
+    }
+  );
+}
+wbsChange(){
+  this.chgWbs=1;
+  console.log(this.chgWbs);
+
+
+}
+handleFileDoc(event) {
+  //console.log(event.target.files[0]);
+
+  const formData = new FormData();
+  formData.append('avatar', event.target.files[0]);
+  formData.append('wbs', this.registerForm.value["wbs"]);
+  this.uploadService.uploadDoc(formData).subscribe(
+    (res) => {
+      this.uploadResponse = res;
         console.log(res);
     },
     (err) => {  
       console.log(err);
     }
   );
-  //console.log(this.uploadResponse);
- 
 }
-
 getJobProgress(){
   this.configService.postdata('rdprogress.php',{peaEng : localStorage.getItem('peaEng')}).subscribe((data=>{
     if(data.status==1){

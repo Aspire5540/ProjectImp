@@ -162,7 +162,7 @@
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label input-lg">WBS</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control input-lg" name="wbs" ngModel required>
+                  <input type="text" class="form-control input-lg" name="wbs" (change)="wbsChange()"ngModel required>
                 </div>
               </div>
             </div>
@@ -286,16 +286,16 @@
           <!-----------------------------END------------------------------------------------>   
         <div class="row">
             <div class="col-md-12 row">
-                <div class="form-group">
-                    <label class="input-lg" for="file">1.เลือกไฟล์อนุมัติประมาณการ</label>
+                <div class="form-group" *ngIf="chgWbs">
+                    <label class="input-lg" for="fileDocname">1.เลือกไฟล์อนุมัติประมาณการ</label>
                     <input type="file"
-                           id="file"
-                           name="filename"
-                           (change)="handleFileInput($event)" ngModel required>
+                           id="fileDocname"
+                           name="fileDocname"
+                           (change)="handleFileDoc($event)" ngModel required>
                     <label class="input-lg"> {{uploadResponse.status}} </label>
                    
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="chgWbs">
                   <label class="input-lg" for="file">2.เลือกไฟล์แผนผัง</label>
                   <input type="file"
                          id="file"
@@ -333,12 +333,12 @@
 
               <ng-container matColumnDef="wbs">
               <th class="table-lg" mat-header-cell *matHeaderCellDef> wbs </th>
-              <td class="table-lg" mat-cell *matCellDef="let wbsdata"> {{wbsdata.wbs}} </td>
+              <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <a target="_blank" rel="noopener noreferrer" href={{URL+wbsdata.filename}}> {{wbsdata.wbs}} </a></td>
               </ng-container>
 
               <ng-container matColumnDef="jobName">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef>ชื่องาน </th>
-                <td class="table-lg" mat-cell *matCellDef="let wbsdata"> {{wbsdata.jobName}} </td>
+                <td class="table-lg" mat-cell *matCellDef="let wbsdata"><a target="_blank" rel="noopener noreferrer" href={{URL+Doc+wbsdata.filename}}> {{wbsdata.jobName}} </a></td>
               </ng-container>
 
               <ng-container matColumnDef="causeName">
@@ -360,10 +360,7 @@
                   <th class="table-lg" mat-header-cell *matHeaderCellDef> สถานะงาน </th>
                   <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <div *ngIf="wbsdata.status == 1"><label class="badge badge-warning">In progress</label> </div> </td>
                 </ng-container>
-                <ng-container matColumnDef="download">
-                    <th class="table-lg" mat-header-cell *matHeaderCellDef>แผนผัง</th>
-                    <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <a target="_blank" rel="noopener noreferrer" href={{URL+wbsdata.filename}}>Download</a> </td>
-                  </ng-container>
+
               <ng-container matColumnDef="del">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef>  </th>
                 <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <div *ngIf="wbsdata.status == 0"><button type="button" class="btn btn-danger btn-fw btn-sm" (click)="delWbs(wbsdata)">Del</button></div>  </td>
