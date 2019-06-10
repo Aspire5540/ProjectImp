@@ -3,10 +3,10 @@ import {NgForm} from '@angular/forms';
 import { ConfigService } from '../config/config.service';
 import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
-import { wbsdata  } from '../model/user.model';
+import { wbsdata,appJob  } from '../model/user.model';
 import {FileuploadService} from '../config/fileupload.service';
 import {Chart} from 'chart.js';
-
+import {MatSort} from '@angular/material/sort';
 @Component({
   selector: 'app-sumtable',
   templateUrl: './sumtable.component.html',
@@ -42,32 +42,49 @@ export class SumtableComponent implements OnInit {
     uploadResponse = { status: '', message: '', filePath: '' };
     //dataSource = new UserDataSource(this.userService);
     public dataSource = new MatTableDataSource<wbsdata>();
+    public dataSource1 = new MatTableDataSource<appJob>();
     //displayedColumns = ['name', 'email', 'phone', 'company'];
     displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','status','del'];
+    displayedColumns1 = ['wbs', 'jobName', 'mv','lv','tr','totalcost','matCostInPln','workCostPln','appNo'];
     notes =  ['1.งานร้องเรียน','2.PM/PS','3.งานเร่งด่วน','4.งานปกติ']
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('paginator') paginator: MatPaginator;
+    @ViewChild('paginator1') paginator1: MatPaginator;
+    @ViewChild('sort') sort: MatSort;
+    @ViewChild('sort1') sort1: MatSort;
 //,public authService: AuthService,private http: HttpClient
   constructor(private configService :ConfigService,private uploadService : FileuploadService) {}
   ngOnInit() {
     localStorage.setItem('peaEng', '');
     this.getData();
+    this.getAppData();
     this.getJobProgress();
     this.dataSource.paginator = this.paginator; 
+    this.dataSource1.paginator = this.paginator1; 
     
+    this.dataSource.sort = this.sort;
+    this.dataSource1.sort = this.sort1;
     //console.log(this.id);
   }
-  public getData = () => {
+  getData = () => {
     this.configService.getWbs('rdimjob.php?peaCode='+localStorage.getItem('peaEng')) 
     .subscribe(res => {
       this.dataSource.data = res as wbsdata[];
     })
   }
-
+  getAppData = () => {
+    this.configService.getAppJob('rdAppJob.php?peaCode='+localStorage.getItem('peaEng')) 
+    .subscribe(res => {
+      this.dataSource1.data = res as appJob[];
+    })
+  }
   applyFilter(filterValue: string) {
     
     this.dataSource.filter = (filterValue).trim().toLowerCase();
   }
-
+  applyFilter1(filterValue: string) {
+    
+    this.dataSource1.filter = (filterValue).trim().toLowerCase();
+  }
   onSubmit() {
     console.log(this.registerForm);
     

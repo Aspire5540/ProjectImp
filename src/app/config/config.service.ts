@@ -3,7 +3,7 @@ import { HttpClient,HttpHandler } from '@angular/common/http';
 import {Http,Headers,RequestOptions,Response} from '@angular/http';
 import { Observable }   from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { wbsdata,jobreq,trdata  } from '../model/user.model';
+import { wbsdata,jobreq,trdata,appJob  } from '../model/user.model';
 import { BehaviorSubject } from 'rxjs';
 
 
@@ -39,7 +39,9 @@ export class ConfigService {
   getTr(endpoint): Observable<trdata[]> {
     return this.http.get<trdata[]>(this.hostUrl+endpoint);
   }
-
+  getAppJob(endpoint): Observable<appJob[]> {
+    return this.http.get<appJob[]>(this.hostUrl+endpoint);
+  }
   postdata (endpoint,params){
     return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).map(res=>res.json());
   }

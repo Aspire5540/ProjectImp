@@ -1,3 +1,4 @@
+
 export interface Product {
   name: string;
   email: string;
@@ -27,6 +28,7 @@ export interface Product {
     profile_image:string;
 
 }
+
 export class User {
   id: number;
   userName: string;
@@ -75,7 +77,18 @@ export interface jobreq {
   workCostPln : number;
   matCostPln : number;
 }
+export interface appJob {
+  wbs : string;
+  jobName :string;
+  mv  : number;
+  tr  : number;
+  lv : number;
+  workCostPln : number;
+  totalcost : number;
+  matCostInPln:number;
+  appNo:number;
 
+}
 export interface trdata {
   PEA_TR : string;
   Location : string;
