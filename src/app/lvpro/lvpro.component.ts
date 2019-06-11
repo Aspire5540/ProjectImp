@@ -20,7 +20,8 @@ export class LVProComponent implements OnInit {
   @ViewChild('f') registerForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  condition =0;
+  condition = 0;
+  peaCode = "";
 
   Statuss= [
     {value: '-'},
@@ -40,13 +41,14 @@ export class LVProComponent implements OnInit {
   public dataSource = new MatTableDataSource<trdata>();
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
   ngOnInit() {
+  this.peaCode = localStorage.getItem('peaCode');
   this.getTrData();
   this.dataSource.paginator = this.paginator; 
   this.dataSource.sort = this.sort;
   }
   public getTrData = () => {
     
-    this.configService.getTr('TR.php?condition='+this.condition)
+    this.configService.getTr('TR.php?condition='+this.condition+'&peaCode='+this.peaCode)
     .subscribe(res => {
       this.dataSource.data = res as trdata[];
     })
