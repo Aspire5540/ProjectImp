@@ -86,12 +86,12 @@ export class SumtableComponent implements OnInit {
     this.dataSource1.filter = (filterValue).trim().toLowerCase();
   }
   onSubmit() {
-    console.log(this.registerForm);
+    //console.log(this.registerForm);
     
     this.wdata=this.registerForm.value;
     this.wdata["user"]=localStorage.getItem('name');
     this.wdata["peaCode"]=localStorage.getItem('peaCode');
-    console.log(this.wdata);
+    //console.log(this.wdata);
 
 
     this.configService.postdata('wrimjob.php',this.registerForm.value).subscribe((data=>{
@@ -179,7 +179,7 @@ handleFileInput(event) {
 }
 wbsChange(){
   this.chgWbs=1;
-  console.log(this.chgWbs);
+  //console.log(this.chgWbs);
 
 
 }
