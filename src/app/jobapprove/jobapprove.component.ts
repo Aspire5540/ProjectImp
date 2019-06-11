@@ -22,6 +22,7 @@ export class JobapproveComponent implements OnInit {
   projectBudget=0;
   nwbs=0;
   nwbsArr=[];
+  nwbsApp=[];
   peaname = [];
 
   WorkCostPercentPea=[];
@@ -38,13 +39,14 @@ export class JobapproveComponent implements OnInit {
   ];
   dataTypes=[
     {value: 0, viewValue: 'จำนวนงานคงค้าง'},
-    {value: 1, viewValue: 'คชจ.หน้างาน'},
+    {value: 1, viewValue: '% เบิกจ่าย'},
+    {value: 2, viewValue: 'งานที่ขออนุมัติ'},
 
   ];
   selPea='';
   totalWbs=0;
   selBudjet=['',''];
-  selected=1;
+  selected=2;
   nWbs =0;
   displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','workCostPln','user','del'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -107,6 +109,70 @@ export class JobapproveComponent implements OnInit {
     
   } 
   getJobProgressPea(){ 
+
+    if (this.selected==2){
+      this.configService.postdata('rdsummaryAll.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+        if(data.status==1){
+          this.WorkCostPea=[];
+          this.nwbsArr=[];
+          this.nwbsApp=[];
+         
+          data.nwbsApp.forEach(element => {
+            this.WorkCostPea.push(element.Pea);
+            this.nwbsApp.push(element.nstatus);
+            this.nwbsArr.push(element.totalWbs);
+           
+
+          });
+        
+          
+          console.log(data.nwbsApp);
+          this.chartData= {
+            labels: this.WorkCostPea,
+            datasets:[
+            {
+            label: 'งานที่ขออนุมัติ',
+            data: this.nwbsArr,
+            backgroundColor: '#07CCD6',
+        },
+      {
+        label: 'งานที่อนุมัติครั้งนี้',
+        data: this.nwbsApp,
+        backgroundColor: '#DAF7A6',
+      }]};
+        this.chartTitle='จำนวนงานที่ขออนุมัติเปิดงาน';
+        if (this.myPieChart) this.myPieChart.destroy();
+            this.myPieChart = new Chart('myPieChart', {
+              type: 'bar',
+              data:  this.chartData,
+            options: {
+              // Elements options apply to all of the options unless overridden in a dataset
+              // In this case, we are setting the border of each horizontal bar to be 2px wide
+              elements: {
+                rectangle: {
+                  borderWidth: 2,
+                }
+              },
+              responsive: true,
+              legend: {
+                position: 'bottom',
+                display: true,
+              
+              },
+              title: {
+                display: true,
+                text: this.chartTitle
+              }
+            } 
+          });
+
+        }
+
+
+      }));
+
+
+    }else{
     this.configService.postdata('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       if(data.status==1){
         this.WorkCostPea=[];
@@ -189,7 +255,7 @@ export class JobapproveComponent implements OnInit {
   
     }));
 
-
+  }
 
   }
   getApproved(){ 
@@ -206,23 +272,6 @@ export class JobapproveComponent implements OnInit {
     }));
     
   } 
-  /*
-  getJobProgress(){
-    this.configService.postdata('rdprogress.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
-      if(data.status==1){
-        
-        this.nwbs=data.data.nwbs;
-        this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
-        //console.log(this.peaname);
-      }else{
-        alert(data.data);
-      }
-  
-    }));
-
-
-  }
-  */
   delWbs(wbsdata){
     //console.log(wbsdata);
     this.configService.postdata('addjob.php',{ wbs: wbsdata.wbs, status : 0 }).subscribe((data=>{
