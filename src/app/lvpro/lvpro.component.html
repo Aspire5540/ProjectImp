@@ -42,7 +42,7 @@
 
               <ng-container matColumnDef="PEA_TR">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> PEA No. </th>
-              <td class="table-lg" mat-cell *matCellDef="let trdata"> {{trdata.PEA_TR}}</td>
+              <td class="table-lg" mat-cell *matCellDef="let trdata"><a target="_blank" href="http://172.18.226.19/transformer/Vmap.php?pea_no={{trdata.PEA_TR}}&submit=submit"> {{trdata.PEA_TR}} </a></td>
               </ng-container>
 
               <ng-container matColumnDef="Location">
