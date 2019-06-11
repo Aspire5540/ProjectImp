@@ -126,7 +126,7 @@ export class JobapproveComponent implements OnInit {
           });
         
           
-          console.log(data.nwbsApp);
+          //console.log(data.nwbsApp);
           this.chartData= {
             labels: this.WorkCostPea,
             datasets:[

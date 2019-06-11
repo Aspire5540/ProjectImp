@@ -35,7 +35,7 @@ export class SumtableComponent implements OnInit {
     show: boolean = false;
     wdata=[];
     //file upload
-    URL ="http://127.0.0.1/psisservice/uploads/";
+    URL ="http://172.18.226.19/psisservice/uploads/";
     private file: File | null = null;
     error: string;
     userId: number = 1;
