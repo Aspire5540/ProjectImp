@@ -1,25 +1,26 @@
-
-
-<div class="container">
-  <div class="col-md-6 col-md-offset-3 loginBox">
-      <h3>Log In</h3>
-      <p *ngIf="message" class="text-center error">{{message}}</p>
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <div class="form-group clearfix">
-            <label for="userid" class="col-md-3 col-sm-5 col-xs-12">Userid</label>
-            <div class="col-md-9 col-sm-7 col-xs-12">
-                <input type="text" class="form-control" formControlName="userid" />
-            </div>
-        </div>
-        <div class="form-group clearfix">
-          <label for="password" class="col-md-3 col-sm-5 col-xs-12">Password</label>
-          <div class="col-md-9 col-sm-7 col-xs-12">
-              <input type="password" class="form-control" formControlName="password"/>
+<div class="row">
+  <div class="col-md-6 d-flex align-items-stretch grid-margin">
+    <div class="row flex-grow">
+      <div class="col-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h3>Log In</h3>
+            <p *ngIf="message" class="text-center error">{{message}}</p>
+            <form class="forms-sample" #f="ngForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Userid</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="รหัสพนักงาน" name="userName" ngModel required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="รหัสเข้าคอมพิวเตอร์" name="password" ngModel required>
+              </div>
+              <button type="submit" class="btn btn-success mr-2">Login</button>
+              
+            </form>
           </div>
         </div>
-        <div class="col-xs-12 form-group text-right">
-          <button class="btn btn-success" type="submit">Login</button>
-        </div>
-    </form>
+      </div>
+    </div>
   </div>
-</div>
+

@@ -117,10 +117,11 @@ export class SumtableComponent implements OnInit {
           'I-61-B.MR',
          
         ];
-        this.causeNames = ['กีดขว้างงานสร้างถนน',
-          'อยู่ในที่ผู้ใช้ไฟฟ้า',
+        this.causeNames = ['กีดขว้างงานสร้างถนน (งานราชการ)',
+          'อยู่ในที่ผู้ใช้ไฟฟ้า (งานผู้ใช้ไฟ)',
           'งานเสริมความมั่นคง',
         ];
+        this.notes =  ['']
         this.solveMets=[];
         this.show=false;
       }
@@ -139,6 +140,7 @@ export class SumtableComponent implements OnInit {
       'เพิ่มเฟส',
       'เพิ่มขนาดสาย']
       this.show=true;
+      this.notes =  ['1.งานร้องเรียน','2.PM/PS','3.งานเร่งด่วน','4.งานปกติ']
     }
     
   }
