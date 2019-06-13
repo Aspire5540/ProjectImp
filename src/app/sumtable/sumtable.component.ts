@@ -138,7 +138,8 @@ export class SumtableComponent implements OnInit {
       this.solveMets=['ตัดจ่ายใหม่',
       'เพิ่มขนาดหม้อแปลง',
       'เพิ่มเฟส',
-      'เพิ่มขนาดสาย']
+      'เพิ่มขนาดสาย',
+      'ติดตั้ง/สับเปลี่ยนพัสดุ']
       this.show=true;
       this.notes =  ['1.งานร้องเรียน','2.PM/PS','3.งานเร่งด่วน','4.งานปกติ']
     }
@@ -181,7 +182,7 @@ handleFileInput(event) {
 }
 wbsChange(){
   this.chgWbs=1;
-  //console.log(this.chgWbs);
+  console.log(this.chgWbs);
 
 
 }
