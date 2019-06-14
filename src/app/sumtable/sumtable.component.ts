@@ -1,5 +1,5 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {NgForm,FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn} from '@angular/forms';
 import { ConfigService } from '../config/config.service';
 import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
@@ -7,6 +7,8 @@ import { wbsdata,appJob  } from '../model/user.model';
 import {FileuploadService} from '../config/fileupload.service';
 import {Chart} from 'chart.js';
 import {MatSort} from '@angular/material/sort';
+
+
 @Component({
   selector: 'app-sumtable',
   templateUrl: './sumtable.component.html',
@@ -86,7 +88,7 @@ export class SumtableComponent implements OnInit {
     this.dataSource1.filter = (filterValue).trim().toLowerCase();
   }
   onSubmit() {
-    //console.log(this.registerForm);
+    console.log(this.registerForm);
     
     this.wdata=this.registerForm.value;
     this.wdata["user"]=localStorage.getItem('name');
@@ -121,7 +123,7 @@ export class SumtableComponent implements OnInit {
           'อยู่ในที่ผู้ใช้ไฟฟ้า (งานผู้ใช้ไฟ)',
           'งานเสริมความมั่นคง',
         ];
-        this.notes =  ['']
+        
         this.solveMets=[];
         this.show=false;
       }
@@ -133,15 +135,17 @@ export class SumtableComponent implements OnInit {
       ];
       this.causeNames = ['แรงดันตก',
       'หม้อแปลงโหลดเกินพิกัด',
+      'แรงดันตกและโหลดเกินพิกัด',
       'งานเสริมความมั่นคง',
     ];
       this.solveMets=['ตัดจ่ายใหม่',
       'เพิ่มขนาดหม้อแปลง',
-      'เพิ่มเฟส',
+      'ปรับปรุง 1 เฟส 2 สาย เป็น 3 สาย',
+      'ปรับปรุงหม้อแปลง 1 เฟส เป็น 3 เฟส',
       'เพิ่มขนาดสาย',
-      'ติดตั้ง/สับเปลี่ยนพัสดุ']
+      'ติดตั้ง/สับเปลี่ยนวัสดุ']
       this.show=true;
-      this.notes =  ['1.งานร้องเรียน','2.PM/PS','3.งานเร่งด่วน','4.งานปกติ']
+   
     }
     
   }

@@ -329,5 +329,7 @@ export class JobapproveComponent implements OnInit {
   
     }))
   }
- 
+  exportAsXLSX():void {
+    this.configService.exportAsExcelFile(this.dataSource.data, 'sample');
+ }
 }
