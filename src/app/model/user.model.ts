@@ -77,6 +77,18 @@ export interface jobreq {
   workCostPln : number;
   matCostPln : number;
 }
+export interface jobprogress {
+  wbs : string;
+  jobName : string;
+  workCostPln : number;
+  matCostPln : number;
+  matCostActM5:number;
+  matCostActM4:number;
+  matCostActM3:number;
+  workCostP5:number;
+  workCostP4:number;
+  workCostP3:number;
+}
 export interface appJob {
   wbs : string;
   jobName :string;

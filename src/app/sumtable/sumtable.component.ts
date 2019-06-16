@@ -33,6 +33,9 @@ export class SumtableComponent implements OnInit {
     workCostPerBY:number;
     nwbsAll : number;
     workCostPerAll:number;
+    trLoad:number;
+    minV:number;
+    ftr:boolean;
     //id: string;
     show: boolean = false;
     wdata=[];
@@ -186,7 +189,7 @@ handleFileInput(event) {
 }
 wbsChange(){
   this.chgWbs=1;
-  console.log(this.chgWbs);
+  
 
 
 }
@@ -263,7 +266,23 @@ getJobProgress(){
 
 
 }
+trChange(value){
+  this.configService.postdata('rdtr.php',{PEA_TR:value}).subscribe((data=>{
+    if(data.status==1){
+      if (data.data)
+      {this.trLoad=data.data.PLoadTOT;
+      this.minV=data.data.minV;
+      this.ftr=true;}else{
+        this.ftr=false;
 
+      }
+  }else{
+    
+    alert(data.data);
+  }
+
+  }))
+}
 
 
 }

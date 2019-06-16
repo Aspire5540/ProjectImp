@@ -3,7 +3,7 @@ import { HttpClient,HttpHandler } from '@angular/common/http';
 import {Http,Headers,RequestOptions,Response} from '@angular/http';
 import { Observable }   from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { wbsdata,jobreq,trdata,appJob  } from '../model/user.model';
+import { wbsdata,jobreq,trdata,appJob,jobprogress  } from '../model/user.model';
 import { BehaviorSubject } from 'rxjs';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
@@ -19,8 +19,8 @@ export class ConfigService {
   currentMessage = this.messageSource.asObservable();
   //private serviceUrl = 'https://jsonplaceholder.typicode.com/users';
 
-  hostUrl = 'http://172.18.226.19/psisservice/';
-  //hostUrl = 'http://127.0.0.1/psisservice/';
+  //hostUrl = 'http://172.18.226.19/psisservice/';
+  hostUrl = 'http://127.0.0.1/psisservice/';
   //hostUrllogin ='http://172.18.226.19/logins/';
   headers = new Headers();
   options = new RequestOptions()
@@ -43,6 +43,9 @@ export class ConfigService {
   }
   getAppJob(endpoint): Observable<appJob[]> {
     return this.http.get<appJob[]>(this.hostUrl+endpoint);
+  }
+  getJobProgress(endpoint): Observable<jobprogress[]> {
+    return this.http.get<jobprogress[]>(this.hostUrl+endpoint);
   }
   postdata (endpoint,params){
     return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).map(res=>res.json());

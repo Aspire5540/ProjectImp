@@ -1,0 +1,133 @@
+
+<div class="row">
+  <div class="col-md-12">
+    <mat-form-field>
+        <mat-label>กฟฟ. </mat-label>
+        <mat-select (selectionChange)="selectPea($event)">
+          <mat-option *ngFor="let pea of peaname" [value]="[pea.peaEng,pea.peaCode]">
+            {{pea.peaCode +" "+pea.peaName}} 
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+
+
+</div>
+
+<div class="row">
+
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card">
+  <div class="card card-statistics border-primary">
+    <div class="card-body">
+      <h5 class="card-title text-primary">จำนวนงานคงค้างรวมทั้งหมด {{totalwbs | number}} งาน</h5>
+      <canvas id='myDonut' style="height: 120%;"></canvas>
+    </div>
+  </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card">
+  <div class="card card-statistics">
+    <div class="card-body">
+       
+      <canvas id='myBar' style="height: 120%;"></canvas>
+    </div>
+  </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card">
+  <div class="card card-statistics">
+    <div class="card-body">
+       
+      <canvas id='myBar2' style="height: 120%;"></canvas>
+    </div>
+  </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card">
+  <div class="card card-statistics">
+    <div class="card-body">
+      
+      
+     <mat-form-field>
+            <mat-label>งบ</mat-label>
+            <mat-select (selectionChange)="selectBudget($event)">               
+              <mat-option *ngFor="let budjet of budjets" [value]="budjet.value" >
+                {{budjet.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>   
+      
+      <mat-form-field>
+        <mat-label>ชนิดข้อมูล</mat-label>
+        <mat-select (selectionChange)="selectDataType($event)" value={{this.selected}}>               
+          <mat-option *ngFor="let dataType of dataTypes" [value]="dataType.value" >
+            {{dataType.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>      
+      <canvas id='myBar3' style="height: 120%;"></canvas>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 >ข้อมูลการเบิกจ่าย คชจ.หน้างาน</h4>
+           <div class="row">    
+              <mat-form-field appearance="legacy">
+                  <mat-label>ค้นหาข้อมูล</mat-label>
+                  <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput (keyup)="applyFilter($event.target.value)">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>งบ</mat-label>
+                    <mat-select (selectionChange)="selectBudget2($event)">               
+                      <mat-option *ngFor="let budjet of budjets" [value]="budjet.value" >
+                        {{budjet.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> 
+            </div>        
+          <div class="table-responsive">
+              <table class="mat-elevation-z8" mat-table  matSort #sort="matSort" [dataSource]="dataSource">      
+  
+                <ng-container matColumnDef="wbs">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> wbs </th>
+                <td class="table-lg" mat-cell *matCellDef="let jobprogress">{{jobprogress.wbs}}</td>
+                </ng-container>
+  
+                <ng-container matColumnDef="jobName">
+                  <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>ชื่องาน </th>
+                  <td class="table-lg" mat-cell *matCellDef="let jobprogress">{{jobprogress.jobName}}</td>
+                </ng-container>
+  
+                <ng-container matColumnDef="workCostP3">
+                  <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ย้อนหลัง 2 เดือน </th>
+                  <td class="table-lg" mat-cell *matCellDef="let jobprogress">{{jobprogress.workCostP3}}</td>
+                </ng-container>
+  
+                <ng-container matColumnDef="workCostP4">
+                    <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ย้อนหลัง 1 เดือน </th>
+                    <td class="table-lg" mat-cell *matCellDef="let jobprogress">
+                        <div class="text-success" *ngIf="jobprogress.workCostP4>jobprogress.workCostP3">{{jobprogress.workCostP4}}<i class="mdi mdi-arrow-up"></i></div>
+                        <div class="text-danger" *ngIf="jobprogress.workCostP4<=jobprogress.workCostP3">{{jobprogress.workCostP4}}<i class="mdi mdi-arrow-down"></i></div></td>
+                    
+                  </ng-container>
+  
+                  <ng-container matColumnDef="workCostP5">
+                      <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> เดือนปัจจุบัน </th>
+                      <td class="table-lg" mat-cell *matCellDef="let jobprogress">
+                        <div class="text-success" *ngIf="jobprogress.workCostP5>jobprogress.workCostP4">{{jobprogress.workCostP5}}<i class="mdi mdi-arrow-up"></i></div>
+                        <div class="text-danger" *ngIf="jobprogress.workCostP5<=jobprogress.workCostP4">{{jobprogress.workCostP5}}<i class="mdi mdi-arrow-down"></i></div></td>
+                    </ng-container>
+  
+  
+                <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>

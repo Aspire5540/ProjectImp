@@ -84,6 +84,7 @@ import { AuthGuard } from './auth.guard';
 import { UploadComponent } from './upload/upload.component';
 import { JobapproveComponent } from './jobapprove/jobapprove.component';
 import { LVProComponent } from './lvpro/lvpro.component';
+import { PsimdashboardComponent } from './psimdashboard/psimdashboard.component';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { LVProComponent } from './lvpro/lvpro.component';
     UploadComponent,
     JobapproveComponent,
     LVProComponent,
+    PsimdashboardComponent,
     
   ],
   imports: [

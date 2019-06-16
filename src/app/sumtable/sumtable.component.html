@@ -249,7 +249,7 @@
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label  input-lg">PEA หม้อแปลง</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control  input-lg" name="peatr" placeholder="00-000000" ngModel>
+                    <input type="text" class="form-control  input-lg" name="peatr" (change)="trChange($event.target.value)" placeholder="00-000000" ngModel>
                   </div>
                 </div>
               </div>
@@ -271,7 +271,11 @@
                 </div>
               </div>
             </div>
-        </div>
+
+          </div>
+          <div *ngIf="ftr" class="row">
+            <p class="text-primary input-lg">แรงดันปลายสาย {{minV}} โวลต์ | โหลดหม้อแปลง {{trLoad}}%  </p>
+          </div>
           <!-----------------------------END------------------------------------------------>   
         <div class="row">
             <div class="col-md-12 row">
@@ -352,7 +356,7 @@
 
               <ng-container matColumnDef="del">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>  </th>
-                <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <div *ngIf="wbsdata.status == 0"><button type="button" class="btn btn-danger btn-fw btn-sm" (click)="delWbs(wbsdata)">Del</button></div>  </td>
+                <td class="table-lg" mat-cell *matCellDef="let wbsdata"> <div class="text-success" *ngIf="wbsdata.status == 0"><button type="button" class="btn btn-danger btn-fw btn-sm" (click)="delWbs(wbsdata)">Del</button></div>  </td>
               </ng-container>
 
               <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
