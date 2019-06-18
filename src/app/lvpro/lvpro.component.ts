@@ -7,6 +7,7 @@ import { trdata  } from '../model/user.model';
 import { AuthService } from '../config/auth.service';
 import { HttpClient} from '@angular/common/http';
 import {FileuploadService} from '../config/fileupload.service';
+import {Chart} from 'chart.js';
 import {MatSort} from '@angular/material/sort';
 
 @Component({
@@ -21,7 +22,27 @@ export class LVProComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   condition = 0;
-  peaCode = "";
+  peaCode = ""; 
+  myDonut: Chart;
+  myDonut200: Chart;
+  myDonut80: Chart;
+  myDonutWBS4: Chart;
+  myDonutWBS5: Chart;
+  myDonutWBS6: Chart;
+  PEA_TR0:number;
+  PEA_TR1:number;
+  PEA_TR2:number;
+  PEA_TR3:number;
+  WBS4:number;
+  WBS5:number;
+  WBS6:number;
+  PEA_TR1perPEA_TR0:number;
+  PEA_TR2perPEA_TR0:number;
+  PEA_TR3perPEA_TR0:number;
+  WBS4perPEA_TR1:number;
+  WBS5perPEA_TR2:number;
+  WBS6perPEA_TR3:number;
+
 
   Statuss= [
     {value: '-'},
@@ -33,9 +54,11 @@ export class LVProComponent implements OnInit {
 
   
   Conditions= [
+    {value: 0,viewvalue: 'หม้อแปลงทั้งหมด'},
     {value: 1,viewvalue: 'แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80%'},
     {value: 2,viewvalue: 'แรงดันต่ำกว่า 200 Volt'},
     {value: 3,viewvalue: 'โหลดเกิน 80%'}
+    
   ];
   
   public dataSource = new MatTableDataSource<trdata>();
@@ -43,6 +66,7 @@ export class LVProComponent implements OnInit {
   ngOnInit() {
   this.peaCode = localStorage.getItem('peaCode');
   this.getTrData();
+  this.getStatus();
   this.dataSource.paginator = this.paginator; 
   this.dataSource.sort = this.sort;
   }
@@ -91,6 +115,269 @@ export class LVProComponent implements OnInit {
     this.condition=event.value[0];
     this.getTrData();
 
+  }
+
+  getStatus(){
+    this.configService.postdata('rdstat.php',{peaCode : localStorage.getItem('peaCode')}).subscribe((data=>{
+      if(data.status==1){
+        this.PEA_TR0 =data.data[0];
+        this.PEA_TR1 =data.data[1];
+        this.PEA_TR2 =data.data[2];
+        this.PEA_TR3 =data.data[3];
+        this.WBS4 =data.data[4];
+        this.WBS5 =data.data[5];
+        this.WBS6 =data.data[6];
+        this.PEA_TR1perPEA_TR0=Number(data.data[1])/Number(data.data[0])*100;
+        this.PEA_TR2perPEA_TR0=Number(data.data[2])/Number(data.data[0])*100;
+        this.PEA_TR3perPEA_TR0=Number(data.data[3])/Number(data.data[0])*100;
+        this.WBS4perPEA_TR1=Number(data.data[4])/Number(data.data[1])*100;
+        this.WBS5perPEA_TR2=Number(data.data[5])/Number(data.data[2])*100;
+        this.WBS6perPEA_TR3=Number(data.data[6])/Number(data.data[3])*100;
+
+        console.log (this.PEA_TR0);
+
+        //this.nwbsMR =data.data.MR.nwbs;
+        //this.workCostPerMR=Number(data.data.MR.workCostAct)/Number(data.data.MR.workCostPln)*100;
+        //this.nwbsBY =data.data.BY.nwbs;
+        //this.workCostPerBY=Number(data.data.BY.workCostAct)/Number(data.data.BY.workCostPln)*100;
+        //this.nwbsAll =data.data.BY.All;
+        //this.workCostPerAll=Number(data.data.All.workCostAct)/Number(data.data.All.workCostPln)*100;
+        //this.nwbs=data.data.nwbs;
+        //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
+        if (this.myDonut) this.myDonut.destroy();
+  
+        this.myDonut = new Chart('myDonut', {
+          type: 'doughnut',
+          data:  {
+            datasets: [{
+              data: [this.PEA_TR1perPEA_TR0.toFixed(2),(100-this.PEA_TR1perPEA_TR0).toFixed(2)
+              ],
+              backgroundColor: [
+                "#FFC300","#a68fe8",
+              ],
+            }],
+            labels: [
+              'แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80% ',
+              '',]
+          },
+        options: {
+          // Elements options apply to all of the options unless overridden in a dataset
+          // In this case, we are setting the border of each horizontal bar to be 2px wide
+          elements: {
+            rectangle: {
+              borderWidth: 2,
+            }
+          },
+          responsive: true,
+          legend: {
+            position: 'bottom',
+            display: false,
+          
+          },
+          title: {
+            display: false,
+            text: "tst"
+          }
+        } 
+      });
+
+      if (this.myDonut200) this.myDonut200.destroy();
+  
+        this.myDonut200 = new Chart('myDonut200', {
+          type: 'doughnut',
+          data:  {
+            datasets: [{
+              data: [this.PEA_TR2perPEA_TR0.toFixed(2),(100-this.PEA_TR2perPEA_TR0).toFixed(2)
+              ],
+              backgroundColor: [
+                "#FFC300","#7fe894",
+              ],
+            }],
+            labels: [
+              'แรงดันต่ำกว่า 200 Volt ',
+              '',]
+          },
+        options: {
+          // Elements options apply to all of the options unless overridden in a dataset
+          // In this case, we are setting the border of each horizontal bar to be 2px wide
+          elements: {
+            rectangle: {
+              borderWidth: 2,
+            }
+          },
+          responsive: true,
+          legend: {
+            position: 'bottom',
+            display: false,
+          
+          },
+          title: {
+            display: false,
+            text: "tst"
+          }
+        } 
+      });
+
+      if (this.myDonut80) this.myDonut80.destroy();
+  
+        this.myDonut80 = new Chart('myDonut80', {
+          type: 'doughnut',
+          data:  {
+            datasets: [{
+              data: [this.PEA_TR3perPEA_TR0.toFixed(2),(100-this.PEA_TR3perPEA_TR0).toFixed(2)
+              ],
+              backgroundColor: [
+                "#FFC300","#55bae0",
+              ],
+            }],
+            labels: [
+              'โหลดเกิน 80% ',
+              '',]
+          },
+        options: {
+          // Elements options apply to all of the options unless overridden in a dataset
+          // In this case, we are setting the border of each horizontal bar to be 2px wide
+          elements: {
+            rectangle: {
+              borderWidth: 2,
+            }
+          },
+          responsive: true,
+          legend: {
+            position: 'bottom',
+            display: false,
+          
+          },
+          title: {
+            display: false,
+            text: "tst"
+          }
+        } 
+      });
+
+      if (this.myDonutWBS4) this.myDonutWBS4.destroy();
+  
+        this.myDonutWBS4 = new Chart('myDonutWBS4', {
+          type: 'doughnut',
+          data:  {
+            datasets: [{
+              data: [this.WBS4perPEA_TR1.toFixed(2),(100-this.WBS4perPEA_TR1).toFixed(2)
+              ],
+              backgroundColor: [
+                "#0bdd0b","#FFC300",
+              ],
+            }],
+            labels: [
+              'WBS จาก แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80% ',
+              '',]
+          },
+        options: {
+          // Elements options apply to all of the options unless overridden in a dataset
+          // In this case, we are setting the border of each horizontal bar to be 2px wide
+          elements: {
+            rectangle: {
+              borderWidth: 2,
+            }
+          },
+          responsive: true,
+          legend: {
+            position: 'bottom',
+            display: false,
+          
+          },
+          title: {
+            display: false,
+            text: "tst"
+          }
+        } 
+      });
+
+      if (this.myDonutWBS5) this.myDonutWBS5.destroy();
+  
+        this.myDonutWBS5 = new Chart('myDonutWBS5', {
+          type: 'doughnut',
+          data:  {
+            datasets: [{
+              data: [this.WBS5perPEA_TR2.toFixed(2),(100-this.WBS5perPEA_TR2).toFixed(2)
+              ],
+              backgroundColor: [
+                "#0bdd0b","#FFC300",
+              ],
+            }],
+            labels: [
+              'WBS จาก แรงดันต่ำกว่า 200 Volt ',
+              '',]
+          },
+        options: {
+          // Elements options apply to all of the options unless overridden in a dataset
+          // In this case, we are setting the border of each horizontal bar to be 2px wide
+          elements: {
+            rectangle: {
+              borderWidth: 2,
+            }
+          },
+          responsive: true,
+          legend: {
+            position: 'bottom',
+            display: false,
+          
+          },
+          title: {
+            display: false,
+            text: "tst"
+          }
+        } 
+      });
+
+      if (this.myDonutWBS6) this.myDonutWBS6.destroy();
+  
+        this.myDonutWBS6 = new Chart('myDonutWBS6', {
+          type: 'doughnut',
+          data:  {
+            datasets: [{
+              data: [this.WBS6perPEA_TR3.toFixed(2),(100-this.WBS6perPEA_TR3).toFixed(2)
+              ],
+              backgroundColor: [
+                "#0bdd0b","#FFC300",
+              ],
+            }],
+            labels: [
+              'WBS จาก โหลดเกิน 80% ',
+              '',]
+          },
+        options: {
+          // Elements options apply to all of the options unless overridden in a dataset
+          // In this case, we are setting the border of each horizontal bar to be 2px wide
+          elements: {
+            rectangle: {
+              borderWidth: 2,
+            }
+          },
+          responsive: true,
+          legend: {
+            position: 'bottom',
+            display: false,
+          
+          },
+          title: {
+            display: false,
+            text: "tst"
+          }
+        } 
+      });
+
+
+    
+      }else{
+        alert(data.data);
+      }
+
+      
+  
+    }));
+    
+    
+  
   }
   /*
   getTrData(){ 

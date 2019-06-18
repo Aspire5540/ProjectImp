@@ -47,10 +47,13 @@ export class ConfigService {
   getJobProgress(endpoint): Observable<jobprogress[]> {
     return this.http.get<jobprogress[]>(this.hostUrl+endpoint);
   }
+  getStatus(endpoint,params){
+    return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).map(res=>res.json());
+  }
   postdata (endpoint,params){
     return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).map(res=>res.json());
   }
-
+  
   /*
   postdata2 (endpoint,params){
     return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).map((response: Response) => response.json());
