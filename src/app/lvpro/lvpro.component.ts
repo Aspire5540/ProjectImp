@@ -159,7 +159,26 @@ export class LVProComponent implements OnInit {
             labels: [
               ' แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80% : '+ [this.PEA_TR1perPEA_TR0.toFixed(2)]+' %',
               ' '+[(100-this.PEA_TR1perPEA_TR0).toFixed(2)]+' %',]
-          },
+          },plugins: [{
+            beforeDraw: function(chart) {
+              var width = chart.chart.width,
+                  height = chart.chart.height,
+                  ctx = chart.chart.ctx;
+                  //text =chart.config.data.dataset[0].data[0];
+              
+              ctx.restore();
+              var fontSize = (height / 120).toFixed(2);
+              ctx.font = fontSize + "em sans-serif";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = "#FFFEFF";
+              var text = chart.config.data.datasets[0].data[0]+"%",
+                  textX = Math.round((width - ctx.measureText(text).width) / 2),
+                  textY = height / 2;
+          
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            }
+        }],
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
@@ -199,13 +218,32 @@ export class LVProComponent implements OnInit {
               data: [this.PEA_TR2perPEA_TR0.toFixed(2),(100-this.PEA_TR2perPEA_TR0).toFixed(2)
               ],
               backgroundColor: [
-                "#FFC300","#7fe894",
+                "#FFC300","#ea73b2",
               ],
             }],
             labels: [
               ' แรงดันต่ำกว่า 200 Volt : '+ [this.PEA_TR2perPEA_TR0.toFixed(2)]+' %',
               ' '+[(100-this.PEA_TR2perPEA_TR0).toFixed(2)]+' %',]
-          },
+          },plugins: [{
+            beforeDraw: function(chart) {
+              var width = chart.chart.width,
+                  height = chart.chart.height,
+                  ctx = chart.chart.ctx;
+                  //text =chart.config.data.dataset[0].data[0];
+              
+              ctx.restore();
+              var fontSize = (height / 120).toFixed(2);
+              ctx.font = fontSize + "em sans-serif";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = "#FFFEFF";
+              var text = chart.config.data.datasets[0].data[0]+"%",
+                  textX = Math.round((width - ctx.measureText(text).width) / 2),
+                  textY = height / 2;
+          
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            }
+        }],
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
@@ -252,6 +290,26 @@ export class LVProComponent implements OnInit {
               'โหลดเกิน 80% : '+ [this.PEA_TR3perPEA_TR0.toFixed(2)]+' %',
               ' '+[(100-this.PEA_TR3perPEA_TR0).toFixed(2)]+' %',]
           },
+          plugins: [{
+            beforeDraw: function(chart) {
+              var width = chart.chart.width,
+                  height = chart.chart.height,
+                  ctx = chart.chart.ctx;
+                  //text =chart.config.data.dataset[0].data[0];
+              
+              ctx.restore();
+              var fontSize = (height / 120).toFixed(2);
+              ctx.font = fontSize + "em sans-serif";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = "#FFFEFF";
+              var text = chart.config.data.datasets[0].data[0]+"%",
+                  textX = Math.round((width - ctx.measureText(text).width) / 2),
+                  textY = height / 2;
+          
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            }
+        }],
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
@@ -291,13 +349,32 @@ export class LVProComponent implements OnInit {
               data: [this.WBS4perPEA_TR1.toFixed(2),(100-this.WBS4perPEA_TR1).toFixed(2)
               ],
               backgroundColor: [
-                "#0bdd0b","#FFC300",
+                "#FFC300","#a68fe8",
               ],
             }],
             labels: [
               'WBS จาก แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80% : '+ [this.WBS4perPEA_TR1.toFixed(2)] + '%',
               ' '+ [(100-this.WBS4perPEA_TR1).toFixed(2)]+ '%',]
-          },
+          },plugins: [{
+            beforeDraw: function(chart) {
+              var width = chart.chart.width,
+                  height = chart.chart.height,
+                  ctx = chart.chart.ctx;
+                  //text =chart.config.data.dataset[0].data[0];
+              
+              ctx.restore();
+              var fontSize = (height / 120).toFixed(2);
+              ctx.font = fontSize + "em sans-serif";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = "#FFFEFF";
+              var text = chart.config.data.datasets[0].data[0]+"%",
+                  textX = Math.round((width - ctx.measureText(text).width) / 2),
+                  textY = height / 2;
+          
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            }
+        }],
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
@@ -337,13 +414,32 @@ export class LVProComponent implements OnInit {
               data: [this.WBS5perPEA_TR2.toFixed(2),(100-this.WBS5perPEA_TR2).toFixed(2)
               ],
               backgroundColor: [
-                "#0bdd0b","#FFC300",
+               "#FFC300", "#ea73b2",
               ],
             }],
             labels: [
               'WBS จาก แรงดันต่ำกว่า 200 Volt : '+ [this.WBS5perPEA_TR2.toFixed(2)] + '%',
               ' '+ [(100-this.WBS5perPEA_TR2).toFixed(2)]+ '%',]
-          },
+          },plugins: [{
+            beforeDraw: function(chart) {
+              var width = chart.chart.width,
+                  height = chart.chart.height,
+                  ctx = chart.chart.ctx;
+                  //text =chart.config.data.dataset[0].data[0];
+              
+              ctx.restore();
+              var fontSize = (height / 120).toFixed(2);
+              ctx.font = fontSize + "em sans-serif";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = "#FFFEFF";
+              var text = chart.config.data.datasets[0].data[0]+"%",
+                  textX = Math.round((width - ctx.measureText(text).width) / 2),
+                  textY = height / 2;
+          
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            }
+        }],
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
@@ -383,13 +479,32 @@ export class LVProComponent implements OnInit {
               data: [this.WBS6perPEA_TR3.toFixed(2),(100-this.WBS6perPEA_TR3).toFixed(2)
               ],
               backgroundColor: [
-                "#0bdd0b","#FFC300",
+                "#FFC300","#55bae0",
               ],
             }],
             labels: [
               'WBS จาก โหลดเกิน 80% : '+ [this.WBS6perPEA_TR3.toFixed(2)] + '%',
               ' '+ [(100-this.WBS6perPEA_TR3).toFixed(2)]+ '%',]
-          },
+          },plugins: [{
+            beforeDraw: function(chart) {
+              var width = chart.chart.width,
+                  height = chart.chart.height,
+                  ctx = chart.chart.ctx;
+                  //text =chart.config.data.dataset[0].data[0];
+              
+              ctx.restore();
+              var fontSize = (height / 120).toFixed(2);
+              ctx.font = fontSize + "em sans-serif";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = "#FFFEFF";
+              var text = chart.config.data.datasets[0].data[0]+"%",
+                  textX = Math.round((width - ctx.measureText(text).width) / 2),
+                  textY = height / 2;
+          
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            }
+        }],
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide

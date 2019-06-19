@@ -71,23 +71,27 @@ export class PsimdashboardComponent implements OnInit {
 
   totalWbs=0;
   selBudjet=['',''];
-  selected=2;
+  selBudjet2=['',''];
+  selected=0;
   nWbs =0;
   constructor(private configService :ConfigService) { }
 
   ngOnInit() {
+   
     this.dataSource.paginator = this.paginator;    
     this.dataSource.sort = this.sort;
     this.getpeaList();
     this.rdproject();
     this.getJobProgress();
+    this.getJobProgressPea();
+    
   }
   applyFilter(filterValue: string) {
     
     this.dataSource.filter = (filterValue).trim().toLowerCase();
   }
   getJobProgress = () => {
-    this.configService.getJobProgress('rdprogressmntAll.php?peaCode='+this.selPeapeaCode) 
+    this.configService.getJobProgress('rdprogressmntAll.php?peaCode='+this.selPeapeaCode+'&filter1='+this.selBudjet2[0]+'&filter2='+this.selBudjet2[1]) 
     .subscribe(res => {
       this.dataSource.data = res as jobprogress[];
     })
@@ -387,5 +391,10 @@ export class PsimdashboardComponent implements OnInit {
 
     this.selBudjet=event.value;
     this.getJobProgressPea();
+  }
+  selectBudget2(event){
+
+    this.selBudjet2=event.value;
+    this.getJobProgress();
   }
 }
