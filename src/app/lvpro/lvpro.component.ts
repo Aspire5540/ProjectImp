@@ -157,18 +157,27 @@ export class LVProComponent implements OnInit {
               ],
             }],
             labels: [
-              'แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80% ',
-              '',]
+              ' แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80% : '+ [this.PEA_TR1perPEA_TR0.toFixed(2)]+' %',
+              ' '+[(100-this.PEA_TR1perPEA_TR0).toFixed(2)]+' %',]
           },
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                return data.labels[tooltipItems.index];
+              }
+            }
+          },
           elements: {
             rectangle: {
               borderWidth: 2,
             }
           },
-          responsive: true,
+          responsive: false,
           legend: {
             position: 'bottom',
             display: false,
@@ -194,12 +203,21 @@ export class LVProComponent implements OnInit {
               ],
             }],
             labels: [
-              'แรงดันต่ำกว่า 200 Volt ',
-              '',]
+              ' แรงดันต่ำกว่า 200 Volt : '+ [this.PEA_TR2perPEA_TR0.toFixed(2)]+' %',
+              ' '+[(100-this.PEA_TR2perPEA_TR0).toFixed(2)]+' %',]
           },
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                return data.labels[tooltipItems.index];
+              }
+            }
+          },
           elements: {
             rectangle: {
               borderWidth: 2,
@@ -231,12 +249,21 @@ export class LVProComponent implements OnInit {
               ],
             }],
             labels: [
-              'โหลดเกิน 80% ',
-              '',]
+              'โหลดเกิน 80% : '+ [this.PEA_TR3perPEA_TR0.toFixed(2)]+' %',
+              ' '+[(100-this.PEA_TR3perPEA_TR0).toFixed(2)]+' %',]
           },
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                return data.labels[tooltipItems.index];
+              }
+            }
+          },
           elements: {
             rectangle: {
               borderWidth: 2,
@@ -268,12 +295,21 @@ export class LVProComponent implements OnInit {
               ],
             }],
             labels: [
-              'WBS จาก แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80% ',
-              '',]
+              'WBS จาก แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80% : '+ [this.WBS4perPEA_TR1.toFixed(2)] + '%',
+              ' '+ [(100-this.WBS4perPEA_TR1).toFixed(2)]+ '%',]
           },
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                return data.labels[tooltipItems.index];
+              }
+            }
+          },
           elements: {
             rectangle: {
               borderWidth: 2,
@@ -305,12 +341,21 @@ export class LVProComponent implements OnInit {
               ],
             }],
             labels: [
-              'WBS จาก แรงดันต่ำกว่า 200 Volt ',
-              '',]
+              'WBS จาก แรงดันต่ำกว่า 200 Volt : '+ [this.WBS5perPEA_TR2.toFixed(2)] + '%',
+              ' '+ [(100-this.WBS5perPEA_TR2).toFixed(2)]+ '%',]
           },
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                return data.labels[tooltipItems.index];
+              }
+            }
+          },
           elements: {
             rectangle: {
               borderWidth: 2,
@@ -342,12 +387,21 @@ export class LVProComponent implements OnInit {
               ],
             }],
             labels: [
-              'WBS จาก โหลดเกิน 80% ',
-              '',]
+              'WBS จาก โหลดเกิน 80% : '+ [this.WBS6perPEA_TR3.toFixed(2)] + '%',
+              ' '+ [(100-this.WBS6perPEA_TR3).toFixed(2)]+ '%',]
           },
         options: {
           // Elements options apply to all of the options unless overridden in a dataset
           // In this case, we are setting the border of each horizontal bar to be 2px wide
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                return data.labels[tooltipItems.index];
+              }
+            }
+          },
           elements: {
             rectangle: {
               borderWidth: 2,
