@@ -228,7 +228,7 @@ getJobProgress(){
         type: 'doughnut',
         data:  {
           datasets: [{
-            data: [this.workCostPerAll.toFixed(2),100-this.workCostPerAll
+            data: [this.workCostPerAll.toFixed(2),(100-this.workCostPerAll).toFixed(2)
             ],
             backgroundColor: [
               "#FFC300","#E8F6F5",
@@ -238,6 +238,26 @@ getJobProgress(){
             '%เบิกจ่าย คชจ.หน้างาน',
             '',]
         },
+        plugins: [{
+          beforeDraw: function(chart) {
+            var width = chart.chart.width,
+                height = chart.chart.height,
+                ctx = chart.chart.ctx;
+                //text =chart.config.data.dataset[0].data[0];
+            
+            ctx.restore();
+            var fontSize = (height / 114).toFixed(2);
+            ctx.font = fontSize + "em sans-serif";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = "#FFFEFF";
+            var text = chart.config.data.datasets[0].data[0]+"%",
+                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                textY = height / 2;
+        
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+          }
+      }],
       options: {
         // Elements options apply to all of the options unless overridden in a dataset
         // In this case, we are setting the border of each horizontal bar to be 2px wide
@@ -255,9 +275,41 @@ getJobProgress(){
         title: {
           display: false,
           text: "tst"
-        }
+        },
+        tooltips: {
+          callbacks: {
+              label: function(tooltipItem, data) {
+                  var label = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]+'%';
+                  return label;
+              }
+          }
+      }
+  
       } 
     });
+    /*
+    Chart.pluginService.register({
+      beforeDraw: function(chart) {
+        var width = chart.chart.width,
+            height = chart.chart.height,
+            ctx = chart.chart.ctx;
+            //text =chart.config.data.dataset[0].data[0];
+        console.log(chart.config.data.datasets[0].data[0]);
+        ctx.restore();
+        var fontSize = (height / 114).toFixed(2);
+        ctx.font = fontSize + "em sans-serif";
+        ctx.textBaseline = "middle";
+    
+        var text = chart.config.data.datasets[0].data[0]+"%",
+            textX = Math.round((width - ctx.measureText(text).width) / 2),
+            textY = height / 2;
+    
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+      }
+    });
+*/
+
     }else{
       alert(data.data);
     }
