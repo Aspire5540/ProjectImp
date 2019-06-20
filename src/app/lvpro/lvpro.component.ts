@@ -54,7 +54,7 @@ export class LVProComponent implements OnInit {
 
   
   Conditions= [
-    {value: 0,viewvalue: 'หม้อแปลงทั้งหมด'},
+    //{value: 0,viewvalue: 'หม้อแปลงทั้งหมด'},
     {value: 1,viewvalue: 'แรงดันต่ำกว่า 200 Volt และโหลดเกิน 80%'},
     {value: 2,viewvalue: 'แรงดันต่ำกว่า 200 Volt'},
     {value: 3,viewvalue: 'โหลดเกิน 80%'}
