@@ -43,12 +43,12 @@ const routes: Routes = [
   { path: 'tooltips', component: TooltipsComponent },
   { path: 'carousel', component: CarouselComponent },
   { path: 'tabs', component: TabsComponent },
-  { path: 'sumtable', component: SumtableComponent},
+  { path: 'sumtable', component: SumtableComponent,canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent },
   { path: 'upload', component: UploadComponent },
-  { path: 'jobapprove', component: JobapproveComponent },
-  { path: 'lvpro', component: LVProComponent },
-  { path: 'psim', component: PsimdashboardComponent },
+  { path: 'jobapprove', component: JobapproveComponent,canActivate:[AuthGuard] },
+  { path: 'lvpro', component: LVProComponent,canActivate:[AuthGuard] },
+  { path: 'psim', component: PsimdashboardComponent,canActivate:[AuthGuard] },
 ];
 
 @NgModule({
