@@ -140,7 +140,7 @@
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเลข WBS</th>
                 <td class="table-lg" mat-cell *matCellDef="let trdata"> 
                     <mat-form-field >
-                        <input value = {{trdata.WBS}} name = "WBS" matInput placeholder="ใส่หมายเลข WBS" matInput (keyup.enter)="applyWBS([$event.target.value,trdata])">
+                        <input value = {{trdata.WBS}} name = "WBS" matInput placeholder="ใส่หมายเลข WBS" (change)="applyWBS([$event.target.value,trdata])">
                     </mat-form-field>
                  </td>
               </ng-container>

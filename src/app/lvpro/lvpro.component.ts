@@ -89,6 +89,7 @@ export class LVProComponent implements OnInit {
       if(data.status==1){
          console.log(data.data);
          this.getTrData();
+         this.getStatus();
         //console.log(this.peaname);
       }else{
         alert(data.data);
