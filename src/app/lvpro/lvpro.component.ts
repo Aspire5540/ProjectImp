@@ -17,7 +17,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class LVProComponent implements OnInit {
   displayedColumns = ['PEA_TR','Location','PLoadTOT', 'minV', 'WBS','Note'];
-  TRNo = "00-050333";
+  //TRNo = "00-050333";
   @ViewChild('f') registerForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -72,7 +72,8 @@ export class LVProComponent implements OnInit {
   }
   public getTrData = () => {
     
-    this.configService.getTr('TR.php?condition='+this.condition+'&peaCode='+this.peaCode)
+    this.configService.getTr('TR.php?condition='+this.condition+'&peaCode0='+this.peaCode)
+    //this.configService.getTr('TR.php?condition='+this.condition+'&peaCode0='+'B00000')
     .subscribe(res => {
       this.dataSource.data = res as trdata[];
     })
