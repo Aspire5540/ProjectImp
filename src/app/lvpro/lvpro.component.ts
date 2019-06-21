@@ -550,6 +550,9 @@ export class LVProComponent implements OnInit {
     
   
   }
+  exportAsXLSX():void {
+    this.configService.exportAsExcelFile(this.dataSource.data, 'sample');
+ }
   /*
   getTrData(){ 
     this.configService.postdata('TR.php',{TRNumber:this.TRNo}).subscribe((data=>{

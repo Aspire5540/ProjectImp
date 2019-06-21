@@ -109,11 +109,13 @@
                     <a target="_blank" href="http://127.0.0.1/psisservice/wpdf/wpdf.php?filter1={{selBudjet[0]}}&filter2={{selBudjet[1]}}"><button class="btn btn-success mr-2">พิมพ์ใบสรุปงบ</button></a>  
               </div>
               -->
-
-          </div>
-        </div>
-        <div class="col-md-12">
+              
+              <div class="col-md-3">           
+                    <button (click)="exportAsXLSX()"><i class="fa fa-file-excel-o" style="font-size:20px;color:blue"></i></button> 
+              </div> 
         
+        </div>
+ 
             <table class="mat-elevation-z8" mat-table  matSort [dataSource]="dataSource">   
 
               <ng-container matColumnDef="PEA_TR">

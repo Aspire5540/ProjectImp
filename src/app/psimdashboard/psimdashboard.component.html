@@ -101,25 +101,43 @@
                 </ng-container>
   
                 <ng-container matColumnDef="workCostP3">
-                  <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ย้อนหลัง 2 เดือน </th>
+                  <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> คชจ. หน้างาน<br>ย้อนหลัง 2 เดือน </th>
                   <td class="table-lg" mat-cell *matCellDef="let jobprogress">{{jobprogress.workCostP3}}</td>
                 </ng-container>
   
                 <ng-container matColumnDef="workCostP4">
-                    <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ย้อนหลัง 1 เดือน </th>
+                    <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> คชจ. หน้างาน<br>ย้อนหลัง 1 เดือน </th>
                     <td class="table-lg" mat-cell *matCellDef="let jobprogress">
-                        <div class="text-success" *ngIf="jobprogress.workCostP4>jobprogress.workCostP3">{{jobprogress.workCostP4}}<i class="mdi mdi-arrow-up"></i></div>
-                        <div class="text-danger" *ngIf="jobprogress.workCostP4<=jobprogress.workCostP3">{{jobprogress.workCostP4}}<i class="mdi mdi-arrow-down"></i></div></td>
+                        <div class="text-success" *ngIf="(jobprogress.workCostP4-jobprogress.workCostP3)>0">{{jobprogress.workCostP4}}<i class="mdi mdi-arrow-up"></i></div>
+                        <div class="text-danger" *ngIf="(jobprogress.workCostP4-jobprogress.workCostP3)<=0">{{jobprogress.workCostP4}}<i class="mdi mdi-arrow-down"></i></div></td>
                     
                   </ng-container>
   
                   <ng-container matColumnDef="workCostP5">
-                      <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> เดือนปัจจุบัน </th>
+                      <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> คชจ. หน้างาน<br>เดือนปัจจุบัน </th>
                       <td class="table-lg" mat-cell *matCellDef="let jobprogress">
-                        <div class="text-success" *ngIf="jobprogress.workCostP5>jobprogress.workCostP4">{{jobprogress.workCostP5}}<i class="mdi mdi-arrow-up"></i></div>
-                        <div class="text-danger" *ngIf="jobprogress.workCostP5<=jobprogress.workCostP4">{{jobprogress.workCostP5}}<i class="mdi mdi-arrow-down"></i></div></td>
+                        <div class="text-success" *ngIf="(jobprogress.workCostP5-jobprogress.workCostP4)>0">{{jobprogress.workCostP5}}<i class="mdi mdi-arrow-up"></i></div>
+                        <div class="text-danger" *ngIf="(jobprogress.workCostP5-jobprogress.workCostP4)<=0">{{jobprogress.workCostP5}}<i class="mdi mdi-arrow-down"></i></div></td>
                     </ng-container>
-  
+                    <ng-container matColumnDef="matCostP3">
+                      <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ค่าวัสดุ<br>ย้อนหลัง 2 เดือน </th>
+                      <td class="table-lg" mat-cell *matCellDef="let jobprogress">{{jobprogress.matCostP3}}</td>
+                    </ng-container>
+      
+                    <ng-container matColumnDef="matCostP4">
+                        <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ค่าวัสดุ<br>ย้อนหลัง 1 เดือน </th>
+                        <td class="table-lg" mat-cell *matCellDef="let jobprogress">
+                            <div class="text-success" *ngIf="(jobprogress.matCostP4-jobprogress.matCostP3)>0">{{jobprogress.matCostP4}}<i class="mdi mdi-arrow-up"></i></div>
+                            <div class="text-danger" *ngIf="(jobprogress.matCostP4-jobprogress.matCostP3)<=0">{{jobprogress.matCostP4}}<i class="mdi mdi-arrow-down"></i></div></td>
+                        
+                      </ng-container>
+      
+                      <ng-container matColumnDef="matCostP5">
+                          <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ค่าวัสดุ<br>เดือนปัจจุบัน </th>
+                          <td class="table-lg" mat-cell *matCellDef="let jobprogress">
+                            <div class="text-success" *ngIf="(jobprogress.matCostP5-jobprogress.matCostP4)>0">{{jobprogress.matCostP5}}<i class="mdi mdi-arrow-up"></i></div>
+                            <div class="text-danger" *ngIf="(jobprogress.matCostP5-jobprogress.matCostP4)<=0">{{jobprogress.matCostP5}}<i class="mdi mdi-arrow-down"></i></div></td>
+                        </ng-container>
   
                 <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
