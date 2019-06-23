@@ -127,3 +127,10 @@ export interface trdata {
   Status : string;
   WBS : string;
 }
+
+export interface meterdata {
+  PEA_TR : string;
+  PEA_Meter : string;
+  kWh : number;
+  custName : string;
+}
