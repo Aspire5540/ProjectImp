@@ -163,7 +163,7 @@
               </ng-container>
 
               <ng-container matColumnDef="PEA_Meter">
-              <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+              <th class="table-lg" mat-header-cell *matHeaderCellDef> </th>
               <td class="table-lg" mat-cell *matCellDef="let trdata"> <div class="text-success"><button type="button" class="btn btn-danger btn-fw btn-sm" (click)="getMtData(trdata.PEA_TR)">แสดงมิเตอร์</button></div></td>
               </ng-container>
 
@@ -189,7 +189,9 @@
             <mat-label>ค้นหาข้อมูล</mat-label>
             <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput (keyup)="applyFilter1($event.target.value)">
           </mat-form-field>
-                
+                   
+            <button (click)="exportAsXLSX2()"><i class="fa fa-file-excel-o" style="font-size:20px;color:blue"></i></button> 
+           
         <div class="table-responsive">
             <table class="mat-elevation-z8" mat-table  matSort #sort1="matSort" [dataSource]="dataSource1">      
 
@@ -197,15 +199,26 @@
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> PEA Meter </th>
               <td class="table-lg" mat-cell *matCellDef="let meterdata">  {{meterdata.PEA_Meter}}</td>
               </ng-container>
-              <ng-container matColumnDef="custName">
+              <ng-container matColumnDef="CustName">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>ชื่อผู้ใช้ไฟฟ้า </th>
-                <td class="table-lg" mat-cell *matCellDef="let meterdata">{{meterdata.custName}}</td>
+                <td class="table-lg" mat-cell *matCellDef="let meterdata">{{meterdata.CustName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="rate">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>ประเภทผู้ใช้ไฟฟ้า </th>
+                <td class="table-lg" mat-cell *matCellDef="let meterdata">{{meterdata.rate}}</td>
+              </ng-container>
+              <ng-container matColumnDef="rateMeter">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>ขนาดมิเตอร์ </th>
+                <td class="table-lg" mat-cell *matCellDef="let meterdata">{{meterdata.rateMeter}}</td>
               </ng-container>
               <ng-container matColumnDef="kWh">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หน่วยการใช้ไฟฟ้า </th>
                 <td class="table-lg" mat-cell *matCellDef="let meterdata">{{meterdata.kWh}}</td>
               </ng-container>
-         
+              <ng-container matColumnDef="Voltage">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>แรงดัน </th>
+                <td class="table-lg" mat-cell *matCellDef="let meterdata">{{meterdata.Voltage}}</td>
+              </ng-container>
 
         
                 

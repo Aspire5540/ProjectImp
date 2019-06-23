@@ -17,7 +17,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class LVProComponent implements OnInit {
   displayedColumns = ['PEA_TR','Location','PLoadTOT', 'minV', 'WBS','Note','PEA_Meter'];
-  displayedColumns1 = ['PEA_Meter','custName', 'kWh'];
+  displayedColumns1 = ['PEA_Meter','rate','rateMeter','CustName', 'kWh','Voltage'];
   //TRNo = "00-050333";
   @ViewChild('f') registerForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -572,8 +572,11 @@ export class LVProComponent implements OnInit {
   
   }
   exportAsXLSX():void {
-    this.configService.exportAsExcelFile(this.dataSource.data, 'sample');
+    this.configService.exportAsExcelFile(this.dataSource.data, 'TRdata');
  }
+ exportAsXLSX2():void {
+  this.configService.exportAsExcelFile(this.dataSource1.data, 'MeterData');
+}
   /*
   getTrData(){ 
     this.configService.postdata('TR.php',{TRNumber:this.TRNo}).subscribe((data=>{

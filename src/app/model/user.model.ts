@@ -132,5 +132,8 @@ export interface meterdata {
   PEA_TR : string;
   PEA_Meter : string;
   kWh : number;
-  custName : string;
+  CustName : string;
+  rate : string;
+  rateMeter : string;
+  Voltage:number;
 }

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
    
 
-    this.returnUrl = '/sumtable';
+    this.returnUrl = '/psim';
     this.authService.logout();
     this.configService.changeMessage();
   }
