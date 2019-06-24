@@ -127,10 +127,8 @@ export interface trdata {
   PLoadPortion : number;
   Status : string;
   WBS : string;
-<<<<<<< HEAD
   RLoad : number;
   RVoltage : number;
-=======
 }
 
 export interface meterdata {
@@ -138,8 +136,7 @@ export interface meterdata {
   PEA_Meter : string;
   kWh : number;
   CustName : string;
-  rate : string;
-  rateMeter : string;
   Voltage:number;
->>>>>>> ce0cc48c424cf3741c9897a0ffb6c6569701b0d3
+  rate:string;
+  rateMeter:string;
 }
