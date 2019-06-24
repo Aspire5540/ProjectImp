@@ -46,15 +46,9 @@ const routes: Routes = [
   { path: 'jobreq', component: SumtableComponent,canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent },
   { path: 'upload', component: UploadComponent },
-<<<<<<< HEAD
   { path: 'jobapprove', component: JobapproveComponent,canActivate:[AuthGuard] },
   { path: 'lvpro', component: LVProComponent,canActivate:[AuthGuard]  },
   { path: 'psim', component: PsimdashboardComponent,canActivate:[AuthGuard] },
-=======
-  { path: 'jobapprove', component: JobapproveComponent,canActivate:[AuthGuard]},
-  { path: 'lvpro', component: LVProComponent,canActivate:[AuthGuard]},
-  { path: 'psim', component: PsimdashboardComponent,canActivate:[AuthGuard]},
->>>>>>> ce0cc48c424cf3741c9897a0ffb6c6569701b0d3
 ];
 
 @NgModule({
