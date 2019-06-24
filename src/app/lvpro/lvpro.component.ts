@@ -3,7 +3,7 @@ import {NgForm} from '@angular/forms';
 import { ConfigService } from '../config/config.service';
 import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
-import { trdata  } from '../model/user.model';
+import { trdata,meterdata  } from '../model/user.model';
 import { AuthService } from '../config/auth.service';
 import { HttpClient} from '@angular/common/http';
 import {FileuploadService} from '../config/fileupload.service';
@@ -16,11 +16,18 @@ import {MatSort} from '@angular/material/sort';
   styleUrls: ['./lvpro.component.scss']
 })
 export class LVProComponent implements OnInit {
+<<<<<<< HEAD
   displayedColumns = ['PEA_TR','Location','PLoadTOT', 'minV', 'WBS','Note','RLoad','RVoltage'];
+=======
+  displayedColumns = ['PEA_TR','Location','PLoadTOT', 'minV', 'WBS','Note','PEA_Meter'];
+  displayedColumns1 = ['PEA_Meter','rate','rateMeter','CustName', 'kWh','Voltage'];
+>>>>>>> ce0cc48c424cf3741c9897a0ffb6c6569701b0d3
   //TRNo = "00-050333";
   @ViewChild('f') registerForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('paginator1') paginator1: MatPaginator;
+  @ViewChild('sort1') sort1: MatSort;
   condition = 0;
   peaCode = ""; 
   myDonut: Chart;
@@ -62,13 +69,20 @@ export class LVProComponent implements OnInit {
   ];
   
   public dataSource = new MatTableDataSource<trdata>();
+  public dataSource1 = new MatTableDataSource<meterdata>();
+
+
+
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
   ngOnInit() {
   this.peaCode = localStorage.getItem('peaCode');
   this.getTrData();
   this.getStatus();
+  
   this.dataSource.paginator = this.paginator; 
+  this.dataSource1.paginator = this.paginator1; 
   this.dataSource.sort = this.sort;
+  this.dataSource1.sort = this.sort1;
   }
   public getTrData = () => {
     
@@ -78,17 +92,29 @@ export class LVProComponent implements OnInit {
       this.dataSource.data = res as trdata[];
     })
   }
+  public getMtData = (PEA_TR) => {
+    
+    this.configService.getMeter('Meter.php?PEA_TR='+PEA_TR)
+    //this.configService.getTr('TR.php?condition='+this.condition+'&peaCode0='+'B00000')
+    .subscribe(res => {
+      this.dataSource1.data = res as meterdata[];
+    })
+  }
   applyFilter(filterValue: string) {
     console.log((filterValue+" "+localStorage.getItem('peaEng')).trim().toLowerCase());
     this.dataSource.filter = (filterValue).trim().toLowerCase();
   }
-
+  applyFilter1(filterValue: string) {
+    
+    this.dataSource1.filter = (filterValue).trim().toLowerCase();
+  }
   applyWBS(event) {
     console.log(event);
     this.configService.postdata('wriWBS.php',{TRNumber:event[1].PEA_TR,WBS :event[0]}).subscribe((data=>{
       if(data.status==1){
          console.log(data.data);
          this.getTrData();
+         this.getStatus();
         //console.log(this.peaname);
       }else{
         alert(data.data);
@@ -576,6 +602,12 @@ export class LVProComponent implements OnInit {
     
   
   }
+  exportAsXLSX():void {
+    this.configService.exportAsExcelFile(this.dataSource.data, 'TRdata');
+ }
+ exportAsXLSX2():void {
+  this.configService.exportAsExcelFile(this.dataSource1.data, 'MeterData');
+}
   /*
   getTrData(){ 
     this.configService.postdata('TR.php',{TRNumber:this.TRNo}).subscribe((data=>{

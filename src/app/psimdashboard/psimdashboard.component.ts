@@ -14,7 +14,7 @@ import {Chart} from 'chart.js';
 })
 export class PsimdashboardComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobprogress>();
-  displayedColumns = ['wbs', 'jobName', 'workCostP3', 'workCostP4','workCostP5'];
+  displayedColumns = ['wbs', 'jobName', 'workCostP3', 'workCostP4','workCostP5','matCostP3', 'matCostP4','matCostP5'];
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('sort') sort: MatSort;
 

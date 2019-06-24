@@ -91,7 +91,7 @@ export class SumtableComponent implements OnInit {
     this.dataSource1.filter = (filterValue).trim().toLowerCase();
   }
   onSubmit() {
-    console.log(this.registerForm);
+    
     
     this.wdata=this.registerForm.value;
     this.wdata["user"]=localStorage.getItem('name');

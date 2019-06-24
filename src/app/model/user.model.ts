@@ -68,6 +68,7 @@ export interface jobreq {
   tr  : number;
   lv : number;
   filename : string;
+  fileDocname : string;
   peatr : number;
   vdrop : number;
   loadTr : number;
@@ -126,6 +127,19 @@ export interface trdata {
   PLoadPortion : number;
   Status : string;
   WBS : string;
+<<<<<<< HEAD
   RLoad : number;
   RVoltage : number;
+=======
+}
+
+export interface meterdata {
+  PEA_TR : string;
+  PEA_Meter : string;
+  kWh : number;
+  CustName : string;
+  rate : string;
+  rateMeter : string;
+  Voltage:number;
+>>>>>>> ce0cc48c424cf3741c9897a0ffb6c6569701b0d3
 }

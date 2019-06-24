@@ -27,7 +27,7 @@ import {PsimdashboardComponent} from './psimdashboard/psimdashboard.component'
 //,canActivate:[AuthGuard]
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent},
+  { path: 'dashboard', component: DashboardComponent,canActivate:[AuthGuard]},
   { path: 'forms', component: FormsComponent },
   { path: 'buttons', component: ButtonsComponent },
   { path: 'tables', component: TablesComponent },
@@ -43,12 +43,18 @@ const routes: Routes = [
   { path: 'tooltips', component: TooltipsComponent },
   { path: 'carousel', component: CarouselComponent },
   { path: 'tabs', component: TabsComponent },
-  { path: 'sumtable', component: SumtableComponent,canActivate:[AuthGuard]},
+  { path: 'jobreq', component: SumtableComponent,canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent },
   { path: 'upload', component: UploadComponent },
+<<<<<<< HEAD
   { path: 'jobapprove', component: JobapproveComponent,canActivate:[AuthGuard] },
   { path: 'lvpro', component: LVProComponent,canActivate:[AuthGuard]  },
   { path: 'psim', component: PsimdashboardComponent,canActivate:[AuthGuard] },
+=======
+  { path: 'jobapprove', component: JobapproveComponent,canActivate:[AuthGuard]},
+  { path: 'lvpro', component: LVProComponent,canActivate:[AuthGuard]},
+  { path: 'psim', component: PsimdashboardComponent,canActivate:[AuthGuard]},
+>>>>>>> ce0cc48c424cf3741c9897a0ffb6c6569701b0d3
 ];
 
 @NgModule({

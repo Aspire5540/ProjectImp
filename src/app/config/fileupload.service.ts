@@ -6,7 +6,7 @@ import { HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class FileuploadService {
-  SERVER_URL: string = "http://127.0.0.1/psisservice/";
+  SERVER_URL: string = "http://172.18.226.19/psisservice/";
   constructor(private http: HttpClient) { }
 
   public upload(data) {
