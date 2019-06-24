@@ -16,7 +16,7 @@ import {MatSort} from '@angular/material/sort';
   styleUrls: ['./lvpro.component.scss']
 })
 export class LVProComponent implements OnInit {
-  displayedColumns = ['PEA_TR','Location','PLoadTOT', 'minV', 'WBS','Note'];
+  displayedColumns = ['PEA_TR','Location','PLoadTOT', 'minV', 'WBS','Note','RLoad','RVoltage'];
   //TRNo = "00-050333";
   @ViewChild('f') registerForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -94,8 +94,35 @@ export class LVProComponent implements OnInit {
         alert(data.data);
       }
   
-    }))
-    
+    }))  
+  }
+
+  applyRLoad(event) {
+    console.log(event);
+    this.configService.postdata('wriRLoad.php',{TRNumber:event[1].PEA_TR,RLoad :event[0]}).subscribe((data=>{
+      if(data.status==1){
+         console.log(data.data);
+         this.getTrData();
+        //console.log(this.peaname);
+      }else{
+        alert(data.data);
+      }
+  
+    }))  
+  }
+
+  applyRVoltage(event) {
+    console.log(event);
+    this.configService.postdata('wriRVoltage.php',{TRNumber:event[1].PEA_TR,RVoltage :event[0]}).subscribe((data=>{
+      if(data.status==1){
+         console.log(data.data);
+         this.getTrData();
+        //console.log(this.peaname);
+      }else{
+        alert(data.data);
+      }
+  
+    }))  
   }
 
   selectStatus(event){

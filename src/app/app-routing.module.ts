@@ -47,7 +47,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'upload', component: UploadComponent },
   { path: 'jobapprove', component: JobapproveComponent,canActivate:[AuthGuard] },
-  { path: 'lvpro', component: LVProComponent,canActivate:[AuthGuard] },
+  { path: 'lvpro', component: LVProComponent,canActivate:[AuthGuard]  },
   { path: 'psim', component: PsimdashboardComponent,canActivate:[AuthGuard] },
 ];
 

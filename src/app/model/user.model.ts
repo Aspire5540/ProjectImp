@@ -126,4 +126,6 @@ export interface trdata {
   PLoadPortion : number;
   Status : string;
   WBS : string;
+  RLoad : number;
+  RVoltage : number;
 }

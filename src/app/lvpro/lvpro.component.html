@@ -145,6 +145,24 @@
                  </td>
               </ng-container>
 
+              <ng-container matColumnDef="RLoad">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>โหลดที่วัดได้จริง</th>
+                <td class="table-lg" mat-cell *matCellDef="let trdata"> 
+                    <mat-form-field >
+                        <input value = {{trdata.RLoad}} name = "RLoad" matInput placeholder="ใส่โหลดที่วัดได้จริง" matInput (keyup.enter)="applyRLoad([$event.target.value,trdata])">
+                    </mat-form-field>
+                 </td>
+              </ng-container>
+
+              <ng-container matColumnDef="RVoltage">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>แรงดันที่วัดได้จริง</th>
+                <td class="table-lg" mat-cell *matCellDef="let trdata"> 
+                    <mat-form-field >
+                        <input value = {{trdata.RVoltage}} name = "RVoltage" matInput placeholder="ใส่โหลดที่วัดได้จริง" matInput (keyup.enter)="applyRVoltage([$event.target.value,trdata])">
+                    </mat-form-field>
+                 </td>
+              </ng-container>
+
               <ng-container matColumnDef="Note">
                   <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเหตุ</th>
                   <td class="table-lg" mat-cell *matCellDef="let trdata">  
