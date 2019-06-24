@@ -331,7 +331,7 @@
 
               <ng-container matColumnDef="jobName">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>ชื่องาน </th>
-                <td class="table-lg" mat-cell *matCellDef="let wbsdata"><a target="_blank" rel="noopener noreferrer" href={{URL+Doc+wbsdata.filename}}> {{wbsdata.jobName}} </a></td>
+                <td class="table-lg" mat-cell *matCellDef="let wbsdata"><a target="_blank" rel="noopener noreferrer" href={{URL+wbsdata.fileDocname}}> {{wbsdata.jobName}} </a></td>
               </ng-container>
 
               <ng-container matColumnDef="causeName">

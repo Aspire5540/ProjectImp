@@ -68,6 +68,7 @@ export interface jobreq {
   tr  : number;
   lv : number;
   filename : string;
+  fileDocname : string;
   peatr : number;
   vdrop : number;
   loadTr : number;

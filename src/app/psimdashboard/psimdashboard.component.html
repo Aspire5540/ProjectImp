@@ -72,7 +72,7 @@
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 >ข้อมูล %การเบิกจ่ายรวม (ค่าวัสดุ+คชจ.หน้างาน)</h4>
+          <h4 >ข้อมูล %การเบิกจ่าย</h4>
            <div class="row">    
               <mat-form-field appearance="legacy">
                   <mat-label>ค้นหาข้อมูล</mat-label>
@@ -109,7 +109,7 @@
                     <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> คชจ. หน้างาน<br>ย้อนหลัง 1 เดือน </th>
                     <td class="table-lg" mat-cell *matCellDef="let jobprogress">
                         <div class="text-success" *ngIf="(jobprogress.workCostP4-jobprogress.workCostP3)>0">{{jobprogress.workCostP4}}<i class="mdi mdi-arrow-up"></i></div>
-                        <div class="text-danger" *ngIf="(jobprogress.workCostP4-jobprogress.workCostP3)<=0">{{jobprogress.workCostP4}}<i class="mdi mdi-arrow-down"></i></div></td>
+                        <div class="text-danger" *ngIf="(jobprogress.workCostP4-jobprogress.workCostP3)<=0">{{jobprogress.workCostP4}}</div></td>
                     
                   </ng-container>
   
@@ -117,7 +117,7 @@
                       <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> คชจ. หน้างาน<br>เดือนปัจจุบัน </th>
                       <td class="table-lg" mat-cell *matCellDef="let jobprogress">
                         <div class="text-success" *ngIf="(jobprogress.workCostP5-jobprogress.workCostP4)>0">{{jobprogress.workCostP5}}<i class="mdi mdi-arrow-up"></i></div>
-                        <div class="text-danger" *ngIf="(jobprogress.workCostP5-jobprogress.workCostP4)<=0">{{jobprogress.workCostP5}}<i class="mdi mdi-arrow-down"></i></div></td>
+                        <div class="text-danger" *ngIf="(jobprogress.workCostP5-jobprogress.workCostP4)<=0">{{jobprogress.workCostP5}}</div></td>
                     </ng-container>
                     <ng-container matColumnDef="matCostP3">
                       <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ค่าวัสดุ<br>ย้อนหลัง 2 เดือน </th>
@@ -128,7 +128,7 @@
                         <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ค่าวัสดุ<br>ย้อนหลัง 1 เดือน </th>
                         <td class="table-lg" mat-cell *matCellDef="let jobprogress">
                             <div class="text-success" *ngIf="(jobprogress.matCostP4-jobprogress.matCostP3)>0">{{jobprogress.matCostP4}}<i class="mdi mdi-arrow-up"></i></div>
-                            <div class="text-danger" *ngIf="(jobprogress.matCostP4-jobprogress.matCostP3)<=0">{{jobprogress.matCostP4}}<i class="mdi mdi-arrow-down"></i></div></td>
+                            <div class="text-danger" *ngIf="(jobprogress.matCostP4-jobprogress.matCostP3)<=0">{{jobprogress.matCostP4}}</div></td>
                         
                       </ng-container>
       
@@ -136,7 +136,7 @@
                           <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ค่าวัสดุ<br>เดือนปัจจุบัน </th>
                           <td class="table-lg" mat-cell *matCellDef="let jobprogress">
                             <div class="text-success" *ngIf="(jobprogress.matCostP5-jobprogress.matCostP4)>0">{{jobprogress.matCostP5}}<i class="mdi mdi-arrow-up"></i></div>
-                            <div class="text-danger" *ngIf="(jobprogress.matCostP5-jobprogress.matCostP4)<=0">{{jobprogress.matCostP5}}<i class="mdi mdi-arrow-down"></i></div></td>
+                            <div class="text-danger" *ngIf="(jobprogress.matCostP5-jobprogress.matCostP4)<=0">{{jobprogress.matCostP5}}</div></td>
                         </ng-container>
   
                 <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
