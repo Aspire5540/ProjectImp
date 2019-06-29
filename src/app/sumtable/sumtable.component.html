@@ -86,7 +86,7 @@
       <div class="card card-statistics">
         <div class="card" style="background-color:#9e2625;">
             <p class="mb-0 text-left text-white ">%เบิก คชจ. หน้างานรวม</p>
-              <canvas id='myDonut' style="height: 100%;"></canvas>
+              <canvas id='myDonut'></canvas>
           </div>
       </div>
   </div>
@@ -279,27 +279,30 @@
           <!-----------------------------END------------------------------------------------>   
         <div class="row">
             <div class="col-md-12 row">
-                <div class="form-group" *ngIf="chgWbs">
-                    <label class="input-lg" for="fileDocname">1.เลือกไฟล์อนุมัติประมาณการ</label>
-                    <input type="file"
-                           id="fileDocname"
-                           name="fileDocname"
-                           (change)="handleFileDoc($event)" ngModel required>
-                    <label class="input-lg"> {{uploadResponse.status}} </label>
-                   
-                </div>
+                <div class="col-md-12 row">
+                  <div class="form-group" *ngIf="chgWbs">
+                      <label class="input-lg" for="fileDocname">1.เลือกไฟล์อนุมัติประมาณการ</label>
+                      <input type="file"
+                            id="fileDocname"
+                            name="fileDocname"
+                            (change)="handleFileDoc($event)" ngModel required>
+                      <label class="input-lg"> {{uploadDocResponse}} </label>
+                    
+                  </div>
+              </div>
+              <div class="col-md-12 row">
                 <div class="form-group" *ngIf="chgWbs">
                   <label class="input-lg" for="file">2.เลือกไฟล์แผนผัง</label>
                   <input type="file"
                          id="file"
                          name="filename"
                          (change)="handleFileInput($event)" ngModel required>
-                  <label class="input-lg"> {{uploadResponse.status}} </label>
+                  <label class="input-lg"> {{uploadResponse}} </label>
                  
               </div>
-
             </div>
-            <div class="col-md-3">
+            </div>
+            <div class="col-md-12">
               <button type="submit" [disabled]="!f.valid" class="btn btn-success mr-2">Submit</button>
             </div>
         </div>

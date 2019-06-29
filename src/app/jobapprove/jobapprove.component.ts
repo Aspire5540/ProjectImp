@@ -55,7 +55,7 @@ export class JobapproveComponent implements OnInit {
   constructor(private configService :ConfigService) {}
   ngOnInit() {
     
-    this.getData(this.selPea,this.selBudjet);
+    //this.getData(this.selPea,this.selBudjet);
     //this.rdsumcost();
     this.dataSource.paginator = this.paginator; 
     this.dataSource.sort = this.sort;
@@ -322,7 +322,8 @@ export class JobapproveComponent implements OnInit {
       if(data.status==1){
           this.getData(this.selPea,this.selBudjet);
           this.rdsumcost();
-          //alert("ลบข้อมูลแล้วเสร็จ");
+          this.registerForm.resetForm();
+          alert("บันทึกแล้วเสร็จ");
       }else{
         alert(data.data);
       }

@@ -44,7 +44,8 @@ export class SumtableComponent implements OnInit {
     private file: File | null = null;
     error: string;
     userId: number = 1;
-    uploadResponse = { status: '', message: '', filePath: '' };
+    uploadResponse = '';
+    uploadDocResponse = '';
     //dataSource = new UserDataSource(this.userService);
     public dataSource = new MatTableDataSource<wbsdata>();
     public dataSource1 = new MatTableDataSource<appJob>();
@@ -59,7 +60,7 @@ export class SumtableComponent implements OnInit {
 //,public authService: AuthService,private http: HttpClient
   constructor(private configService :ConfigService,private uploadService : FileuploadService) {}
   ngOnInit() {
-    localStorage.setItem('peaEng', '');
+    
     this.getData();
     this.getAppData();
     this.getJobProgress();
@@ -179,7 +180,7 @@ handleFileInput(event) {
   formData.append('wbs', this.registerForm.value["wbs"]);
   this.uploadService.upload(formData).subscribe(
     (res) => {
-      this.uploadResponse = res;
+      this.uploadResponse = res.status;
         //console.log(res);
     },
     (err) => {  
@@ -201,7 +202,7 @@ handleFileDoc(event) {
   formData.append('wbs', this.registerForm.value["wbs"]);
   this.uploadService.uploadDoc(formData).subscribe(
     (res) => {
-      this.uploadResponse = res;
+      this.uploadDocResponse = res.status;
         console.log(res);
     },
     (err) => {  
