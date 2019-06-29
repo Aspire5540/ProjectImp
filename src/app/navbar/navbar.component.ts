@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
 
   toggleOffcanvas() {
     this.sidebarOpened = !this.sidebarOpened;
+    console.log(this.sidebarOpened);
     if (this.sidebarOpened) {
       document.querySelector('.sidebar-offcanvas').classList.add('active');
     }
