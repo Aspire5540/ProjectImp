@@ -10,3 +10,10 @@ table {
 .bg-success {
   background-color: #e0308e !important;
 }
+.mat-row:nth-child(even){
+  background-color: #dae8f5;
+  }
+  th.mat-header-cell{
+    color: rgb(10, 6, 223);
+    font-weight: bold
+  }

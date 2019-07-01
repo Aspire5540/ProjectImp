@@ -214,7 +214,10 @@
            
         <div class="table-responsive">
             <table class="mat-elevation-z8" mat-table  matSort #sort1="matSort" [dataSource]="dataSource1">      
-
+              <ng-container matColumnDef="Feeder">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> Feeder </th>
+                <td class="table-lg" mat-cell *matCellDef="let meterdata">  {{meterdata.Feeder}}</td>
+                </ng-container>
               <ng-container matColumnDef="PEA_Meter">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> PEA Meter </th>
               <td class="table-lg" mat-cell *matCellDef="let meterdata">  {{meterdata.PEA_Meter}}</td>
@@ -234,6 +237,14 @@
               <ng-container matColumnDef="kWh">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หน่วยการใช้ไฟฟ้า </th>
                 <td class="table-lg" mat-cell *matCellDef="let meterdata">{{meterdata.kWh}}</td>
+              </ng-container>
+              <ng-container matColumnDef="SUBTYPECOD">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>ชนิดเฟสมิเตอร์ </th>
+                <td class="table-lg" mat-cell *matCellDef="let meterdata">{{meterdata.SUBTYPECOD}}</td>
+              </ng-container>
+              <ng-container matColumnDef="Line_Type">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>ชนิดเฟสสายไฟ </th>
+                <td class="table-lg" mat-cell *matCellDef="let meterdata">{{meterdata.Line_Type}}</td>
               </ng-container>
               <ng-container matColumnDef="Voltage">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>แรงดัน </th>

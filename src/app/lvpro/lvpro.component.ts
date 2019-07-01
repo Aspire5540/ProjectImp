@@ -17,7 +17,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class LVProComponent implements OnInit {
   displayedColumns = ['PEA_TR','Location','PLoadTOT', 'minV', 'WBS','Note','RLoad','RVoltage','PEA_Meter'];
-  displayedColumns1 = ['PEA_Meter','CustName', 'kWh','rate','rateMeter','Voltage'];
+  displayedColumns1 = ['Feeder','PEA_Meter','CustName','SUBTYPECOD', 'kWh','rate','rateMeter','Voltage','Line_Type'];
   //TRNo = "00-050333";
   @ViewChild('f') registerForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;

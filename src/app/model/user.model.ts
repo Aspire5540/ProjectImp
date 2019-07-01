@@ -139,4 +139,7 @@ export interface meterdata {
   Voltage:number;
   rate:string;
   rateMeter:string;
+  SUBTYPECOD:number;
+  Line_Type:string;
+  Feeder:number;
 }
