@@ -69,6 +69,7 @@ export class JobapproveComponent implements OnInit {
   selectDataType(event){
     this.selected=event.value;
     this.getJobProgressPea();
+    
   }
   getData = (pea,data) => {
     
@@ -87,6 +88,7 @@ export class JobapproveComponent implements OnInit {
       if(data.status==1){
           this.getData(this.selPea,this.selBudjet);
           this.rdsumcost();
+          this.getJobProgressPea();
           //alert("ลบข้อมูลแล้วเสร็จ");
       }else{
         alert(data.data);
@@ -126,7 +128,7 @@ export class JobapproveComponent implements OnInit {
           });
         
           
-          //console.log(data.nwbsApp);
+         // console.log(data.nwbsApp);
           this.chartData= {
             labels: this.WorkCostPea,
             datasets:[
@@ -162,8 +164,16 @@ export class JobapproveComponent implements OnInit {
               title: {
                 display: true,
                 text: this.chartTitle
-              }
-            } 
+              },
+              scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+            } ,
+            
           });
 
         }
@@ -278,6 +288,7 @@ export class JobapproveComponent implements OnInit {
       if(data.status==1){
           this.getData(this.selPea,this.selBudjet);
           this.rdsumcost();
+          this.getJobProgressPea();
           //alert("ลบข้อมูลแล้วเสร็จ");
       }else{
         alert(data.data);
