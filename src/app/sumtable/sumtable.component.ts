@@ -72,13 +72,13 @@ export class SumtableComponent implements OnInit {
     //console.log(this.id);
   }
   getData = () => {
-    this.configService.getWbs('rdimjob.php?peaCode='+localStorage.getItem('peaEng')) 
+    this.configService.getWbs('rdimjob.php?peaEng='+localStorage.getItem('peaEng')) 
     .subscribe(res => {
       this.dataSource.data = res as wbsdata[];
     })
   }
   getAppData = () => {
-    this.configService.getAppJob('rdAppJob.php?peaCode='+localStorage.getItem('peaEng')) 
+    this.configService.getAppJob('rdAppJob.php?peaEng='+localStorage.getItem('peaEng')) 
     .subscribe(res => {
       this.dataSource1.data = res as appJob[];
     })
