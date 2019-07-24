@@ -3,7 +3,7 @@ import {NgForm} from '@angular/forms';
 import { ConfigService } from '../config/config.service';
 import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
-import { trdata,meterdata  } from '../model/user.model';
+import { trdata,meterdata,meterdata2} from '../model/user.model';
 import { AuthService } from '../config/auth.service';
 import { HttpClient} from '@angular/common/http';
 import {FileuploadService} from '../config/fileupload.service';
@@ -16,14 +16,18 @@ import {MatSort} from '@angular/material/sort';
   styleUrls: ['./lvpro.component.scss']
 })
 export class LVProComponent implements OnInit {
+
   displayedColumns = ['PEA_TR','Location','PLoadTOT', 'minV', 'WBS','Note','RLoad','RVoltage','PEA_Meter'];
   displayedColumns1 = ['Feeder','PEA_Meter','CustName','SUBTYPECOD', 'kWh','rate','rateMeter','Voltage','Line_Type'];
+  displayedColumns2 = ['PEA_TR','Feeder','PEA_Meter','CustName','SUBTYPECOD', 'kWh','rate','rateMeter','Voltage','Line_Type'];
   //TRNo = "00-050333";
   @ViewChild('f') registerForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('paginator1') paginator1: MatPaginator;
   @ViewChild('sort1') sort1: MatSort;
+  @ViewChild('paginator2') paginator2: MatPaginator;
+  @ViewChild('sort2') sort2: MatSort;
   condition = 0;
   peaCode = ""; 
   myDonut: Chart;
@@ -45,6 +49,7 @@ export class LVProComponent implements OnInit {
   WBS4perPEA_TR1:number;
   WBS5perPEA_TR2:number;
   WBS6perPEA_TR3:number;
+  meterdata=[];
 
 
   Statuss= [
@@ -66,6 +71,7 @@ export class LVProComponent implements OnInit {
   
   public dataSource = new MatTableDataSource<trdata>();
   public dataSource1 = new MatTableDataSource<meterdata>();
+  public dataSource2 = new MatTableDataSource<meterdata2>();
 
 
 
@@ -74,11 +80,14 @@ export class LVProComponent implements OnInit {
   this.peaCode = localStorage.getItem('peaCode');
   this.getTrData();
   this.getStatus();
+  //this.getMeterData();
   
   this.dataSource.paginator = this.paginator; 
   this.dataSource1.paginator = this.paginator1; 
+  this.dataSource2.paginator = this.paginator2; 
   this.dataSource.sort = this.sort;
   this.dataSource1.sort = this.sort1;
+  this.dataSource2.sort = this.sort2;
   }
   public getTrData = () => {
     
@@ -88,6 +97,8 @@ export class LVProComponent implements OnInit {
       this.dataSource.data = res as trdata[];
     })
   }
+
+
   public getMtData = (PEA_TR) => {
     
     this.configService.getMeter('Meter.php?PEA_TR='+PEA_TR)
@@ -165,6 +176,26 @@ export class LVProComponent implements OnInit {
     this.condition=event.value[0];
     this.getTrData();
 
+  }
+
+
+  onSubmit() {
+
+    /*if(data.status==1){
+      this.registerForm.resetForm();
+      this.getData();
+      alert("เก็บข้อมูลแล้วเสร็จ");
+    }else{
+    alert(data.data);
+    }*/
+
+    this.configService.getmeterdata2('serchmeter.php?PEA_Meter='+this.registerForm.value.PEAMeter)
+    //this.configService.getTr('TR.php?condition='+this.condition+'&peaCode0='+'B00000')
+    .subscribe(res => {
+      this.registerForm.resetForm();  
+      this.dataSource2.data = res as meterdata2[];
+      
+    })
   }
 
   getStatus(){
