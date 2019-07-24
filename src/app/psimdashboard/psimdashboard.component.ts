@@ -174,15 +174,15 @@ export class PsimdashboardComponent implements OnInit {
       labels: this.projectArr,
       datasets:[
       {
-      label: '%เบิกจ่าย คชจ.หน้างาน เดือน มี.ค.',
+      label: '%เบิกจ่าย คชจ.หน้างาน เดือน เม.ย.',
       data: this.workCostArr1,
       backgroundColor: "#5687ff",
   },{
-    label: '%เบิกจ่าย คชจ.หน้างาน  เดือน เม.ย.',
+    label: '%เบิกจ่าย คชจ.หน้างาน  เดือน พ.ค.',
     data: this.workCostArr2,
     backgroundColor: "#ffce56",
 },{
-  label: '%เบิกจ่าย คชจ.หน้างาน  เดือน พ.ค.',
+  label: '%เบิกจ่าย คชจ.หน้างาน  เดือน มิ.ย.',
   data: this.workCostArr3,
   backgroundColor: "#56ffce",
 }]};
@@ -222,15 +222,15 @@ export class PsimdashboardComponent implements OnInit {
       labels: this.projectArr,
       datasets:[
       {
-      label: '%เบิกจ่ายค่าวัสดุ เดือน มี.ค.',
+      label: '%เบิกจ่ายค่าวัสดุ เดือน เม.ย.',
       data: this.matCostArr1,
       backgroundColor: "#5687ff",
   },{
-    label: '%เบิกจ่ายค่าวัสดุ  เดือน เม.ย.',
+    label: '%เบิกจ่ายค่าวัสดุ  เดือน พ.ค.',
     data: this.matCostArr2,
     backgroundColor: "#ffce56",
 },{
-  label: '%เบิกจ่ายค่าวัสดุ  เดือน พ.ค.',
+  label: '%เบิกจ่ายค่าวัสดุ  เดือน มิ.ย.',
   data: this.matCostArr3,
   backgroundColor: "#56ffce",
 }]};
