@@ -25,8 +25,6 @@ export class PsimdashboardComponent implements OnInit {
     {value: ['I-60-B','.MR.1'], viewValue: 'I60.MR'},
     {value: ['I-61-B','.MR.1'], viewValue: 'I61.MR'},
     {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'},
-    {value: ['I-62-B','.41.11'], viewValue: 'I62.41.1100'},
-    {value: ['I-62-B','.41.12'], viewValue: 'I62.41.1200'},
     {value: ['',''], viewValue: 'ทุกงบ'},
     
     
@@ -44,6 +42,7 @@ export class PsimdashboardComponent implements OnInit {
   myBar:Chart;
   myBar2:Chart;
   myBar3:Chart;
+  myBar4:Chart;
   selPea='';
   totalwbs:number;
   
@@ -74,6 +73,13 @@ export class PsimdashboardComponent implements OnInit {
   selBudjet2=['',''];
   selected=0;
   nWbs =0;
+
+  I1={project:'I-60-B.BY',REL:100,TECO:0,CLSD:0};
+  I2={project:'I-62-B.BY',REL:100,TECO:0,CLSD:0};
+  I3={project:'I-60-B.MR',REL:100,TECO:0,CLSD:0};
+  I4={project:'I-61-B.MR',REL:100,TECO:0,CLSD:0};
+  I5={project:'I-62-B.MR',REL:100,TECO:0,CLSD:0};
+  
   constructor(private configService :ConfigService) { }
 
   ngOnInit() {
@@ -84,7 +90,7 @@ export class PsimdashboardComponent implements OnInit {
     this.rdproject();
     this.getJobProgress();
     this.getJobProgressPea();
-    
+    this.getClsd();
   }
   applyFilter(filterValue: string) {
     
@@ -109,6 +115,50 @@ export class PsimdashboardComponent implements OnInit {
     }))
     
   } 
+  getClsd(){ 
+
+    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-60-B',filter2:'.BY.'}).subscribe((data=>{
+      this.I1.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+
+      this.I1.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I1.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      
+  
+    }))
+    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-62-B',filter2:'.BY.'}).subscribe((data=>{
+      this.I2.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+
+      this.I2.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I2.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+     
+  
+    }))  
+    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-60-B',filter2:'.MR.1'}).subscribe((data=>{
+      this.I3.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+
+      this.I3.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I3.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+     
+  
+    }))  
+    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-61-B',filter2:'.MR.1'}).subscribe((data=>{
+      this.I4.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+
+      this.I4.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I4.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+     
+  
+    }))  
+    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-62-B',filter2:'.MR.1'}).subscribe((data=>{
+      this.I5.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+
+      this.I5.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I5.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+     
+  
+    }))  
+    
+  } 
   rdproject(){
     this.configService.postdata('rdprogressmnt.php',{peaCode : this.selPeapeaCode}).subscribe((data=>{
       
@@ -124,6 +174,7 @@ export class PsimdashboardComponent implements OnInit {
       data.data.forEach(element => {
         this.projectArr.push(element.projectName);
         this.porjectRemArr.push(element.nwbs);
+        /*
         this.workCostArr3.push(((Number(element.workCostAct5)-Number(element.workCostAct4))/Number(element.workCostPln)*100).toFixed(2));
         this.workCostArr2.push(((Number(element.workCostAct4)-Number(element.workCostAct3))/Number(element.workCostPln)*100).toFixed(2));
         this.workCostArr1.push((Number(element.workCostAct3)/Number(element.workCostPln)*100).toFixed(2));
@@ -131,7 +182,14 @@ export class PsimdashboardComponent implements OnInit {
         this.matCostArr3.push(((Number(element.matCostAct5)-Number(element.matCostAct4))/Number(element.matCostPln)*100).toFixed(2));
         this.matCostArr2.push(((Number(element.matCostAct4)-Number(element.matCostAct3))/Number(element.matCostPln)*100).toFixed(2));
         this.matCostArr1.push((Number(element.matCostAct3)/Number(element.matCostPln)*100).toFixed(2));
-
+        */
+       this.workCostArr3.push((Number(element.workCostAct5)/Number(element.workCostPln)*100).toFixed(2));
+       this.workCostArr2.push((Number(element.workCostAct4)/Number(element.workCostPln)*100).toFixed(2));
+       this.workCostArr1.push((Number(element.workCostAct3)/Number(element.workCostPln)*100).toFixed(2));
+  
+       this.matCostArr3.push((Number(element.matCostAct5)/Number(element.matCostPln)*100).toFixed(2));
+       this.matCostArr2.push((Number(element.matCostAct4)/Number(element.matCostPln)*100).toFixed(2));
+       this.matCostArr1.push((Number(element.matCostAct3)/Number(element.matCostPln)*100).toFixed(2));
 
       })
       
@@ -207,9 +265,13 @@ export class PsimdashboardComponent implements OnInit {
         scales: {
           xAxes: [{
             stacked: true,
+  
           }],
           yAxes: [{
-            stacked: true,
+            stacked: false,
+            ticks: {
+              beginAtZero: true
+            },
           }]
         },
         title: {
@@ -257,7 +319,10 @@ export class PsimdashboardComponent implements OnInit {
             stacked: true,
           }],
           yAxes: [{
-            stacked: true,
+            stacked: false,
+            ticks: {
+              beginAtZero: true
+            },
           }]
         },
         title: {
@@ -278,6 +343,7 @@ export class PsimdashboardComponent implements OnInit {
     this.rdproject();
     this.getJobProgressPea();
     this.getJobProgress();
+    this.getClsd();
     /*
     //this.getJobProgress();
     this.getData(this.selPea,this.selBudjet);
@@ -308,7 +374,7 @@ export class PsimdashboardComponent implements OnInit {
          
           
         });
-        
+        /*
         if (this.selected==0) {
           this.chartData={
             labels: this.WorkCostPea,
@@ -334,8 +400,16 @@ export class PsimdashboardComponent implements OnInit {
       }]};
           this.chartTitle='% การเบิกจ่าย';
         }
-        
-        
+        */
+        this.chartData={
+          labels: this.WorkCostPea,
+          datasets: [{
+          label: 'จำนวนงานคงค้าง',
+          data: this.nwbsArr,
+          backgroundColor:'#07CCD6',
+        }]};
+        this.chartTitle='จำนวนงานคงค้าง';
+
         if (this.myBar3) this.myBar3.destroy();
 
         this.myBar3 = new Chart('myBar3', {
@@ -369,6 +443,59 @@ export class PsimdashboardComponent implements OnInit {
         },
         
       });
+
+
+      this.chartData= {
+        labels: this.WorkCostPea,
+        datasets:[
+        {
+        label: 'คชจ.หน้างาน',
+        data: this.WorkCostPercentPea,
+        backgroundColor: '#07CCD6',
+    },
+  {
+    label: 'ค่าพัสดุ',
+    data: this.matCostPercentPea,
+    backgroundColor: '#DAF7A6',
+  }]};
+      this.chartTitle='% การเบิกจ่าย';
+      if (this.myBar4) this.myBar4.destroy();
+
+      this.myBar4 = new Chart('myBar4', {
+        type: 'bar',
+        data:  this.chartData,
+      options: {
+        // Elements options apply to all of the options unless overridden in a dataset
+        // In this case, we are setting the border of each horizontal bar to be 2px wide
+        elements: {
+          rectangle: {
+            borderWidth: 2,
+          }
+        },
+        responsive: true,
+        legend: {
+          position: 'bottom',
+          display: true,
+        
+        },
+        title: {
+          display: true,
+          text: this.chartTitle
+        },
+        scales: {
+          yAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+          }]
+      }
+      },
+      
+    });
+
+
+
+
         //this.nwbs=data.data.nwbs;
         //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
         
@@ -382,11 +509,12 @@ export class PsimdashboardComponent implements OnInit {
 
   }
 
-
+/*
   selectDataType(event){
     this.selected=event.value;
     this.getJobProgressPea();
   }
+*/
   selectBudget(event){
 
     this.selBudjet=event.value;
