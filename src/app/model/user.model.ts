@@ -143,3 +143,16 @@ export interface meterdata {
   Line_Type:string;
   Feeder:number;
 }
+
+export interface meterdata2 {
+  PEA_TR : string;
+  PEA_Meter : string;
+  kWh : number;
+  CustName : string;
+  Voltage:number;
+  rate:string;
+  rateMeter:string;
+  SUBTYPECOD:number;
+  Line_Type:string;
+  Feeder:number;
+}

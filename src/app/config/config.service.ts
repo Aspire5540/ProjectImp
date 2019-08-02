@@ -3,7 +3,7 @@ import { HttpClient,HttpHandler } from '@angular/common/http';
 import {Http,Headers,RequestOptions,Response} from '@angular/http';
 import { Observable }   from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { wbsdata,jobreq,trdata,appJob,jobprogress,meterdata} from '../model/user.model';
+import { wbsdata,jobreq,trdata,appJob,jobprogress,meterdata,meterdata2} from '../model/user.model';
 import { BehaviorSubject } from 'rxjs';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
@@ -14,6 +14,7 @@ const EXCEL_EXTENSION = '.xlsx';
   providedIn: 'root'
 })
 export class ConfigService {
+  [x: string]: any;
 
   private messageSource = new BehaviorSubject('');
   currentMessage = this.messageSource.asObservable();
@@ -21,7 +22,7 @@ export class ConfigService {
 
   hostUrl = 'http://172.18.226.19/psisservice/';
   //hostUrl = 'http://127.0.0.1/psisservice/';
-  //hostUrllogin ='http://172.18.226.19/logins/';
+  
   headers = new Headers();
   options = new RequestOptions()
 
@@ -40,6 +41,9 @@ export class ConfigService {
 
   getTr(endpoint): Observable<trdata[]> {
     return this.http.get<trdata[]>(this.hostUrl+endpoint);
+  }
+  getmeterdata2(endpoint): Observable<meterdata2[]> {
+    return this.http.get<meterdata2[]>(this.hostUrl+endpoint);
   }
   getMeter(endpoint): Observable<meterdata[]> {
     return this.http.get<meterdata[]>(this.hostUrl+endpoint);
