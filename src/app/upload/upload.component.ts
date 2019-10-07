@@ -17,13 +17,35 @@ export class UploadComponent implements OnInit {
   @ViewChild('f') registerForm: NgForm;
 
   URL ="http://127.0.0.1/psisservice/uploadssap/";
-
+  uploadDocResponse = '';
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) { }
 
   ngOnInit() {
 
 
     
+  }
+  handleFile048(event) {
+    //console.log(event.target.files[0]);
+    const formData = new FormData();
+    formData.append('avatar', event.target.files[0]);
+    this.uploadService.uploadZap048(formData).subscribe(res => {
+        this.uploadDocResponse = res.status;   
+        //console.log(res);   
+      }
+    );
+  }
+  onSubmit(){
+
+    this.configService.postdata('w048tosql.php',this.registerForm.value).subscribe((data=>{
+      if(data.status==1){
+          this.registerForm.resetForm();
+          alert("เก็บข้อมูลแล้วเสร็จ");
+      }else{
+        alert(data.data);
+      }
+
+    }))
   }
 
 }
