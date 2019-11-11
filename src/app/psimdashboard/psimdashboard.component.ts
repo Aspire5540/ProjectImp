@@ -14,21 +14,23 @@ import {Chart} from 'chart.js';
 })
 export class PsimdashboardComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobprogress>();
-  displayedColumns = ['wbs', 'jobName', 'workCostP3', 'workCostP4','workCostP5','matCostP3', 'matCostP4','matCostP5'];
+  displayedColumns = ['wbs', 'jobName', 'workCostM1', 'workCostM2','workCostM3','matCostM1', 'matCostM2','matCostM3'];
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('sort') sort: MatSort;
 
   peaname = [];
+  selBudjetType=1;
   budjets= [
     {value: ['I-60-B','.BY.'], viewValue: 'I60.BY'},
     {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
-    {value: ['I-60-B','.MR.1'], viewValue: 'I60.MR'},
-    {value: ['I-61-B','.MR.1'], viewValue: 'I61.MR'},
-    {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'},
-    {value: ['',''], viewValue: 'ทุกงบ'},
-    
-    
   ];
+  
+  budjetsType=[
+    {value: 1, viewValue: 'งานปรับปรุงระบบจำหน่าย'},
+    {value: 2, viewValue: 'งานย้ายแนวระบบจำหน่าย'},
+  ];
+    
+ 
   projectArr=[];
   porjectRemArr=[];
   workCostArr1=[];
@@ -43,7 +45,11 @@ export class PsimdashboardComponent implements OnInit {
   myBar2:Chart;
   myBar3:Chart;
   myBar4:Chart;
+  myLine1:Chart;
+  myLine2:Chart;
+
   selPea='';
+  selPeaName='กฟน.2';
   totalwbs:number;
   
   WorkCost =0 ;
@@ -59,6 +65,7 @@ export class PsimdashboardComponent implements OnInit {
   matCostPercentPea=[];
   WorkCostPea=[];
   myPieChart: Chart;
+  myLine: Chart;
 
   chartTitle:string;
 
@@ -74,11 +81,11 @@ export class PsimdashboardComponent implements OnInit {
   selected=0;
   nWbs =0;
 
-  I1={project:'I-60-B.BY',REL:100,TECO:0,CLSD:0};
-  I2={project:'I-62-B.BY',REL:100,TECO:0,CLSD:0};
-  I3={project:'I-60-B.MR',REL:100,TECO:0,CLSD:0};
-  I4={project:'I-61-B.MR',REL:100,TECO:0,CLSD:0};
-  I5={project:'I-62-B.MR',REL:100,TECO:0,CLSD:0};
+  I1={project:'I-60-B.BY',CRTD:100,REL:0,TECO:0,CLSD:0};
+  I2={project:'I-62-B.BY',CRTD:100,REL:0,TECO:0,CLSD:0};
+  I3={project:'I-60-B.MR',CRTD:100,REL:0,TECO:0,CLSD:0};
+  I4={project:'I-61-B.MR',CRTD:100,REL:0,TECO:0,CLSD:0};
+  I5={project:'I-62-B.MR',CRTD:100,REL:0,TECO:0,CLSD:0};
   
   constructor(private configService :ConfigService) { }
 
@@ -89,8 +96,9 @@ export class PsimdashboardComponent implements OnInit {
     this.getpeaList();
     this.rdproject();
     this.getJobProgress();
-    this.getJobProgressPea();
+    //this.getJobProgressPea();
     this.getClsd();
+    
   }
   applyFilter(filterValue: string) {
     
@@ -116,80 +124,145 @@ export class PsimdashboardComponent implements OnInit {
     
   } 
   getClsd(){ 
-
+    //Progress Bar
     this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-60-B',filter2:'.BY.'}).subscribe((data=>{
-      this.I1.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I1.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I1.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
 
-      this.I1.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
-      this.I1.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I1.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I1.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
       
   
     }))
     this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-62-B',filter2:'.BY.'}).subscribe((data=>{
-      this.I2.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I2.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I2.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
 
-      this.I2.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
-      this.I2.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I2.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I2.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
      
   
     }))  
     this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-60-B',filter2:'.MR.1'}).subscribe((data=>{
-      this.I3.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I3.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I3.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
 
-      this.I3.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
-      this.I3.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I3.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I3.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
      
   
     }))  
     this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-61-B',filter2:'.MR.1'}).subscribe((data=>{
-      this.I4.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I4.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I4.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
 
-      this.I4.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
-      this.I4.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I4.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I4.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
      
   
     }))  
     this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-62-B',filter2:'.MR.1'}).subscribe((data=>{
-      this.I5.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I5.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I5.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
 
-      this.I5.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
-      this.I5.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD))*100;
+      this.I5.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I5.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
      
   
     }))  
     
   } 
-  rdproject(){
-    this.configService.postdata('rdprogressmnt.php',{peaCode : this.selPeapeaCode}).subscribe((data=>{
+  crtLineChart(){
+    //กราฟเส้นรายเดือน
+    this.configService.postdata('rd048.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       
+      var label=[];
+      var pworkCost=[];
+      var pmatCost=[];
+     
+      data.data.forEach(element => {
+        label.push(element.mnt);
+        pworkCost.push((Number(element.workCostAct)/Number(element.workCostPln)*100).toFixed(2));
+        pmatCost.push((Number(element.matCostAct)/Number(element.matCostPln)*100).toFixed(2));
+      });
+      console.log(label);
+      if (this.myLine1) this.myLine1.destroy();
+      var chartData ={
+        labels:label,
+        datasets: [{
+          type: 'line',
+          label: 'ค่าใช้จ่ายหน้างาน',
+          borderColor: "#5689ff",
+          borderWidth: 2,
+          fill: false,
+          data: pworkCost
+        }, {
+          type: 'line',
+          label: 'ค่าพัสดุ',
+          borderColor: "#ff5689",
+          borderWidth: 2,
+          fill: false,
+          data: pmatCost
+        }]
+      };
+
+      if (this.myLine1) this.myLine1.destroy();
+      this.myLine1 = new Chart('myLine1', {
+        type: 'line',
+        data:  chartData,
+      options: {
+        // Elements options apply to all of the options unless overridden in a dataset
+        // In this case, we are setting the border of each horizontal bar to be 2px wide
+        elements: {
+          rectangle: {
+            borderWidth: 2,
+          }
+        },
+        responsive: true,
+        legend: {
+          position: 'bottom',
+          display: true,
+        
+        },					
+        scales: {
+          xAxes: [{
+            stacked: true,
+  
+          }],
+          yAxes: [{
+            stacked: false,
+            ticks: {
+              beginAtZero: true
+            },
+          }]
+        },
+        title: {
+          display: true,
+          text: "%เบิกจ่าย คชจ.หน้างาน และค่าพัสดุสะสมรายเดือน "+this.selPeaName
+        }
+      } 
+    });
+
+
+
+    }))  
+
+  }
+  rdproject(){
+    //กราฟวงกลม
+    this.configService.postdata('rdprogressmnt.php',{peaCode : this.selPeapeaCode,selBudjetType : this.selBudjetType}).subscribe((data=>{
+      console.log(data);
       this.projectArr=[];
       this.porjectRemArr=[];
       this.workCostArr1=[];
-      this.workCostArr2=[];
-      this.workCostArr3=[];
       this.matCostArr1=[];
-      this.matCostArr2=[];
-      this.matCostArr3=[];
       this.totalwbs=0;
       data.data.forEach(element => {
-        this.projectArr.push(element.projectName);
-        this.porjectRemArr.push(element.nwbs);
-        /*
-        this.workCostArr3.push(((Number(element.workCostAct5)-Number(element.workCostAct4))/Number(element.workCostPln)*100).toFixed(2));
-        this.workCostArr2.push(((Number(element.workCostAct4)-Number(element.workCostAct3))/Number(element.workCostPln)*100).toFixed(2));
-        this.workCostArr1.push((Number(element.workCostAct3)/Number(element.workCostPln)*100).toFixed(2));
-   
-        this.matCostArr3.push(((Number(element.matCostAct5)-Number(element.matCostAct4))/Number(element.matCostPln)*100).toFixed(2));
-        this.matCostArr2.push(((Number(element.matCostAct4)-Number(element.matCostAct3))/Number(element.matCostPln)*100).toFixed(2));
-        this.matCostArr1.push((Number(element.matCostAct3)/Number(element.matCostPln)*100).toFixed(2));
-        */
-       this.workCostArr3.push((Number(element.workCostAct5)/Number(element.workCostPln)*100).toFixed(2));
-       this.workCostArr2.push((Number(element.workCostAct4)/Number(element.workCostPln)*100).toFixed(2));
-       this.workCostArr1.push((Number(element.workCostAct3)/Number(element.workCostPln)*100).toFixed(2));
-  
-       this.matCostArr3.push((Number(element.matCostAct5)/Number(element.matCostPln)*100).toFixed(2));
-       this.matCostArr2.push((Number(element.matCostAct4)/Number(element.matCostPln)*100).toFixed(2));
-       this.matCostArr1.push((Number(element.matCostAct3)/Number(element.matCostPln)*100).toFixed(2));
+      this.projectArr.push(element.projectName); //ชื่อโครงการ
+      this.porjectRemArr.push(element.nwbs); //จำนวนงานคงค้าง
+      this.workCostArr1.push((Number(element.workCostAct3)/Number(element.workCostPln)*100).toFixed(2));
+
+      this.matCostArr1.push((Number(element.matCostAct3)/Number(element.matCostPln)*100).toFixed(2));
 
       })
       
@@ -232,18 +305,10 @@ export class PsimdashboardComponent implements OnInit {
       labels: this.projectArr,
       datasets:[
       {
-      label: '%เบิกจ่าย คชจ.หน้างาน เดือน เม.ย.',
+      label: '%เบิกจ่าย คชจ.หน้างาน',
       data: this.workCostArr1,
-      backgroundColor: "#5687ff",
-  },{
-    label: '%เบิกจ่าย คชจ.หน้างาน  เดือน พ.ค.',
-    data: this.workCostArr2,
-    backgroundColor: "#ffce56",
-},{
-  label: '%เบิกจ่าย คชจ.หน้างาน  เดือน มิ.ย.',
-  data: this.workCostArr3,
-  backgroundColor: "#56ffce",
-}]};
+      backgroundColor: ["#ff5687","#ffce56","#56ffce","#5687ff","#ce56ff"],
+  }]};
       if (this.myBar) this.myBar.destroy();
       this.myBar = new Chart('myBar', {
         type: 'bar',
@@ -276,7 +341,7 @@ export class PsimdashboardComponent implements OnInit {
         },
         title: {
           display: true,
-          text: "%เบิกจ่าย คชจ.หน้างาน แยกตามโครงการย้อนหลัง 3 เดือน"
+          text: "%เบิกจ่าย คชจ.หน้างาน แยกตามโครงการ "+this.selPeaName
         }
       } 
     });
@@ -284,18 +349,10 @@ export class PsimdashboardComponent implements OnInit {
       labels: this.projectArr,
       datasets:[
       {
-      label: '%เบิกจ่ายค่าวัสดุ เดือน เม.ย.',
+      label: '%เบิกจ่ายค่าวัสดุ',
       data: this.matCostArr1,
-      backgroundColor: "#5687ff",
-  },{
-    label: '%เบิกจ่ายค่าวัสดุ  เดือน พ.ค.',
-    data: this.matCostArr2,
-    backgroundColor: "#ffce56",
-},{
-  label: '%เบิกจ่ายค่าวัสดุ  เดือน มิ.ย.',
-  data: this.matCostArr3,
-  backgroundColor: "#56ffce",
-}]};
+      backgroundColor: ["#ff5687","#ffce56","#56ffce","#5687ff","#ce56ff"],
+  }]};
       if (this.myBar2) this.myBar2.destroy();
       this.myBar2 = new Chart('myBar2', {
         type: 'bar',
@@ -327,7 +384,7 @@ export class PsimdashboardComponent implements OnInit {
         },
         title: {
           display: true,
-          text: "%เบิกจ่ายค่าวัสดุ แยกตามโครงการย้อนหลัง 3 เดือน"
+          text: "%เบิกจ่ายค่าวัสดุ แยกตามโครงการ"+this.selPeaName
         }
       } 
     });
@@ -338,12 +395,13 @@ export class PsimdashboardComponent implements OnInit {
   selectPea(event){
    
     this.selPea=event.value[0];
-    
+    this.selPeaName=event.value[2];
     this.selPeapeaCode=event.value[1];
     this.rdproject();
     this.getJobProgressPea();
     this.getJobProgress();
     this.getClsd();
+    this.crtLineChart();
     /*
     //this.getJobProgress();
     this.getData(this.selPea,this.selBudjet);
@@ -351,22 +409,34 @@ export class PsimdashboardComponent implements OnInit {
     this.getJobProgressPea();
     */
   }
+  selectProject(event){
+    this.selBudjetType=event.value;
+    if (this.selBudjetType==2){
+      this.budjets= [
+        {value: ['I-60-B','.MR.1'], viewValue: 'I60.MR'},
+        {value: ['I-61-B','.MR.1'], viewValue: 'I61.MR'},
+        {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'}
+      ];
+    }else{
+      this.budjets= [
+        {value: ['I-60-B','.BY.'], viewValue: 'I60.BY'},
+        {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
+      ];
 
+    }
+    this.rdproject();
+    this.getJobProgressPea();
+  }
   getJobProgressPea(){ 
-
-     this.configService.postdata('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+    //จำนวนงานคงค้าง %เบิกจ่าย
+     this.configService.postdata('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1],selBudjetType : this.selBudjetType}).subscribe((data=>{
       if(data.status==1){
         this.WorkCostPea=[];
         this.WorkCostPercentPea=[];
   
         this.nwbsArr=[];
         this.matCostPercentPea=[];
-        data.data.forEach(element => {
- 
-
-
-        
-        
+        data.data.forEach(element => { 
           this.nwbsArr.push(element.nWBS);
           this.WorkCostPea.push(element.Pea);
           this.WorkCostPercentPea.push((Number(element.workCostAct)/Number(element.workCostPln)*100).toFixed(2));
@@ -374,33 +444,7 @@ export class PsimdashboardComponent implements OnInit {
          
           
         });
-        /*
-        if (this.selected==0) {
-          this.chartData={
-            labels: this.WorkCostPea,
-            datasets: [{
-            label: 'จำนวนงานคงค้าง',
-            data: this.nwbsArr,
-            backgroundColor:'#07CCD6',
-           }]};
-          this.chartTitle='จำนวนงานคงค้าง'}
-        else {
-          this.chartData= {
-            labels: this.WorkCostPea,
-            datasets:[
-            {
-            label: 'คชจ.หน้างาน',
-            data: this.WorkCostPercentPea,
-            backgroundColor: '#07CCD6',
-        },
-      {
-        label: 'ค่าพัสดุ',
-        data: this.matCostPercentPea,
-        backgroundColor: '#DAF7A6',
-      }]};
-          this.chartTitle='% การเบิกจ่าย';
-        }
-        */
+
         this.chartData={
           labels: this.WorkCostPea,
           datasets: [{
@@ -519,6 +563,7 @@ export class PsimdashboardComponent implements OnInit {
 
     this.selBudjet=event.value;
     this.getJobProgressPea();
+    this.crtLineChart();
   }
   selectBudget2(event){
 
