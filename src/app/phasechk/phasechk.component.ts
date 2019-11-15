@@ -48,6 +48,7 @@ export class PhasechkComponent implements OnInit {
 
   Statuss= [
     {value: '-'},
+    {value: 'สำรวจแล้วเสร็จรอนำเข้า GIS'},
     {value: 'นำเข้าเฟสมิเตอร์ใน GIS แล้ว'},
   ];
 
