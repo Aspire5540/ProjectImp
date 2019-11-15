@@ -85,6 +85,7 @@ import { UploadComponent } from './upload/upload.component';
 import { JobapproveComponent } from './jobapprove/jobapprove.component';
 import { LVProComponent } from './lvpro/lvpro.component';
 import { PsimdashboardComponent } from './psimdashboard/psimdashboard.component';
+import { PhasechkComponent } from './phasechk/phasechk.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { PsimdashboardComponent } from './psimdashboard/psimdashboard.component'
     JobapproveComponent,
     LVProComponent,
     PsimdashboardComponent,
+    PhasechkComponent,
     
   ],
   imports: [

@@ -1,0 +1,162 @@
+<!-----------------------------------Table------------------------------------------------->
+
+
+<div class="row">
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+      <div class="card card-statistics">
+        <div class="card bg-info text-white">
+          <p class="ml-1 mb-0 text-center ">ผลการนำเข้าเฟสมิเตอร์หม้อแปลง 1 เฟส</p>
+                <canvas id='myDonut1'></canvas>
+                <p class="text-white mt-3 mb-0">
+                  <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน {{PEA_TR1 | number}} เครื่อง จาก {{PEA_TR0 | number}} เครื่อง
+                </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+      <div class="card card-statistics">
+        <div class="card bg-success text-white">
+            <p class="ml-1 mb-0 text-center ">ผลการนำเข้าเฟสมิเตอร์หม้อแปลง 3 เฟส</p>
+              <canvas id='myDonut3'></canvas>
+              <p class="text-white mt-3 mb-0">
+                <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน {{PEA_TR3 | number}} เครื่อง จาก {{PEA_TR2 | number}} เครื่อง
+              </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+      <div class="card card-statistics">
+        <div class="card bg-primary text-white">
+            <p class="ml-1 mb-0 text-center ">ผลการนำเข้าเฟสมิเตอร์หม้อแปลงทั้งหมด</p>
+              <canvas id='myDonut2' ></canvas>
+              <p class="text-white mt-3 mb-0">
+                <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน {{PEA_TR5 | number}} เครื่อง จาก {{PEA_TR4 | number}} เครื่อง
+              </p>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 >LVPro</h4>
+        <div class="form-group">
+
+            <div class="row">
+              <div class="col-md-3">    
+                <!---
+                <input type="text" class="form-control border-primary" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  --> 
+                  <mat-form-field appearance="legacy">
+                      <mat-label>ค้นหา</mat-label>
+                      <input matInput placeholder="ระบุหมายเลขหม้อแปลง" matInput (keyup)="applyFilter($event.target.value)">
+                  </mat-form-field>
+              </div>
+
+              <!--
+              <div class="col-md-3">
+                    <a target="_blank" href="http://127.0.0.1/psisservice/wpdf/wpdf.php?filter1={{selBudjet[0]}}&filter2={{selBudjet[1]}}"><button class="btn btn-success mr-2">พิมพ์ใบสรุปงบ</button></a>  
+              </div>
+              -->
+              
+              <div class="col-md-3">           
+                    <button (click)="exportAsXLSX()"><i class="fa fa-file-excel-o" style="font-size:20px;color:blue"></i></button> 
+              </div> 
+        
+        </div>
+ 
+            <table class="mat-elevation-z8" mat-table  matSort [dataSource]="dataSource">   
+
+              <ng-container matColumnDef="PEA_TR">
+              <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> PEA No. </th>
+              <td class="table-lg" mat-cell *matCellDef="let trphase"><a target="_blank" href="http://172.18.226.19/transformer/Vmap.php?pea_no={{trphase.PEA_TR}}&submit=submit"> {{trphase.PEA_TR}} </a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="location">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>สถานที่ติดตั้ง</th>
+                <td class="table-lg" mat-cell *matCellDef="let trphase">{{trphase.location}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Kva">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> kVA </th>
+                <td class="table-lg" mat-cell *matCellDef="let trphase">{{trphase.Kva}}</td>
+              </ng-container>
+              <ng-container matColumnDef="SUBTYPECOD">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> จำนวนเฟส </th>
+                <td class="table-lg" mat-cell *matCellDef="let trphase">{{trphase.SUBTYPECOD}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Feeder">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ฟีดเดอร์ </th>
+                <td class="table-lg" mat-cell *matCellDef="let trphase"> {{trphase.Feeder}} </td>
+              </ng-container>
+
+ 
+
+              <ng-container matColumnDef="status">
+                  <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเหตุ</th>
+                  <td class="table-lg" mat-cell *matCellDef="let trphase">  
+                      <mat-form-field>
+                          <mat-label >{{trphase.status}}</mat-label>
+                          <mat-select (selectionChange)="selectStatus($event)">
+                            <mat-option *ngFor="let Status of Statuss" [value]="[Status.value,trphase]">
+                              {{Status.value}}
+                            </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </td>
+
+              </ng-container>
+
+              <ng-container matColumnDef="PEA_Meter">
+              <th class="table-lg" mat-header-cell *matHeaderCellDef> </th>
+              <td class="table-lg" mat-cell *matCellDef="let trphase"> <div class="text-success"><button type="button" class="btn btn-danger btn-fw btn-sm" (click)="getMtData(trphase.PEA_TR)">แสดงมิเตอร์</button></div></td>
+              </ng-container>
+
+              <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+        </div> 
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-lg-4 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">ข้อมูลมิเตอร์</h4>
+               
+                   
+            <button (click)="exportAsXLSX2()"><i class="fa fa-file-excel-o" style="font-size:20px;color:blue"></i></button> 
+           
+        <div class="table-responsive">
+            <table class="mat-elevation-z8" mat-table  matSort #sort1="matSort" [dataSource]="dataSource1">      
+ 
+              <ng-container matColumnDef="PEA_Meter">
+              <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> PEA Meter </th>
+              <td class="table-lg" mat-cell *matCellDef="let meterdata3">  {{meterdata3.PEA_Meter}}</td>
+              </ng-container>
+              <ng-container matColumnDef="PhaseMeterGis">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>เฟส มิเตอร์ </th>
+                <td class="table-lg" mat-cell *matCellDef="let meterdata3">{{meterdata3.PhaseMeterGis}}</td>
+              </ng-container>
+ 
+              <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+              <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+            </table>
+          <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

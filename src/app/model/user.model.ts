@@ -156,3 +156,16 @@ export interface meterdata2 {
   Line_Type:string;
   Feeder:number;
 }
+export interface trphase{
+  PEA_TR : string;
+  location : string;
+  Feeder : number;
+  Aoj : string;
+  Kva : number;
+  status : string;
+  SUBTYPECOD:number;
+}
+export interface meterdata3 {
+  PEA_Meter : string;
+  PhaseMeterGis : string;
+}
