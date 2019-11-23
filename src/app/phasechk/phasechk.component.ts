@@ -9,6 +9,7 @@ import { HttpClient} from '@angular/common/http';
 import {FileuploadService} from '../config/fileupload.service';
 import {Chart} from 'chart.js';
 import {MatSort} from '@angular/material/sort';
+
 @Component({
   selector: 'app-phasechk',
   templateUrl: './phasechk.component.html',
@@ -38,11 +39,15 @@ export class PhasechkComponent implements OnInit {
   PEA_TR3:number;
   PEA_TR4:number;
   PEA_TR5:number;
+  PEA_TR6:number;
+  PEA_TR7:number;
 
   PEA_TR1perPEA_TR0:number;
   PEA_TR3perPEA_TR0:number;
   PEA_TR2perPEA_TR0:number;
 
+  progressBar:Chart;
+  progressBar2:Chart;
   meterdata=[];
 
 
@@ -60,11 +65,14 @@ export class PhasechkComponent implements OnInit {
 
 
 
+
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) {}
   ngOnInit() {
   this.peaCode = localStorage.getItem('peaCode');
   this.getTrData();
   this.getStatus();
+  this.getJobProgressPea();
+  this.getJobProgressPea2();
   //this.getMeterData();
   
   this.dataSource.paginator = this.paginator; 
@@ -97,12 +105,14 @@ export class PhasechkComponent implements OnInit {
   }
 
   selectStatus(event){
-    console.log(event);
+
     this.configService.postdata('phase/wristatus.php',{TRNumber:event.value[1].PEA_TR,status :event.value[0]}).subscribe((data=>{
       if(data.status==1){
          
          this.getTrData();
-         this.getStatus()
+         this.getStatus();
+         this.getJobProgressPea();
+         this.getJobProgressPea2();
         //console.log(this.peaname);
       }else{
         alert(data.data);
@@ -114,14 +124,6 @@ export class PhasechkComponent implements OnInit {
 
 
   onSubmit() {
-
-    /*if(data.status==1){
-      this.registerForm.resetForm();
-      this.getData();
-      alert("เก็บข้อมูลแล้วเสร็จ");
-    }else{
-    alert(data.data);
-    }*/
 
     this.configService.getmeterdata2('serchmeter.php?PEA_Meter='+this.registerForm.value.PEAMeter)
     //this.configService.getTr('TR.php?condition='+this.condition+'&peaCode0='+'B00000')
@@ -135,18 +137,21 @@ export class PhasechkComponent implements OnInit {
   getStatus(){
     this.configService.postdata('phase/rdstat.php',{peaCode : localStorage.getItem('peaCode')}).subscribe((data=>{
       if(data.status==1){
-        this.PEA_TR0 =data.data[0];
-        this.PEA_TR1 =data.data[1];
-        this.PEA_TR2 =data.data[2];
-        this.PEA_TR3 =data.data[3];
-        this.PEA_TR4 =Number(data.data[0])+Number(data.data[2])
-        this.PEA_TR5 =Number(data.data[3])+Number(data.data[1])
+        this.PEA_TR0 =Number(data.data[0]);
+        this.PEA_TR1 =Number(data.data[1]);
+        this.PEA_TR2 =Number(data.data[2]);
+        this.PEA_TR3 =Number(data.data[3]);
+        this.PEA_TR6 =Number(data.data[4]);
+        this.PEA_TR7 =Number(data.data[5]);
+
+        this.PEA_TR4 =Number(data.data[0])+Number(data.data[2])  //Total TR
+        this.PEA_TR5 =Number(data.data[3])+Number(data.data[1]) // Survey
+
         this.PEA_TR1perPEA_TR0=Number(data.data[1])/Number(data.data[0])*100;
         this.PEA_TR3perPEA_TR0=Number(data.data[3])/Number(data.data[2])*100;
         this.PEA_TR2perPEA_TR0=this.PEA_TR5/this.PEA_TR4*100;
 
-
-        console.log (this.PEA_TR1perPEA_TR0);
+       
 
 
         if (this.myDonut1) this.myDonut1.destroy();
@@ -365,21 +370,157 @@ export class PhasechkComponent implements OnInit {
  exportAsXLSX2():void {
   this.configService.exportAsExcelFile(this.dataSource1.data, 'MeterData');
 }
-  /*
-  getTrData(){ 
-    this.configService.postdata('TR.php',{TRNumber:this.TRNo}).subscribe((data=>{
-      if(data.status==1){
-         console.log(data.data);
-        
-        //console.log(this.peaname);
-      }else{
-        alert(data.data);
-      }
+getJobProgressPea2(){ 
+  //จำนวนงานคงค้าง %เบิกจ่าย
+   this.configService.postdata('phase/rdJobProgressPea2.php',{peaCode : localStorage.getItem('peaCode')}).subscribe((data=>{
+    if(data.status==1){
+      var Pea=[];
+      var pComp=[];
+      var chartData: any;
+      var pIn=[];
+      var matCostPercentPea=[];
+      var chartTitle:string;
+
+      data.data.forEach(element => { 
   
-    }))
+        Pea.push('B'+element.Pea);
+        pComp.push((Number(element.nComp)/Number(element.totalTr)*100).toFixed(2));
+        pIn.push((Number(element.nInp)/Number(element.totalTr)*100).toFixed(2));
+        
+        
+      });
+
+    chartData= {
+      labels: Pea,
+      datasets:[
+      {
+      label: '%หม้อแปลงที่นำเข้าเฟสมิเตอร์ใน GIS แล้ว',
+      data: pComp,
+      backgroundColor: '#07CCD6',
+  },
+  {
+    label: '%หม้อแปลงที่สำรวจแล้วเสร็จพร้อมติดแถบสีรอนำเข้า GIS',
+    data: pIn,
+    backgroundColor: '#DAF7A6',
+  }]};
+    chartTitle='%ผลการสำรวจเฟสมิเตอร์';
+
+    if (this.progressBar) this.progressBar.destroy();
+
+    this.progressBar = new Chart('progressBar', {
+      type: 'bar',
+      data:  chartData,
+    options: {
+      // Elements options apply to all of the options unless overridden in a dataset
+      // In this case, we are setting the border of each horizontal bar to be 2px wide
+      elements: {
+        rectangle: {
+          borderWidth: 2,
+        }
+      },
+      responsive: true,
+      legend: {
+        position: 'bottom',
+        display: true,
+      
+      },
+      title: {
+        display: true,
+        text: chartTitle
+      },
+      scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
+    },
     
-  } 
-*/
+  });
+      
+    }else{
+      alert(data.data);
+    }
+
+  }));
+}
+
+getJobProgressPea(){ 
+  //จำนวนงานคงค้าง %เบิกจ่าย
+   this.configService.postdata('phase/rdJobProgressPea.php',{peaCode : localStorage.getItem('peaCode')}).subscribe((data=>{
+    if(data.status==1){
+      var Pea=[];
+      var pComp=[];
+      var chartData: any;
+      var pIn=[];
+      var chartTitle:string;
+
+      data.data.forEach(element => { 
+  
+        Pea.push('B'+element.Pea);
+        pComp.push((Number(element.nComp)/Number(element.totalTr)*100).toFixed(2));
+        pIn.push((Number(element.nInp)/Number(element.totalTr)*100).toFixed(2));
+        
+        
+      });
+
+    chartData= {
+      labels: Pea,
+      datasets:[
+      {
+      label: '%หม้อแปลงที่นำเข้าเฟสมิเตอร์ใน GIS แล้ว',
+      data: pComp,
+      backgroundColor: '#07CCD6',
+  },
+  {
+    label: '%หม้อแปลงที่สำรวจแล้วเสร็จพร้อมติดแถบสีรอนำเข้า GIS',
+    data: pIn,
+    backgroundColor: '#DAF7A6',
+  }]};
+    chartTitle='%ผลการสำรวจเฟสมิเตอร์';
+
+    if (this.progressBar2) this.progressBar2.destroy();
+
+    this.progressBar2 = new Chart('progressBar2', {
+      type: 'bar',
+      data:  chartData,
+    options: {
+      // Elements options apply to all of the options unless overridden in a dataset
+      // In this case, we are setting the border of each horizontal bar to be 2px wide
+      elements: {
+        rectangle: {
+          borderWidth: 2,
+        }
+      },
+      responsive: true,
+      legend: {
+        position: 'bottom',
+        display: true,
+      
+      },
+      title: {
+        display: true,
+        text: chartTitle
+      },
+      scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
+    },
+    
+  });
+      
+    }else{
+      alert(data.data);
+    }
+
+  }));
+}
+
 }
 
 
