@@ -1,4 +1,9 @@
+<div class="row" *ngIf="peaCode != 'B00000'">
+    <h1 class="card-title">ไม่มีสิทธิ์ใช้งาน</h1> 
 
+</div>
+
+<div  *ngIf="peaCode == 'B00000'">
 <div class="row">
     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
     <div class="card">
@@ -224,4 +229,5 @@
     </div>
   
 
+</div>
 </div>

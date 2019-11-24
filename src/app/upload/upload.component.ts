@@ -20,9 +20,10 @@ export class UploadComponent implements OnInit {
   uploadDocResponse = '';
   uploadDocResponse2 = '';
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) { }
-
+  peaCode="";
   ngOnInit() {
-
+    this.peaCode = localStorage.getItem('peaCode');
+ 
 
     
   }

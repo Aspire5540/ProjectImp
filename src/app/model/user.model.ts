@@ -160,10 +160,12 @@ export interface trphase{
   PEA_TR : string;
   location : string;
   Feeder : number;
-  Aoj : string;
+  aoj : string;
   Kva : number;
   status : string;
   SUBTYPECOD:number;
+  peaName:string;
+  nMeter:number;
 }
 export interface meterdata3 {
   PEA_Meter : string;

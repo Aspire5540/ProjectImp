@@ -1,19 +1,45 @@
 <!-----------------------------------Table------------------------------------------------->
+
 <div class="row">
+
+    <div class="col-md-6">
+  
+      <mat-form-field>
+          <mat-label>เลือกข้อมูล</mat-label>
+          <mat-select (selectionChange)="selectData($event)">
+            <mat-option *ngFor="let budjet of DataType" [value]="budjet.value">
+              {{budjet.viewValue}} 
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+      <mat-form-field>
+        <mat-label>กฟฟ. </mat-label>
+        <mat-select (selectionChange)="selectPea($event)">
+          <mat-option *ngFor="let pea of peaname2" [value]="[pea.peaEng,pea.peaCode,pea.peaName]">
+            {{pea.peaCode +" "+pea.peaName}} 
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+  </div>
+<div class="row">
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card" >
+        <div class="card card-statistics">
+          <div class="card-body"  style="height: 500%;">  
+            <canvas id='progressLine'></canvas>
+          </div>
+        </div>
+      </div>
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card">
     <div class="card card-statistics">
       <div class="card-body">    
-        <canvas id='progressBar' style="height: 120%;"></canvas>
+        <canvas id='progressBar'></canvas>
       </div>
     </div>
   </div>
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card">
-    <div class="card card-statistics">
-      <div class="card-body">    
-        <canvas id='progressBar2' style="height: 120%;"></canvas>
-      </div>
-    </div>
-  </div>
+
 </div>
 
 
@@ -36,7 +62,7 @@
                   </div>
                 </div>
               </div>
-              <p class="text-white mt-3 mb-0">
+              <p class="text-white mt-3 mb-0" style="font-size:120%">
                 <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น {{PEA_TR6/PEA_TR0*100 | number}}%
               </p>
             </div>
@@ -56,7 +82,7 @@
                   </div>
                 </div>
               </div>
-              <p class="text-white mt-3 mb-0">
+              <p class="text-white mt-3 mb-0" style="font-size:120%">
                 <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น {{PEA_TR7/PEA_TR2*100 | number}}%
               </p>
             </div>
@@ -76,7 +102,7 @@
                   </div>
                 </div>
               </div>
-              <p class="text-white mt-3 mb-0">
+              <p class="text-white mt-3 mb-0 " style="font-size:120%">
                 <i class="mdi mdi-alert-octagon  mr-1" aria-hidden="true"></i> คิดเป็น {{(PEA_TR6+PEA_TR7)/PEA_TR4*100 | number}}%
               </p>
             </div>
@@ -84,33 +110,33 @@
         </div>
  
  
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
-      <div class="card card-statistics">
-        <div class="card bg-info text-white">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 grid-margin stretch-card">
+      <div class="card card-statistics" >
+        <div class="card bg-info text-white" style="height: 100%;"> 
           <p class="ml-1 mb-0 text-center ">ผลการนำเข้าเฟสมิเตอร์หม้อแปลง 1 เฟส</p>
-                <canvas  id='myDonut1'></canvas>
+                <canvas  id='myDonut1' style="width: 100%;"></canvas>
                 <p class="text-white mt-3 mb-0">
                   <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน {{PEA_TR1 | number}} เครื่อง จาก {{PEA_TR0 | number}} เครื่อง
                 </p>
         </div>
       </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
-      <div class="card card-statistics">
-        <div class="card bg-success text-white">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 grid-margin stretch-card">
+      <div class="card card-statistics" >
+        <div class="card bg-success text-white" style="height: 100%;" >
             <p class="ml-1 mb-0 text-center ">ผลการนำเข้าเฟสมิเตอร์หม้อแปลง 3 เฟส</p>
-              <canvas  id='myDonut3'></canvas>
+              <canvas  id='myDonut3'style="width: 100%;"></canvas>
               <p class="text-white mt-3 mb-0">
                 <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน {{PEA_TR3 | number}} เครื่อง จาก {{PEA_TR2 | number}} เครื่อง
               </p>
         </div>
       </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 grid-margin stretch-card">
       <div class="card card-statistics">
-        <div class="card bg-primary text-white">
+        <div class="card bg-primary text-white" style="height: 100%;">
             <p class="ml-1 mb-0 text-center ">ผลการนำเข้าเฟสมิเตอร์หม้อแปลงทั้งหมด</p>
-              <canvas  id='myDonut2' ></canvas>
+              <canvas  id='myDonut2' style="width: 100%;"></canvas>
               <p class="text-white mt-3 mb-0">
                 <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน {{PEA_TR5 | number}} เครื่อง จาก {{PEA_TR4 | number}} เครื่อง
               </p>
@@ -174,19 +200,33 @@
                 <td class="table-lg" mat-cell *matCellDef="let trphase"> {{trphase.Feeder}} </td>
               </ng-container>
 
- 
+              <ng-container matColumnDef="nMeter">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> จำนวนมิเตอร์ </th>
+                <td class="table-lg" mat-cell *matCellDef="let trphase"> {{trphase.nMeter}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="peaName">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> กฟฟ. </th>
+                <td class="table-lg" mat-cell *matCellDef="let trphase"> {{trphase.peaName}} </td>
+              </ng-container>
 
               <ng-container matColumnDef="status">
-                  <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเหตุ</th>
+                  <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>สถานะงาน</th>
                   <td class="table-lg" mat-cell *matCellDef="let trphase">  
-                      <mat-form-field>
-                          <mat-label >{{trphase.status}}</mat-label>
-                          <mat-select (selectionChange)="selectStatus($event)">
-                            <mat-option *ngFor="let Status of Statuss" [value]="[Status.value,trphase]">
-                              {{Status.value}}
-                            </mat-option>
-                          </mat-select>
-                      </mat-form-field>
+                      
+                        <mat-form-field>
+                            <mat-label >{{trphase.status}}</mat-label>
+                           
+                            <mat-select (selectionChange)="selectStatus($event)">
+                                <div *ngIf="peaNum == trphase.aoj || (peaNum|  slice:-1)=='1'">
+                              <mat-option *ngFor="let Status of Statuss" [value]="[Status.value,trphase]">
+                                  {{Status.value}}
+                              </mat-option>
+                            </div>
+                            </mat-select>
+                          
+                        </mat-form-field>
+                    
                   </td>
 
               </ng-container>

@@ -24,6 +24,7 @@ export class JobapproveComponent implements OnInit {
   nwbsArr=[];
   nwbsApp=[];
   peaname = [];
+  peaCode="";
   URL ="http://172.18.226.19/psisservice/uploads/";
   WorkCostPercentPea=[];
   matCostPercentPea=[];
@@ -57,6 +58,7 @@ export class JobapproveComponent implements OnInit {
     
     //this.getData(this.selPea,this.selBudjet);
     //this.rdsumcost();
+    this.peaCode = localStorage.getItem('peaCode');
     this.dataSource.paginator = this.paginator; 
     this.dataSource.sort = this.sort;
     this.getpeaList();

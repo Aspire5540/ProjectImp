@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
    
 
-    this.returnUrl = '/psim';
+    this.returnUrl = '/phasecheck';
     this.authService.logout();
     this.configService.changeMessage();
   }
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('isLoggedIn', "true");
         localStorage.setItem('token', this.registerForm.value.userName);
         localStorage.setItem('name', data.data["Name"]);
-        localStorage.setItem('peaName', data.data["peaName"]);
+        localStorage.setItem('peaName', data.data["Peaname"]);
         localStorage.setItem('peaCode', data.data["Peacode"]);
     
         this.configService.changeMessage();
