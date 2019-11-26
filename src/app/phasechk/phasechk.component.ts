@@ -53,8 +53,8 @@ export class PhasechkComponent implements OnInit {
   progressBar2:Chart;
   progressLine:Chart;
   meterdata=[];
-
-
+  currentPea="";
+  currentMatherPea="";
   Statuss= [
     {value: '-'},
     {value: 'สำรวจแล้วเสร็จรอนำเข้า GIS'},
@@ -85,8 +85,8 @@ export class PhasechkComponent implements OnInit {
   this.getpeaList();
   this.getpeaList2();
   this.callData();
- 
   
+
   //this.getMeterData();
   
   this.dataSource.paginator = this.paginator; 
@@ -142,7 +142,13 @@ export class PhasechkComponent implements OnInit {
           this.peaname[element.peaCode]=element.peaName;
           
         });
-
+        this.currentPea=this.peaname[this.peaCode.substring(0,6)];
+        if (this.peaCode=="B00000"){
+          this.currentMatherPea=this.peaname[this.peaCode.substring(0,6)];
+        }else{
+          this.currentMatherPea=this.peaname[this.peaCode.substring(0,4)];
+        }
+        console.log(this.peaCode.substring(0,4));
       }else{
         alert(data.data);
       }
