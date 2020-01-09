@@ -46,7 +46,7 @@ export class PsimdashboardComponent implements OnInit {
   myBar3:Chart;
   myBar4:Chart;
   myLine1:Chart;
-  myLine2:Chart;
+  myBarClsd:Chart;
 
   selPea='';
   selPeaName='กฟน.2';
@@ -185,7 +185,7 @@ export class PsimdashboardComponent implements OnInit {
         pworkCost.push((Number(element.workCostAct)/Number(element.workCostPln)*100).toFixed(2));
         pmatCost.push((Number(element.matCostAct)/Number(element.matCostPln)*100).toFixed(2));
       });
-      console.log(label);
+     
       if (this.myLine1) this.myLine1.destroy();
       var chartData ={
         labels:label,
@@ -251,7 +251,7 @@ export class PsimdashboardComponent implements OnInit {
   rdproject(){
     //กราฟวงกลม
     this.configService.postdata('rdprogressmnt.php',{peaCode : this.selPeapeaCode,selBudjetType : this.selBudjetType}).subscribe((data=>{
-      console.log(data);
+      
       this.projectArr=[];
       this.porjectRemArr=[];
       this.workCostArr1=[];
@@ -429,6 +429,7 @@ export class PsimdashboardComponent implements OnInit {
   }
   getJobProgressPea(){ 
     //จำนวนงานคงค้าง %เบิกจ่าย
+    var pClsd=[];
      this.configService.postdata('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1],selBudjetType : this.selBudjetType}).subscribe((data=>{
       if(data.status==1){
         this.WorkCostPea=[];
@@ -438,13 +439,14 @@ export class PsimdashboardComponent implements OnInit {
         this.matCostPercentPea=[];
         data.data.forEach(element => { 
           this.nwbsArr.push(element.nWBS);
+          pClsd.push((Number(element.nWBS)/Number(element.totalWbs)*100).toFixed(2));
           this.WorkCostPea.push(element.Pea);
           this.WorkCostPercentPea.push((Number(element.workCostAct)/Number(element.workCostPln)*100).toFixed(2));
           this.matCostPercentPea.push((Number(element.matCostAct)/Number(element.matCostPln)*100).toFixed(2));
          
           
         });
-
+      //แสดงงานคงค้าง
         this.chartData={
           labels: this.WorkCostPea,
           datasets: [{
@@ -452,6 +454,9 @@ export class PsimdashboardComponent implements OnInit {
           data: this.nwbsArr,
           backgroundColor:'#07CCD6',
         }]};
+
+
+
         this.chartTitle='จำนวนงานคงค้าง';
 
         if (this.myBar3) this.myBar3.destroy();
@@ -488,20 +493,68 @@ export class PsimdashboardComponent implements OnInit {
         
       });
 
-
+    //Percent Clsd
       this.chartData= {
         labels: this.WorkCostPea,
         datasets:[
-        {
-        label: 'คชจ.หน้างาน',
-        data: this.WorkCostPercentPea,
-        backgroundColor: '#07CCD6',
-    },
+        
   {
-    label: 'ค่าพัสดุ',
-    data: this.matCostPercentPea,
+    label: 'เปอร์เซนต์งานคงค้าง',
+    data: pClsd,
     backgroundColor: '#DAF7A6',
   }]};
+
+
+
+  if (this.myBarClsd) this.myBarClsd.destroy();
+
+  this.myBarClsd = new Chart('myBarClsd', {
+    type: 'bar',
+    data:  this.chartData,
+  options: {
+    // Elements options apply to all of the options unless overridden in a dataset
+    // In this case, we are setting the border of each horizontal bar to be 2px wide
+    elements: {
+      rectangle: {
+        borderWidth: 2,
+      }
+    },
+    responsive: true,
+    legend: {
+      position: 'bottom',
+      display: true,
+    
+    },
+    title: {
+      display: true,
+      text: this.chartTitle
+    },
+    scales: {
+      yAxes: [{
+          ticks: {
+              beginAtZero: true
+          }
+      }]
+  }
+  },
+  
+});
+
+
+this.chartData= {
+  labels: this.WorkCostPea,
+  datasets:[
+  {
+  label: 'คชจ.หน้างาน',
+  data: this.WorkCostPercentPea,
+  backgroundColor: '#07CCD6',
+},
+{
+label: 'ค่าพัสดุ',
+data: this.matCostPercentPea,
+backgroundColor: '#DAF7A6',
+}]};
+  
       this.chartTitle='% การเบิกจ่าย';
       if (this.myBar4) this.myBar4.destroy();
 

@@ -45,6 +45,14 @@
     <mat-card-title>งานสำรวจและนำเข้าเฟสมิเตอร์ กฟฟ. {{currentPea}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <mat-form-field>
+      <mat-label>เลือกข้อมูล</mat-label>
+      <mat-select (selectionChange)="selectData2($event)">
+        <mat-option *ngFor="let budjet of DataType2" [value]="budjet.value">
+          {{budjet.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <div class="row">
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 grid-margin stretch-card">
         <div class="card card-statistics">
@@ -54,9 +62,9 @@
                 <i class="mdi mdi-numeric-1-box text-white icon-lg"></i>
               </div>
               <div class="float-right">
-                <p class="mb-0 text-right wrfont">จำนวนหม้อแปลง 1 เฟส<BR>รอนำเข้าเฟสมิเตอร์ใน GIS</p>
+                <p class="mb-0 text-right wrfont">หม้อแปลง 1 เฟส<BR>{{dataLabel}}รอนำเข้าเฟสมิเตอร์ใน GIS</p>
                 <div class="fluid-container">
-                  <h3 class="font-weight-medium text-right mb-0 wrfont">{{PEA_TR6}} เครื่อง</h3>
+                  <h3 class="font-weight-medium text-right mb-0 wrfont">{{PEA_TR6 | number}} เครื่อง</h3>
                 </div>
               </div>
             </div>
@@ -74,9 +82,9 @@
                 <i class="mdi mdi-numeric-2-box text-white icon-lg"></i>
               </div>
               <div class="float-right">
-                <p class="mb-0 text-right wrfont">จำนวนหม้อแปลง 3 เฟส<BR>รอนำเข้าเฟสมิเตอร์ใน GIS</p>
+                <p class="mb-0 text-right wrfont">หม้อแปลง 3 เฟส<BR>{{dataLabel}}รอนำเข้าเฟสมิเตอร์ใน GIS</p>
                 <div class="fluid-container">
-                  <h3 class="font-weight-medium text-right mb-0 wrfont">{{PEA_TR7}} เครื่อง</h3>
+                  <h3 class="font-weight-medium text-right mb-0 wrfont">{{PEA_TR7 | number}} เครื่อง</h3>
                 </div>
               </div>
             </div>
@@ -94,9 +102,9 @@
                 <i class="mdi mdi-numeric-3-box text-white icon-lg"></i>
               </div>
               <div class="float-right">
-                <p class="mb-0 text-right wrfont">จำนวนหม้อแปลงทั้งหมด<BR>รอนำเข้าเฟสมิเตอร์ใน GIS </p>
+                <p class="mb-0 text-right wrfont">{{dataLabel}}ทั้งหมด<BR>รอนำเข้าเฟสมิเตอร์ใน GIS </p>
                 <div class="fluid-container">
-                  <h3 class="font-weight-medium text-right mb-0 wrfont">{{PEA_TR6+PEA_TR7}} เครื่อง</h3>
+                  <h3 class="font-weight-medium text-right mb-0 wrfont">{{PEA_TR6+PEA_TR7 | number}} เครื่อง</h3>
                 </div>
               </div>
             </div>
@@ -115,7 +123,7 @@
             <p class="ml-1 mb-0 text-center ">ผลการนำเข้าเฟสมิเตอร์หม้อแปลง 1 เฟส</p>
             <canvas id='myDonut1' style="width: 100%;"></canvas>
             <p class="text-white mt-3 mb-0">
-              <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน {{PEA_TR1 | number}} เครื่อง จาก
+              <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน{{dataLabel}} {{PEA_TR1 | number}} เครื่อง จาก
               {{PEA_TR0 | number}} เครื่อง
             </p>
           </div>
@@ -127,7 +135,7 @@
             <p class="ml-1 mb-0 text-center ">ผลการนำเข้าเฟสมิเตอร์หม้อแปลง 3 เฟส</p>
             <canvas id='myDonut3' style="width: 100%;"></canvas>
             <p class="text-white mt-3 mb-0">
-              <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน {{PEA_TR3 | number}} เครื่อง จาก
+              <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน{{dataLabel}} {{PEA_TR3 | number}} เครื่อง จาก
               {{PEA_TR2 | number}} เครื่อง
             </p>
           </div>
@@ -139,7 +147,7 @@
             <p class="ml-1 mb-0 text-center ">ผลการนำเข้าเฟสมิเตอร์หม้อแปลงทั้งหมด</p>
             <canvas id='myDonut2' style="width: 100%;"></canvas>
             <p class="text-white mt-3 mb-0">
-              <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน {{PEA_TR5 | number}} เครื่อง จาก
+              <i class="mdi mdi-alert-octagon ml-1 mr-1" aria-hidden="true"></i> จำนวน{{dataLabel}} {{PEA_TR5 | number}} เครื่อง จาก
               {{PEA_TR4 | number}} เครื่อง
             </p>
           </div>
