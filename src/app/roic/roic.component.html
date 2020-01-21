@@ -1,3 +1,251 @@
-<p>
-  roic works!
-</p>
+<!-----------------------------------Table------------------------------------------------->
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>รายงานแผนการปรับปรุงและติดตั้งหม้อแปลงไฟฟ้าเพื่อเพิ่มประสิทธิภาพการจ่ายไฟในระบบแรงต่ำ</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <!--
+    <div class="row">
+      
+      <div class="col-md-6">       
+        <mat-form-field>
+          <mat-label>กฟฟ. </mat-label>
+          <mat-select (selectionChange)="selectPea($event)">
+            <mat-option *ngFor="let pea of peaname2" [value]="[pea.peaEng,pea.peaCode,pea.peaName]">
+              {{pea.peaCode +" "+pea.peaName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>       
+      </div>     
+    </div>
+     -->
+    <div class="row">
+      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 grid-margin stretch-card">
+        <canvas style="height: 100%;" id='progressBarN2'></canvas>
+      </div>
+      <div>
+        <div class="card card-statistics">
+          <div class="card-body bg-success">
+            <div class="clearfix">
+              <div class="float-left">
+                <i class="mdi mdi-numeric-1-box text-white icon-lg"></i>
+              </div>
+              <div class="float-right">
+                <p class="mb-0 text-right wrfont">แผนงาน</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0 wrfont">48,850 kVA</h3>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      
+        <div class="card card-statistics">
+            <div class="card-body" style="background-color: forestgreen;">
+              <div class="clearfix">
+                <div class="float-left">
+                  <i class="mdi mdi-numeric-2-box text-white icon-lg"></i>
+                </div>
+                <div class="float-right">
+                  <p class="mb-0 text-right wrfont">ผลการดำเนินการ D1-F4</p>
+                  <div class="fluid-container">
+                    <h3 class="font-weight-medium text-right mb-0 wrfont">{{kvaTotal|number}} kVA</h3>
+                  </div>
+                </div>
+                <p class="text-white mt-0 mb-0" style="font-size:120%">
+                  <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น {{kvaTotal/48850*100 | number}}%
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="card card-statistics">
+            <div class="card-body  bg-primary">
+              <div class="clearfix">
+                <div class="float-left">
+                  <i class="mdi mdi-numeric-3-box text-white icon-lg"></i>
+                </div>
+                <div class="float-right">
+                  <p class="mb-0 text-right wrfont">ผลการดำเนินการ D2-F4</p>
+                  <div class="fluid-container">
+                    <h3 class="font-weight-medium text-right mb-0 wrfont">{{kvaTotal-kvaD1Total |number}} kVA</h3>
+                  </div>
+                </div>
+                <p class="text-white mt-0 mb-0" style="font-size:120%">
+                  <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น {{(kvaTotal-kvaD1Total)/48850*100 | number}}%
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
+          <canvas id='progressBar'></canvas>
+        </div>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 grid-margin stretch-card">
+          <canvas id='progressWorkCostBar'></canvas>
+        </div>
+        
+        <div>
+          <div class="card card-statistics">
+            <div class="card-body bg-success">
+              <div class="clearfix">
+                <div class="float-left">
+                  <i class="mdi mdi-numeric-1-box text-white icon-lg"></i>
+                </div>
+                <div class="float-right">
+                  <p class="mb-0 text-right wrfont">ค่าใช้จ่ายหน้างานอนุมัติ</p>
+                  <div class="fluid-container">
+                    <h3 class="font-weight-medium text-right mb-0 wrfont">{{workCostPlnTotal/1e6|number}}  ล้านบาท</h3>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+        
+          <div class="card card-statistics">
+              <div class="card-body" style="background-color: forestgreen;">
+                <div class="clearfix">
+                  <div class="float-left">
+                    <i class="mdi mdi-numeric-2-box text-white icon-lg"></i>
+                  </div>
+                  <div class="float-right">
+                    <p class="mb-0 text-right wrfont">ผลการเบิกจ่าย</p>
+                    <div class="fluid-container">
+                      <h3 class="font-weight-medium text-right mb-0 wrfont">{{workCostActTotal/1e6|number}} ล้านบาท</h3>
+                    </div>
+                  </div>
+                  <p class="text-white mt-0 mb-0" style="font-size:120%">
+                    <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น {{workCostActTotal/workCostPlnTotal*100 | number}}%
+                  </p>
+                </div>
+              </div>
+            </div>
+        </div>  
+
+
+
+
+
+        
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 grid-margin stretch-card">
+          <canvas id='progressMatCostBar'></canvas>
+        </div>
+        <div>
+          <div class="card card-statistics">
+            <div class="card-body bg-success">
+              <div class="clearfix">
+                <div class="float-left">
+                  <i class="mdi mdi-numeric-1-box text-white icon-lg"></i>
+                </div>
+                <div class="float-right">
+                  <p class="mb-0 text-right wrfont">ค่าพัสดุอนุมัติ</p>
+                  <div class="fluid-container">
+                    <h3 class="font-weight-medium text-right mb-0 wrfont">{{matCostPlnTotal/1e6|number}} ล้านบาท</h3>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+        
+          <div class="card card-statistics">
+              <div class="card-body" style="background-color: forestgreen;">
+                <div class="clearfix">
+                  <div class="float-left">
+                    <i class="mdi mdi-numeric-2-box text-white icon-lg"></i>
+                  </div>
+                  <div class="float-right">
+                    <p class="mb-0 text-right wrfont">ผลการเบิกจ่าย</p>
+                    <div class="fluid-container">
+                      <h3 class="font-weight-medium text-right mb-0 wrfont">{{matCostActTotal/1e6|number}} ล้านบาท</h3>
+                    </div>
+                  </div>
+                  <p class="text-white mt-0 mb-0" style="font-size:120%">
+                    <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น {{matCostActTotal/matCostPlnTotal*100 | number}}%
+                  </p>
+                </div>
+              </div>
+            </div>
+        </div>  
+
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+
+<mat-card style="margin-top: 20px;">
+  <mat-card-header>
+    <mat-card-title>รายงานการเบิกจ่ายค่าใช้จ่ายหน้างาน .TR</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 grid-margin stretch-card">
+        <canvas style="height: 100%;" id='trBarN2'></canvas>
+      </div>
+
+      <div>        
+        <div class="card card-statistics">
+          <div class="card-body bg-success">
+            <div class="clearfix">
+              <div class="float-left">
+                <i class="mdi mdi-numeric-1-box text-white icon-lg"></i>
+              </div>
+              <div class="float-right">
+                <p class="mb-0 text-right wrfont">เป้าการเบิกจ่าย</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0 wrfont">30 ล้านบาท</h3>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="card card-statistics">
+            <div class="card-body" style="background-color: forestgreen;">
+              <div class="clearfix">
+                <div class="float-left">
+                  <i class="mdi mdi-numeric-2-box text-white icon-lg"></i>
+                </div>
+                <div class="float-right">
+                  <p class="mb-0 text-right wrfont">ผลการเบิกงบ TR</p>
+                  <div class="fluid-container">
+                    <h3 class="font-weight-medium text-right mb-0 wrfont">{{workCostActTRTotal/1e6|number}} ล้านบาท</h3>
+                  </div>
+                </div>
+                <p class="text-white mt-0 mb-0" style="font-size:120%">
+                  <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น {{workCostActTRTotal/30e6*100 | number}}%
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="card card-statistics">
+            <div class="card-body bg-primary">
+              <div class="clearfix">
+                <div class="float-left">
+                  <i class="mdi mdi-numeric-3-box text-white icon-lg"></i>
+                </div>
+                <div class="float-right">
+                  <p class="mb-0 text-right wrfont">รอโอนงขจากงาน BY</p>
+                  <div class="fluid-container">
+                    <h3 class="font-weight-medium text-right mb-0 wrfont">{{workCostActBYTotal/1e6|number}} ล้านบาท</h3>
+                  </div>
+                </div>
+                <p class="text-white mt-0 mb-0" style="font-size:120%">
+                  <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น {{workCostActBYTotal/30e6*100 | number}}%
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
+          <canvas id='trBar'></canvas>
+        </div>
+
+    </div>
+</mat-card-content>
+</mat-card>

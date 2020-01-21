@@ -23,8 +23,10 @@ import {AuthGuard} from './auth.guard'
 import {UploadComponent} from'./upload/upload.component';
 import {JobapproveComponent} from './jobapprove/jobapprove.component';
 import {LVProComponent} from'./lvpro/lvpro.component';
-import {PsimdashboardComponent} from './psimdashboard/psimdashboard.component'
-import {PhasechkComponent} from './phasechk/phasechk.component'
+import {PsimdashboardComponent} from './psimdashboard/psimdashboard.component';
+import {PhasechkComponent} from './phasechk/phasechk.component';
+import {RoicComponent} from './roic/roic.component';
+
 //,canActivate:[AuthGuard]
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -51,6 +53,7 @@ const routes: Routes = [
   { path: 'lvpro', component: LVProComponent,canActivate:[AuthGuard]  },
   { path: 'psim', component: PsimdashboardComponent,canActivate:[AuthGuard] },
   { path: 'phasecheck', component: PhasechkComponent,canActivate:[AuthGuard] },
+  { path: 'roic', component: RoicComponent,canActivate:[AuthGuard] },
 ];
 
 @NgModule({
