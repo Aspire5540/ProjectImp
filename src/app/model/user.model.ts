@@ -102,6 +102,15 @@ export interface appJob {
   appNo:number;
 
 }
+export interface jobRemain {
+  wbs : string;
+  jobName :string;
+  workCostPln : number;
+  userStatus : string;
+  jobStatus:string;
+  workCostAct:number;
+
+}
 export interface trdata {
   PEA_TR : string;
   Location : string;

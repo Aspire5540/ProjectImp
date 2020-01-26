@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfigService } from '../config/config.service';
 import { Chart } from 'chart.js';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatSort } from '@angular/material/sort';
+import { jobRemain} from '../model/user.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-roic',
@@ -8,8 +12,14 @@ import { Chart } from 'chart.js';
   styleUrls: ['./roic.component.scss']
 })
 export class RoicComponent implements OnInit {
+  budjets= [
+    {value: ['I-60-B','.BY.'], viewValue: 'I60.BY'},
+    {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
+    {value: ['I-62-B','.TR.'], viewValue: 'I62.TR'},
+  ];
   peaname = {};
   peaname2 = [];
+  selBudjet=['I-62-B','.TR.'];
   selPea = '';
   selPeaName = 'กฟน.2';
   selPeapeaCode = '';
@@ -33,7 +43,12 @@ export class RoicComponent implements OnInit {
   workCostPlnTotal:number;
   matCostActTotal:number;
   matCostPlnTotal:number;  
-  constructor(private configService: ConfigService ) {}
+  displayedColumns = ['wbs', 'jobName', 'workCostPln', 'workCostAct','percent','jobStatus', 'userStatus'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  public dataSource = new MatTableDataSource<jobRemain>();
+
+  constructor(private configService: ConfigService, private http: HttpClient, ) {}
 
   ngOnInit() {
     this.peaCode = localStorage.getItem('peaCode');
@@ -41,10 +56,28 @@ export class RoicComponent implements OnInit {
     this.selPeapeaCode = this.peaCode.substr(0, 4);
     this.getpeaList();
     this.getpeaList2();
+   
+
+    this.dataSource.paginator = this.paginator;
+
+  }
+  getRemianData = () => {
+
+    this.configService.getJobRemain('roic/rdJobRemain.php?filter1='+this.selBudjet[0]+'&filter2='+this.selBudjet[1]+'&peaCode='+this.selPeapeaCode)
+      //this.configService.getTr('TR.php?condition='+this.condition+'&peaCode0='+'B00000')
+      .subscribe(res => {
+        this.dataSource.data = res as jobRemain[];
+      })
+  }
+  applyFilter(filterValue: string) {
+    
+    this.dataSource.filter = (filterValue).trim().toLowerCase();
+  }
+  callData(){
     this.getJobProgressPea();
     this.getTrPea();
     this.getBudgetPea();
-
+    this.getRemianData();
   }
   getpeaList() {
     this.configService.postdata('phase/rdpeaall.php', {}).subscribe((data => {
@@ -53,6 +86,7 @@ export class RoicComponent implements OnInit {
           this.peaname[element.peaCode] = element.peaName;
 
         });
+        this.callData();
         this.currentPea = this.peaname[this.peaCode.substring(0, 6)];
         if (this.peaCode == "B00000") {
           this.currentMatherPea = this.peaname[this.peaCode.substring(0, 6)];
@@ -78,12 +112,14 @@ export class RoicComponent implements OnInit {
       }
 
     }))
+    
   }
   selectPea(event) {
     this.selPea = event.value[0];
     this.selPeaName = event.value[2];
     this.selPeapeaCode = event.value[1];
     this.currentMatherPea = this.peaname[this.selPeapeaCode];
+    this.getRemianData();
 
   }
   getJobProgressPea() {
@@ -731,5 +767,9 @@ export class RoicComponent implements OnInit {
       }
 
     }));
+  }
+  selectBudget(event){
+    this.selBudjet=event.value;
+    this.getRemianData();
   }
 }
