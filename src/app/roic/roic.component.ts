@@ -3,8 +3,7 @@ import { ConfigService } from '../config/config.service';
 import { Chart } from 'chart.js';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
-import { jobRemain} from '../model/user.model';
-import { HttpClient } from '@angular/common/http';
+import { jobRemain,jobRemain2} from '../model/user.model';
 
 @Component({
   selector: 'app-roic',
@@ -17,12 +16,15 @@ export class RoicComponent implements OnInit {
     {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
     {value: ['I-62-B','.TR.'], viewValue: 'I62.TR'},
   ];
+  myBarClsd:Chart;
+  myBar3:Chart;
   peaname = {};
   peaname2 = [];
   selBudjet=['I-62-B','.TR.'];
   selPea = '';
   selPeaName = 'กฟน.2';
   selPeapeaCode = '';
+  selPeapeaCode2 = 'B000';
   currentMatherPea = "";
   currentPea = "";
   peaCode = "";
@@ -42,26 +44,50 @@ export class RoicComponent implements OnInit {
   workCostActTotal:number;
   workCostPlnTotal:number;
   matCostActTotal:number;
-  matCostPlnTotal:number;  
+  matCostPlnTotal:number; 
+  roicdate:string; 
   displayedColumns = ['wbs', 'jobName', 'workCostPln', 'workCostAct','percent','jobStatus', 'userStatus'];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  public dataSource = new MatTableDataSource<jobRemain>();
+  displayedColumns2 = ['wbs', 'jobName', 'workCostPln', 'workCostAct','percent','jobStatus', 'userStatus'];
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator2') paginator2: MatPaginator;
+  @ViewChild('sort') sort: MatSort;
+  @ViewChild('sort2') sort2: MatSort;
 
-  constructor(private configService: ConfigService, private http: HttpClient, ) {}
+  public dataSource = new MatTableDataSource<jobRemain>();
+  public dataSource2 = new MatTableDataSource<jobRemain2>();
+
+  constructor(private configService: ConfigService) {}
 
   ngOnInit() {
+    this.dataSource.paginator = this.paginator; 
+    this.dataSource2.paginator = this.paginator2; 
+    
+    this.dataSource.sort = this.sort;
+    this.dataSource2.sort = this.sort2;
+
     this.peaCode = localStorage.getItem('peaCode');
     this.peaNum = this.peaCode.substr(1, 5);
     this.selPeapeaCode = this.peaCode.substr(0, 4);
     this.getpeaList();
     this.getpeaList2();
-   
-
+    this.getinfo();
+    this.getRemianBY();
     this.dataSource.paginator = this.paginator;
 
   }
-  getRemianData = () => {
+  getinfo(){
+    this.configService.postdata('roic/rdInfo.php', {data:'roicdate'}).subscribe((data => {
+      if (data.status == 1) {
+        this.roicdate=data.data[0].info;
+        console.log(data);
+      } else {
+        alert(data.data);
+      }
+
+    }));
+
+  }
+  getRemianData(){
 
     this.configService.getJobRemain('roic/rdJobRemain.php?filter1='+this.selBudjet[0]+'&filter2='+this.selBudjet[1]+'&peaCode='+this.selPeapeaCode)
       //this.configService.getTr('TR.php?condition='+this.condition+'&peaCode0='+'B00000')
@@ -69,9 +95,21 @@ export class RoicComponent implements OnInit {
         this.dataSource.data = res as jobRemain[];
       })
   }
+  getRemianBY(){
+
+    this.configService.getBYRemain('roic/rdBYRemain.php?filter1='+this.selBudjet[0]+'&filter2='+this.selBudjet[1]+'&peaCode='+this.selPeapeaCode2)
+      //this.configService.getTr('TR.php?condition='+this.condition+'&peaCode0='+'B00000')
+      .subscribe(res => {
+        this.dataSource2.data = res as jobRemain2[];
+      })
+  }
   applyFilter(filterValue: string) {
     
     this.dataSource.filter = (filterValue).trim().toLowerCase();
+  }
+  applyFilter2(filterValue: string) {
+    
+    this.dataSource2.filter = (filterValue).trim().toLowerCase();
   }
   callData(){
     this.getJobProgressPea();
@@ -120,7 +158,13 @@ export class RoicComponent implements OnInit {
     this.selPeapeaCode = event.value[1];
     this.currentMatherPea = this.peaname[this.selPeapeaCode];
     this.getRemianData();
+    this.getJobClsdPea();
 
+  }
+  selectPea2(event) {
+    this.selPeapeaCode2 = event.value[1];
+    this.getRemianBY();
+    this.getTrPea();
   }
   getJobProgressPea() {
     //จำนวนงานคงค้าง %เบิกจ่าย
@@ -134,20 +178,16 @@ export class RoicComponent implements OnInit {
         var chartTitle: string;
         this.kvaTotal=0;
         this.kvaD1Total=0;
-        var dataName='';
-        var i=0;
         var kva2={};
         var kvaPln=[];
         data.dataD1.forEach(element => {
-          this.kvaD1Total=this.kvaTotal+Number(element.totaltr);      
+          this.kvaD1Total=this.kvaD1Total+Number(element.totaltr);      
           kva2[element.Pea]=Number(element.totaltr);
         });
-        console.log(this.peaname);
+        
         data.data.forEach(element => {
           this.kvaTotal=this.kvaTotal+Number(element.totaltr);      
           Pea.push(this.peaname["B" + element.Pea]);
-          console.log("B" + element.Pea);
-          console.log(this.peaname["B" + element.Pea]);
           kva.push(Number(element.totaltr));
           if(kva2[element.Pea]){
             kvaD1.push(Number(element.totaltr)-kva2[element.Pea]);
@@ -322,7 +362,7 @@ export class RoicComponent implements OnInit {
   getTrPea() {
     //จำนวนงานคงค้าง %เบิกจ่าย
     this.getRoicP();
-    this.configService.postdata('roic/rdTrProgress.php', { peaCode: 'B000'}).subscribe((data => {
+    this.configService.postdata('roic/rdTrProgress.php', { peaCode: this.selPeapeaCode2}).subscribe((data => {
       if (data.status == 1) {
         var Pea = [];
         var workCostActTR = [];
@@ -522,6 +562,136 @@ export class RoicComponent implements OnInit {
 
     }));
   }
+  public test(){
+    console.log("ffff");
+
+  }
+  getJobClsdPea(){ 
+    //จำนวนงานคงค้าง %เบิกจ่าย
+    var pClsd=[];
+     this.configService.postdata('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+      if(data.status==1){
+        var WorkCostPea=[];
+        var WorkCostPercentPea=[];
+  
+        var nwbsArr=[];
+        var matCostPercentPea=[];
+        data.data.forEach(element => { 
+          nwbsArr.push(element.nWBS);
+          pClsd.push((Number(element.nWBS)/Number(element.totalWbs)*100).toFixed(2));
+          WorkCostPea.push(this.peaname[element.Pea]);
+          WorkCostPercentPea.push((Number(element.workCostAct)/Number(element.workCostPln)*100).toFixed(2));
+          matCostPercentPea.push((Number(element.matCostAct)/Number(element.matCostPln)*100).toFixed(2));
+         
+          
+        });
+      //แสดงงานคงค้าง
+        var chartData={
+          labels: WorkCostPea,
+          datasets: [{
+          label: 'จำนวนงานคงค้าง',
+          data: nwbsArr,
+          backgroundColor:'#07CCD6',
+        }]};
+
+
+
+        var chartTitle='จำนวนงานคงค้าง';
+
+        if (this.myBar3) this.myBar3.destroy();
+
+        this.myBar3 = new Chart('myBar3', {
+          type: 'bar',
+          data:  chartData,
+        options: {
+          // Elements options apply to all of the options unless overridden in a dataset
+          // In this case, we are setting the border of each horizontal bar to be 2px wide
+          elements: {
+            rectangle: {
+              borderWidth: 2,
+            }
+          },
+          responsive: true,
+          legend: {
+            position: 'bottom',
+            display: true,
+          
+          },
+          title: {
+            display: true,
+            text: chartTitle
+          },
+          scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+        },
+        
+      });
+
+    //Percent Clsd
+      chartData= {
+        labels: WorkCostPea,
+        datasets:[
+        
+  {
+    label: 'เปอร์เซนต์คงค้าง',
+    data: pClsd,
+    backgroundColor: '#DAF7A6',
+  }]};
+
+
+
+  if (this.myBarClsd) this.myBarClsd.destroy();
+
+  this.myBarClsd = new Chart('myBarClsd', {
+    type: 'bar',
+    data:  chartData,
+  options: {
+    // Elements options apply to all of the options unless overridden in a dataset
+    // In this case, we are setting the border of each horizontal bar to be 2px wide
+    elements: {
+      rectangle: {
+        borderWidth: 2,
+      }
+    },
+    responsive: true,
+    legend: {
+      position: 'bottom',
+      display: true,
+    
+    },
+    title: {
+      display: true,
+      text: chartTitle
+    },
+    scales: {
+      yAxes: [{
+          ticks: {
+              beginAtZero: true
+          }
+      }]
+  }
+  },
+  
+});
+
+
+        //this.nwbs=data.data.nwbs;
+        //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
+        
+      }else{
+        alert(data.data);
+      }
+  
+    }));
+
+  
+
+  }
   getBudgetPea() {
     //จำนวนงานคงค้าง %เบิกจ่าย
     this.getRoicP();
@@ -549,7 +719,7 @@ export class RoicComponent implements OnInit {
           this.workCostActTotal=this.workCostActTotal+Number(element.workCostAct);
           this.workCostPlnTotal=this.workCostPlnTotal+Number(element.workCostPln);
           this.matCostActTotal=this.matCostActTotal+Number(element.matCostAct)+Number(element.matCostInAct);
-          this.matCostPlnTotal=this.matCostPlnTotal+Number(element.matCostInPln);
+          this.matCostPlnTotal=this.matCostPlnTotal+Number(element.matCostPln)+Number(element.matCostInPln);
   
         });
 
@@ -694,6 +864,8 @@ export class RoicComponent implements OnInit {
             },
             onClick:function(event,value){
                 console.log(value[0]._view.label);
+                console.log("6666");
+                this.Test();
             },
             responsive: true,
             legend: {
@@ -771,5 +943,9 @@ export class RoicComponent implements OnInit {
   selectBudget(event){
     this.selBudjet=event.value;
     this.getRemianData();
+    this.getJobClsdPea()
   }
+  exportAsXLSX():void {
+    this.configService.exportAsExcelFile(this.dataSource.data, 'งานคงค้าง');
+ }
 }

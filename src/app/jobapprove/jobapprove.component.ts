@@ -4,7 +4,7 @@ import { ConfigService } from '../config/config.service';
 import 'rxjs/add/observable/of';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
 import { jobreq  } from '../model/user.model';
-
+import { HttpClient,HttpHandler } from '@angular/common/http';
 import {MatSort} from '@angular/material/sort';
 import {Chart} from 'chart.js';
 @Component({
@@ -16,6 +16,7 @@ export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
   @ViewChild('f') registerForm: NgForm;
   selPeapeaCode = 'B000';
+  projectName='';
   WorkCost =0 ;
   WorkCostPercent=0;
   WorkCostApp=0;
@@ -34,8 +35,7 @@ export class JobapproveComponent implements OnInit {
   chartTitle:string;
   budjets= [
     {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
-    {value: ['I-62-B','.41.11'], viewValue: 'I62.41.1100'},
-    {value: ['I-62-B','.41.12'], viewValue: 'I62.41.1200'},
+    {value: ['I-63-B','.MS.'], viewValue: 'I63.MS'},
     {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'}
   ];
   dataTypes=[

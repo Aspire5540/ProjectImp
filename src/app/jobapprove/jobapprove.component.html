@@ -121,7 +121,10 @@
                       </mat-form-field>
                 </div>
                 <div class="col-md-3">
-                      <a target="_blank" href="http://172.18.226.19/psisservice/wpdf/wpdf.php?filter1={{selBudjet[0]}}&filter2={{selBudjet[1]}}"><button class="btn btn-success mr-2">พิมพ์ใบสรุปงบ</button></a> 
+                  <mat-form-field >
+                    <input [(ngModel)] ="projectName" matInput placeholder="ชื่องาน">
+                  </mat-form-field>
+                      <a target="_blank" href="http://127.0.0.1/psisservice/wpdf/wpdf.php?filter1={{selBudjet[0]}}&filter2={{selBudjet[1]}}&projectName={{projectName}}"><button class="btn btn-success mr-2">พิมพ์ใบสรุปงบ</button></a> 
                         <button (click)="exportAsXLSX()"><i class="fa fa-file-excel-o" style="font-size:20px;color:blue"></i></button> 
                 </div>
                 
@@ -220,14 +223,5 @@
   </div>
 
 </div>
-<!---                       -->
-<div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 grid-margin stretch-card">
-    <div class="card card-statistics">
-      <div class="card-body">
-        <canvas id='myPieChart'></canvas>
-      </div>
-    </div>
-  
 
-</div>
-</div>
+</div><!-- ปิด check B000-->

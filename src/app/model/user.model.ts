@@ -109,8 +109,17 @@ export interface jobRemain {
   userStatus : string;
   jobStatus:string;
   workCostAct:number;
+}
+export interface jobRemain2 {
+  wbs : string;
+  jobName :string;
+  workCostPln : number;
+  userStatus : string;
+  jobStatus:string;
+  workCostAct:number;
 
 }
+
 export interface trdata {
   PEA_TR : string;
   Location : string;

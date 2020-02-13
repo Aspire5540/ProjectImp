@@ -57,6 +57,7 @@ export class PhasechkComponent implements OnInit {
   currentMatherPea = "";
   Statuss = [
     { value: '-' },
+    { value: 'ปรับปรุงระบบจำหน่ายแรงต่ำใน GIS แล้ว' },
     { value: 'สำรวจแล้วเสร็จรอนำเข้า GIS' },
     { value: 'นำเข้าเฟสมิเตอร์ใน GIS แล้ว' },
   ];
