@@ -26,7 +26,8 @@ import { DropdownComponent } from './dropdown/dropdown.component';
 import { TooltipsComponent } from './tooltips/tooltips.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { TabsComponent } from './tabs/tabs.component';
-import { SumtableComponent } from './sumtable/sumtable.component';
+import { SumtableComponent} from './sumtable/sumtable.component';
+import {ConfirmationDialog} from './sumtable/confirmation-dialog.component';
 import {FileuploadService} from './config/fileupload.service';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -36,8 +37,6 @@ import {ConfigService} from './config/config.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {A11yModule} from '@angular/cdk/a11y';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {PortalModule} from '@angular/cdk/portal';
-import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
@@ -87,7 +86,7 @@ import { LVProComponent } from './lvpro/lvpro.component';
 import { PsimdashboardComponent } from './psimdashboard/psimdashboard.component';
 import { PhasechkComponent } from './phasechk/phasechk.component';
 import { RoicComponent } from './roic/roic.component';
-
+import { from } from 'rxjs';
 @NgModule({
   declarations: [
     AppComponent,
@@ -118,6 +117,7 @@ import { RoicComponent } from './roic/roic.component';
     PsimdashboardComponent,
     PhasechkComponent,
     RoicComponent,
+    ConfirmationDialog,
     
   ],
   imports: [
@@ -172,6 +172,7 @@ import { RoicComponent } from './roic/roic.component';
     MatTreeModule,
     HttpModule,
   ],
+  entryComponents: [ConfirmationDialog],
   providers: [ConfigService,AuthGuard,FileuploadService],
   bootstrap: [AppComponent]
 })

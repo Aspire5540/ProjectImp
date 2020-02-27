@@ -17,8 +17,8 @@ import { MatSort } from '@angular/material/sort';
 })
 export class PhasechkComponent implements OnInit {
 
-  displayedColumns = ['PEA_TR', 'SUBTYPECOD', 'Kva', 'location', 'Feeder', 'nMeter', 'status', 'peaName', 'PEA_Meter'];
-  displayedColumns1 = ['PEA_Meter', 'PhaseMeterGis'];
+  displayedColumns = ['PEA_TR', 'SUBTYPECOD', 'Kva', 'location', 'Feeder', 'nMeter','nSMRT', 'status', 'peaName', 'PEA_Meter'];
+  displayedColumns1 = ['PEA_Meter', 'PhaseMeterGis','LOCATION'];
   //displayedColumns2 = ['PEA_TR','Feeder','PEA_Meter','CustName','SUBTYPECOD', 'kWh','rate','rateMeter','Voltage','Line_Type'];
   //TRNo = "00-050333";
   @ViewChild('f') registerForm: NgForm;
@@ -44,11 +44,13 @@ export class PhasechkComponent implements OnInit {
   PEA_TR5: number;
   PEA_TR6: number;
   PEA_TR7: number;
-
+  Pln : number;
+  result : number;
+  inpro : number;
   PEA_TR1perPEA_TR0: number;
   PEA_TR3perPEA_TR0: number;
   PEA_TR2perPEA_TR0: number;
-
+  dataDate:string;
   progressBar: Chart;
   progressBar2: Chart;
   progressLine: Chart;
@@ -94,7 +96,7 @@ export class PhasechkComponent implements OnInit {
     this.getpeaList();
     this.getpeaList2();
     this.callData();
-
+    this.getinfo();
 
     //this.getMeterData();
 
@@ -110,6 +112,18 @@ export class PhasechkComponent implements OnInit {
     this.getStatus();
     this.getJobProgressPea2();
     this.getProgreesMnt();
+
+  }
+  getinfo(){
+    this.configService.postdata('phase/rdInfo.php', {}).subscribe((data => {
+      if (data.status == 1) {
+        this.dataDate=data.data[0].info;
+        console.log(data);
+      } else {
+        alert(data.data);
+      }
+
+    }));
 
   }
   public getTrData = () => {
@@ -215,6 +229,8 @@ export class PhasechkComponent implements OnInit {
       } else {
         peaTitle = this.peaname[this.selPeapeaCode.substring(0, 4)] + "และ กฟฟ.ในสังกัด";
       }
+
+  
 
       data.data.forEach(element => {
         totalTr = totalTr + Number(element.totalTr);
@@ -590,12 +606,16 @@ export class PhasechkComponent implements OnInit {
     }else{
       selData2=2;
     }
-    this.configService.postdata('phase/rdJobProgressPea2.php', { peaCode: this.selPeapeaCode, selDataType: selData2 }).subscribe((data => {
+    //rdJobProgressPea2
+    this.configService.postdata('phase/loadGis.php', { peaCode: this.selPeapeaCode, selDataType: selData2 }).subscribe((data => {
       if (data.status == 1) {
         var Pea = [];
+        
         var pComp = [];
+        //var pComp2 = [];
         var chartData: any;
         var pIn = [];
+        var pIn2 = [];
         var trgArry = [];
         var peaTitle = '';
         var mntList = [11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -611,43 +631,54 @@ export class PhasechkComponent implements OnInit {
         var chartTitle: string;
         var AccNComp=0;
         var AccNIn=0;
+        var AccNIn2=0;
         var AccTotal=0;
         var dataName='';
+        var progressNow={};
+        var TargetNow={};
+        data.data2.forEach(element => {
+          progressNow[element.Pea]=Number(element.nComp);
+          TargetNow[element.Pea]=Number(element.totalTr);
+        });
+
         data.data.forEach(element => {
-          AccNComp=AccNComp+Number(element.nComp);
+          AccNComp=AccNComp+progressNow[element.Pea];
           AccNIn=AccNIn+Number(element.nInp);
+          AccNIn2=AccNIn2+Number(element.nInp2);
           Pea.push(this.peaname["B" + element.Pea]);
-          AccTotal=AccTotal+Number(element.totalTr);
+       
+          AccTotal=AccTotal+TargetNow[element.Pea];
           if (this.selDataType < 3) {
             trg = 100 / 11 * (mntList.indexOf(n + 1) + 1);
             trgArry.push(trg.toFixed(2));
-            pComp.push((Number(element.nComp) / Number(element.totalTr) * 100).toFixed(2));
-            pIn.push((Number(element.nInp) / Number(element.totalTr) * 100).toFixed(2));
+            pComp.push((progressNow[element.Pea] / TargetNow[element.Pea] * 100).toFixed(2));
+            pIn.push((Number(element.nInp) / TargetNow[element.Pea] * 100).toFixed(2));
+            pIn2.push((Number(element.nInp2) / TargetNow[element.Pea] * 100).toFixed(2));
           } else {
-            pComp.push((Number(element.nComp)));
+            pComp.push(progressNow[element.Pea]);
             pIn.push((Number(element.nInp)));
+            pIn2.push((Number(element.nInp2)));
             //trg = 100 / 11 * (mntList.indexOf(n + 1) + 1);
-            trg = element.totalTr / 11 * (mntList.indexOf(n + 1) + 1);
+            trg = TargetNow[element.Pea] / 11 * (mntList.indexOf(n + 1) + 1);
             trgArry.push(trg.toFixed(0));
           }
         });
+        /*
         if (this.selDataType <3) {
           trg = 100 / 11 * (mntList.indexOf(n + 1) + 1);
           trgArry.push(trg.toFixed(2));
           pComp.push((Number(AccNComp) / Number(AccTotal) * 100).toFixed(2));
           pIn.push((Number(AccNIn) / Number(AccTotal) * 100).toFixed(2));
+          pIn2.push((Number(AccNIn2) / Number(AccTotal) * 100).toFixed(2));
         }else{
           trg = AccTotal / 11 * (mntList.indexOf(n + 1) + 1);
           trgArry.push(trg.toFixed(0));
           pComp.push(Number(AccNComp));
           pIn.push(Number(AccNIn));
- 
-
-
-
-
+          pIn2.push(Number(AccNIn2));
         }
-        Pea.push("รวม");
+        */
+        //Pea.push("รวม");
 
         if (this.selDataType == 1) {
           dataName='%หม้อแปลง';
@@ -662,8 +693,44 @@ export class PhasechkComponent implements OnInit {
           dataName='จำนวนมิเตอร์';
           chartTitle = 'ผลการดำเนินการด้านมิเตอร์ ' + peaTitle;
         }
-
-        if(this.selDataType==1 || this.selDataType==2){
+        this.Pln=AccTotal;
+        this.result=AccNComp;
+        this.inpro=AccNIn;
+        if(this.selDataType==1){
+          chartData = {
+            type: 'bar',
+            labels: Pea,
+            datasets: [
+              {
+                label: dataName+'-แรงต่ำนำเข้า GIS',
+                data: pIn2,
+                backgroundColor: '#f8328b',
+              },
+              {
+                label: dataName+'-มิเตอร์รอนำเข้า GIS',
+                data: pIn,
+                backgroundColor: '#07CCD6',
+              },
+              {
+                type: 'bar',
+                label: dataName+'-มิเตอร์นำเข้า GIS',
+                data: pComp,
+                backgroundColor: '#DAF7A6',
+              },
+              {
+                type: 'line',
+                label: '%แผนงาน',
+                data: trgArry,
+                //steppedLine: true,
+                //backgroundColor: '#07CCD6',
+                borderColor: '#5689ff',
+                borderWidth: 2,
+                fill: false,
+              }
+  
+            ]
+          };
+        }else if(this.selDataType==2){
           chartData = {
             type: 'bar',
             labels: Pea,
@@ -692,7 +759,41 @@ export class PhasechkComponent implements OnInit {
   
             ]
           };
-        }else{
+        }else if(this.selDataType==3){
+          chartData = {
+            type: 'bar',
+            labels: Pea,
+            datasets: [
+              {
+                label: dataName+'-แรงต่ำนำเข้า GIS',
+                data: pIn2,
+                backgroundColor: '#f8328b',
+              },
+              {
+                label: dataName+'-มิเตอร์รอนำเข้า GIS',
+                data: pIn,
+                backgroundColor: '#07CCD6',
+              },
+              {
+                type: 'bar',
+                label: dataName+'-มิเตอร์นำเข้า GIS',
+                data: pComp,
+                backgroundColor: '#DAF7A6',
+              },
+              {
+                type: 'bar',
+                label: '%แผนงาน',
+                data: trgArry,
+                //steppedLine: true,
+                backgroundColor: '#5689ff',
+                //borderColor: '#5689ff',
+                borderWidth: 2,
+                fill: false,
+              }
+  
+            ]
+          };
+        } else{
           chartData = {
             type: 'bar',
             labels: Pea,
@@ -787,6 +888,11 @@ export class PhasechkComponent implements OnInit {
     this.selDataType = event.value;
     this.getJobProgressPea2();
     this.getProgreesMnt();
+    if(this.selDataType==1 || this.selDataType==3){
+      this.dataLabel='หม้อแปลง';
+    }else{
+      this.dataLabel='มิเตอร์';
+    }
   }
   selectData2(event) {
     if(this.selDataType2!=event.value){

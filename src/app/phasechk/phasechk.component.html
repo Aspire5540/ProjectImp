@@ -1,7 +1,8 @@
 <!-----------------------------------Table------------------------------------------------->
 <mat-card>
   <mat-card-header>
-    <mat-card-title>งานสำรวจและนำเข้าเฟสมิเตอร์ กฟฟ. {{currentMatherPea}}</mat-card-title>
+    <mat-card-title>งานสำรวจและนำเข้าเฟสมิเตอร์ กฟฟ. {{currentMatherPea}} สถานะวันที่
+      {{dataDate}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="row">
@@ -29,13 +30,72 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card">
+      <!--
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
         <canvas id='progressLine'></canvas>
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin stretch-card">
+      -->
+      <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 grid-margin stretch-card">
         <canvas id='progressBar'></canvas>
       </div>
+      <div>
+        <div class="card card-statistics">
+          <div class="card-body bg-success">
+            <div class="clearfix">
+              <div class="float-left">
+                <i class="mdi mdi-numeric-1-box text-white icon-lg"></i>
+              </div>
+              <div class="float-right">
+                <p class="mb-0 text-right wrfont">จำนวน{{dataLabel}}ทั้งหมด</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0 wrfont">{{Pln | number}} เครื่อง</h3>
+                </div>
+              </div>
+            </div>
 
+          </div>
+        </div>
+
+
+        <div class="card card-statistics">
+          <div class="card-body" style="background-color: forestgreen;">
+            <div class="clearfix">
+              <div class="float-left">
+                <i class="mdi mdi-numeric-2-box text-white icon-lg"></i>
+              </div>
+              <div class="float-right">
+                <p class="mb-0 text-right wrfont">จำนวน{{dataLabel}}<BR>รอนำเข้าเฟสมิเตอร์ใน GIS</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0 wrfont">{{inpro | number}} เครื่อง</h3>
+                </div>
+              </div>
+              <p class="text-white mt-0 mb-0" style="font-size:120%">
+                <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น {{inpro/Pln*100 | number}}%
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="card card-statistics">
+          <div class="card-body  bg-primary">
+            <div class="clearfix">
+              <div class="float-left">
+                <i class="mdi mdi-numeric-3-box text-white icon-lg"></i>
+              </div>
+              <div class="float-right">
+                <p class="mb-0 text-right wrfont">จำนวน{{dataLabel}}<BR>นำเข้าเฟสมิเตอร์ใน GIS</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0 wrfont">{{result |number}} เครื่อง</h3>
+                </div>
+              </div>
+              <p class="text-white mt-0 mb-0" style="font-size:120%">
+                <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> คิดเป็น
+                {{(result)/Pln*100 | number}}%
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </mat-card-content>
 </mat-card>
@@ -45,6 +105,7 @@
     <mat-card-title>งานสำรวจและนำเข้าเฟสมิเตอร์ กฟฟ. {{currentPea}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <!--
     <mat-form-field>
       <mat-label>เลือกข้อมูล</mat-label>
       <mat-select (selectionChange)="selectData2($event)">
@@ -53,7 +114,9 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    -->
     <div class="row">
+      <!--
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 grid-margin stretch-card">
         <div class="card card-statistics">
           <div class="card-body bg-info">
@@ -153,7 +216,7 @@
           </div>
         </div>
       </div>
-
+ -->
       <div class="form-group">
         <div class="row">
           <div class="col-md-3 ml-3">
@@ -206,7 +269,10 @@
             <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> จำนวนมิเตอร์ </th>
             <td class="table-lg" mat-cell *matCellDef="let trphase"> {{trphase.nMeter}} </td>
           </ng-container>
-
+          <ng-container matColumnDef="nSMRT">
+            <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> %SMRT </th>
+            <td class="table-lg" mat-cell *matCellDef="let trphase"> {{trphase.nSMRT | number}} </td>
+          </ng-container>
           <ng-container matColumnDef="peaName">
             <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> กฟฟ. </th>
             <td class="table-lg" mat-cell *matCellDef="let trphase"> {{trphase.peaName}} </td>
@@ -272,7 +338,10 @@
                   <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>เฟส มิเตอร์ </th>
                   <td class="table-lg" mat-cell *matCellDef="let meterdata3">{{meterdata3.PhaseMeterGis}}</td>
                 </ng-container>
-
+                <ng-container matColumnDef="LOCATION">
+                  <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>สถานที่ติดตั้งมิเตอร์ </th>
+                  <td class="table-lg" mat-cell *matCellDef="let meterdata3">{{meterdata3.LOCATION}}</td>
+                </ng-container>
                 <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
                 <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
               </table>

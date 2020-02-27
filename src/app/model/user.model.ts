@@ -184,8 +184,10 @@ export interface trphase{
   SUBTYPECOD:number;
   peaName:string;
   nMeter:number;
+  nSMRT:number;
 }
 export interface meterdata3 {
   PEA_Meter : string;
   PhaseMeterGis : string;
+  LOCATION:string;
 }

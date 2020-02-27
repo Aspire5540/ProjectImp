@@ -1,0 +1,26 @@
+<div *ngIf="choice==1">
+    <mat-dialog-content>
+        <p>
+            {{message}}
+        </p>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+        <button mat-raised-button color="primary" (click)="onConfirmClick()" tabindex="1">{{confirmButtonText}}</button>
+        <button mat-raised-button mat-dialog-close tabindex="-1">{{cancelButtonText}}</button>
+    </mat-dialog-actions>
+</div>
+<div  *ngIf="choice==2">
+    <mat-dialog-content>
+    <h1 mat-dialog-title>แก้ไขหมายเลขงาน</h1>
+      <p>WBS เดิมคือ {{wbs.wbs}}</p>
+      <mat-form-field>
+        <mat-label>แก้ไข WBS เป็น</mat-label>
+        <input matInput [(ngModel)]="newWbs">
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+        <button mat-raised-button color="primary" (click)="onConfirmClick()" tabindex="1">{{confirmButtonText}}</button>
+        <button mat-raised-button mat-dialog-close tabindex="-1">{{cancelButtonText}}</button>
+    </mat-dialog-actions>
+
+</div>

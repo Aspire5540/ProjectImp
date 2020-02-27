@@ -36,7 +36,9 @@ export class JobapproveComponent implements OnInit {
   budjets= [
     {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
     {value: ['I-63-B','.MS.'], viewValue: 'I63.MS'},
-    {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'}
+    {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'},
+    {value: ['P-TDD01.4','.3'], viewValue: 'PTDD01.4'}
+
   ];
   dataTypes=[
     {value: 0, viewValue: 'จำนวนงานคงค้าง'},
