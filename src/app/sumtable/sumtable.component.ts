@@ -39,6 +39,8 @@ export class SumtableComponent implements OnInit {
   //id: string;
   show: boolean = false;
   wdata = [];
+  budjets=[];
+  filter=['',''];
   //file upload
   URL = "http://172.18.226.19/psisservice/uploads/";
   //URL = "http://127.0.0.1/psisservice/uploads/";
@@ -63,8 +65,9 @@ export class SumtableComponent implements OnInit {
   ngOnInit() {
 
     this.getData();
-    this.getAppData();
+    this.getAppData(['','']);
     this.getJobProgress();
+    this.getFilter();
     this.dataSource.paginator = this.paginator;
     this.dataSource1.paginator = this.paginator1;
 
@@ -72,14 +75,37 @@ export class SumtableComponent implements OnInit {
     this.dataSource1.sort = this.sort1;
     //console.log(this.id);
   }
+  exportAsXLSX():void {
+    this.configService.exportAsExcelFile(this.dataSource1.data, 'งานที่อนุมัติ');
+ }
   getData = () => {
-    this.configService.getWbs('rdimjob.php?peaEng=' + localStorage.getItem('peaEng'))
+    this.configService.getWbs('rdimjob.php?peaEng=' + localStorage.getItem('peaEng')+'&filter1='+this.filter[0]+'&filter2='+this.filter[1])
       .subscribe(res => {
         this.dataSource.data = res as wbsdata[];
       })
   }
-  getAppData = () => {
-    this.configService.getAppJob('rdAppJob.php?peaEng=' + localStorage.getItem('peaEng'))
+  selectBudget(event){
+    this.getAppData(event.value);
+   
+  }
+  selectBudget2(event){
+    this.filter=event.value;
+    this.getData();
+   
+  }
+  getFilter(){
+    this.configService.postdata('rdfilter.php',{}).subscribe((data=>{
+      if(data.status==1){
+          data.data.forEach(element => {
+            this.budjets.push({value: [element.filter1,element.filter2], viewValue: element.project})
+          });
+      }else{
+        alert(data.data);
+      }
+    }))
+  }
+  getAppData = (filter) => {
+    this.configService.getAppJob('rdAppJob.php?peaEng=' + localStorage.getItem('peaEng')+'&filter1='+filter[0]+'&filter2='+filter[1])
       .subscribe(res => {
         this.dataSource1.data = res as appJob[];
       })

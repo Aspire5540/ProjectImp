@@ -33,13 +33,8 @@ export class JobapproveComponent implements OnInit {
   myPieChart: Chart;
   chartData: any;
   chartTitle:string;
-  budjets= [
-    {value: ['I-62-B','.BY.'], viewValue: 'I62.BY'},
-    {value: ['I-63-B','.MS.'], viewValue: 'I63.MS'},
-    {value: ['I-62-B','.MR.1'], viewValue: 'I62.MR'},
-    {value: ['P-TDD01.4','.3'], viewValue: 'PTDD01.4'}
 
-  ];
+ budjets=[];
   dataTypes=[
     {value: 0, viewValue: 'จำนวนงานคงค้าง'},
     {value: 1, viewValue: '% เบิกจ่าย'},
@@ -51,9 +46,10 @@ export class JobapproveComponent implements OnInit {
   selBudjet=['',''];
   selected=2;
   nWbs =0;
-  displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet','note','workCostPln','user','del'];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  displayedColumns = ['wbs', 'jobName','mv','lv','tr', 'causeName', 'solveMet','note','workCostPln','user','del'];
+
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('sort') sort: MatSort;
 
   constructor(private configService :ConfigService) {}
   ngOnInit() {
@@ -64,10 +60,10 @@ export class JobapproveComponent implements OnInit {
     this.dataSource.paginator = this.paginator; 
     this.dataSource.sort = this.sort;
     this.getpeaList();
+    this.getFilter();
     //this.getJobProgress();
     this.getJobProgressPea();
-    
-    //console.log(this.id);
+
 
   }
   selectDataType(event){
@@ -75,11 +71,24 @@ export class JobapproveComponent implements OnInit {
     this.getJobProgressPea();
     
   }
+  getFilter(){
+    this.configService.postdata('rdfilter.php',{}).subscribe((data=>{
+      if(data.status==1){
+          data.data.forEach(element => {
+            this.budjets.push({value: [element.filter1,element.filter2], viewValue: element.project})
+          });
+      }else{
+        alert(data.data);
+      }
+    }))
+  }
   getData = (pea,data) => {
     
     this.configService.getJob('rdimjobview.php?peaCode='+pea+'&filter1='+data[0]+'&filter2='+data[1])
     .subscribe(res => {
       this.dataSource.data = res as jobreq[];
+      this.dataSource.paginator = this.paginator; 
+      this.dataSource.sort = this.sort;
     })
   }
   applyFilter(filterValue: string) {
@@ -332,8 +341,12 @@ export class JobapproveComponent implements OnInit {
  
   }
   onSubmit(){
+    var wdata = this.registerForm.value;
+    wdata["filter1"] = this.selBudjet[0];
+    wdata["filter2"] = this.selBudjet[1];
+    console.log(wdata);
     
-    this.configService.postdata('wrAppJob.php',this.registerForm.value).subscribe((data=>{
+    this.configService.postdata('wrAppJob.php',wdata).subscribe((data=>{
       if(data.status==1){
           this.getData(this.selPea,this.selBudjet);
           this.rdsumcost();
@@ -345,6 +358,7 @@ export class JobapproveComponent implements OnInit {
       }
   
     }))
+    
   }
   exportAsXLSX():void {
     this.configService.exportAsExcelFile(this.dataSource.data, 'sample');

@@ -58,25 +58,18 @@ export interface wbsdata {
 }
 
 export interface jobreq {
-  projectType : string;
+  
   wbs : string;
   jobName : string;
-  docName : string;
-  causeName : string;
-  solveMet  : string;
   mv  : number;
   tr  : number;
   lv : number;
-  filename : string;
-  fileDocname : string;
-  peatr : number;
-  vdrop : number;
-  loadTr : number;
-  status : string;
+  causeName : string;
+  solveMet  : string;
+  note:string;
   user : string;
-  peaCode : string;
   workCostPln : number;
-  matCostPln : number;
+ 
 }
 export interface jobprogress {
   wbs : string;

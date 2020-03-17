@@ -132,7 +132,7 @@
           </div>
         
           <div class="table-responsive">
-            <table class="mat-elevation-z8" mat-table  matSort [dataSource]="dataSource">   
+            <table class="mat-elevation-z8" mat-table matSort #sort="matSort" [dataSource]="dataSource">   
 
               <ng-container matColumnDef="wbs">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> wbs </th>
@@ -143,7 +143,18 @@
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>ชื่องาน </th>
                 <td class="table-lg" mat-cell *matCellDef="let jobreq"><a target="_blank" rel="noopener noreferrer" href={{URL+jobreq.fileDocname}}> {{jobreq.jobName}}</a> </td>
               </ng-container>
-
+              <ng-container matColumnDef="mv">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> MV </th>
+                <td class="table-lg" mat-cell *matCellDef="let jobreq">{{jobreq.mv | number:'1.0-2' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="lv">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> LV </th>
+                <td class="table-lg" mat-cell *matCellDef="let jobreq">{{jobreq.lv | number:'1.0-2'}}</td>
+              </ng-container>
+              <ng-container matColumnDef="tr">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> TR </th>
+                <td class="table-lg" mat-cell *matCellDef="let jobreq">{{jobreq.tr}}</td>
+              </ng-container>
               <ng-container matColumnDef="causeName">
                 <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> สาเหตุการดำเนินการ </th>
                 <td class="table-lg" mat-cell *matCellDef="let jobreq">{{jobreq.causeName}}</td>
@@ -183,7 +194,8 @@
               <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+            <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons>
+            </mat-paginator>
        </div>
       </div>
     </div>

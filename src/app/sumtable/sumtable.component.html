@@ -317,12 +317,26 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">งานที่ขออนุมัติเปิดงาน</h4>
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field>
+              <mat-label>งบ</mat-label>
+              <mat-select (selectionChange)="selectBudget2($event)">
+                <mat-option *ngFor="let budjet of budjets" [value]="budjet.value">
+                  {{budjet.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-9">
+            <mat-form-field appearance="legacy">
+              <mat-label>ค้นหาข้อมูล</mat-label>
+              <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput
+                (keyup)="applyFilter($event.target.value)">
+            </mat-form-field>
+          </div>
 
-        <mat-form-field appearance="legacy">
-          <mat-label>ค้นหาข้อมูล</mat-label>
-          <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput (keyup)="applyFilter($event.target.value)">
-        </mat-form-field>
-
+        </div>
         <div class="table-responsive">
           <table class="mat-elevation-z8" mat-table matSort #sort="matSort" [dataSource]="dataSource">
 
@@ -363,16 +377,20 @@
             <ng-container matColumnDef="del">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <button class="btn btn-danger" mat-raised-button (click)="openDialog(wbsdata,1)">ลบ</button>
+                <div *ngIf="wbsdata.status != 1">
+                  <button class="btn btn-danger" mat-raised-button (click)="openDialog(wbsdata,1)">ลบ</button>
+                </div>
               </td>
             </ng-container>
 
             <ng-container matColumnDef="rename">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <button class="btn btn-primary" mat-raised-button (click)="openDialog(wbsdata,2)">แก้ไข WBS</button>
+                <div *ngIf="wbsdata.status != 1">
+                  <button class="btn btn-primary" mat-raised-button (click)="openDialog(wbsdata,2)">แก้ไข WBS</button>
+                </div>
               </td>
-            
+
             </ng-container>
 
             <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -393,11 +411,30 @@
       <div class="card-body">
         <h4 class="card-title">งานที่อนุมัติแล้ว</h4>
 
-        <mat-form-field appearance="legacy">
-          <mat-label>ค้นหาข้อมูล</mat-label>
-          <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput (keyup)="applyFilter1($event.target.value)">
-        </mat-form-field>
-
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field>
+              <mat-label>งบ</mat-label>
+              <mat-select (selectionChange)="selectBudget($event)">
+                <mat-option *ngFor="let budjet of budjets" [value]="budjet.value">
+                  {{budjet.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="legacy">
+              <mat-label>ค้นหาข้อมูล</mat-label>
+              <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput
+                (keyup)="applyFilter1($event.target.value)">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            Dowload
+            <button (click)="exportAsXLSX()"><i class="fa fa-file-excel-o"
+                style="font-size:20px;color:blue"></i></button>
+          </div>
+        </div>
         <div class="table-responsive">
           <table class="mat-elevation-z8" mat-table matSort #sort1="matSort" [dataSource]="dataSource1">
 

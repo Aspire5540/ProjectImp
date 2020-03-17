@@ -5,6 +5,7 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 import { jobRemain,jobRemain2} from '../model/user.model';
 
+
 @Component({
   selector: 'app-roic',
   templateUrl: './roic.component.html',
