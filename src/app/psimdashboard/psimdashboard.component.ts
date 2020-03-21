@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { ConfigService } from '../config/config.service';
-import 'rxjs/add/observable/of';
+
 import {MatTableDataSource,MatPaginator} from '@angular/material';
 import { jobprogress  } from '../model/user.model';
 

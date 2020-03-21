@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { ConfigService } from '../config/config.service';
-import 'rxjs/add/observable/of';
+
 import {MatTableDataSource,MatPaginator} from '@angular/material';
 import { wbsdata  } from '../model/user.model';
 import { AuthService } from '../config/auth.service';

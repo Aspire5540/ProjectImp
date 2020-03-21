@@ -1,12 +1,14 @@
+
+import {filter, merge, map, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Observable } from 'rxjs/observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/filter';
+
+
+
+
+
 
 const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
   'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
@@ -30,22 +32,22 @@ export class FormsComponent implements OnInit {
   constructor() { }
 
   search = (text$: Observable<string>) =>
-    text$
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .map(term => term.length > 1 ? []
-        : states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10));
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => term.length > 1 ? []
+        : states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)),);
 
   @ViewChild('instance') instance: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
 
   focusSearch = (text$: Observable<string>) =>
-    text$
-      .debounceTime(200).distinctUntilChanged()
-      .merge(this.focus$)
-      .merge(this.click$.filter(() => !this.instance.isPopupOpen()))
-      .map(term => (term === '' ? states : states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
+    text$.pipe(
+      debounceTime(200),distinctUntilChanged(),
+      merge(this.focus$),
+      merge(this.click$.pipe(filter(() => !this.instance.isPopupOpen()))),
+      map(term => (term === '' ? states : states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10)),);
 
 
   ngOnInit() {

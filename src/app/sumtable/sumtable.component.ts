@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { ConfigService } from '../config/config.service';
-import 'rxjs/add/observable/of';
+
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { wbsdata, appJob } from '../model/user.model';
 import { FileuploadService } from '../config/fileupload.service';

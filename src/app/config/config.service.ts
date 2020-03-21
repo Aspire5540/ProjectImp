@@ -1,10 +1,11 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHandler } from '@angular/common/http';
 import {Http,Headers,RequestOptions,Response} from '@angular/http';
-import { Observable }   from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable ,  BehaviorSubject }   from 'rxjs';
+
 import { wbsdata,jobreq,trdata,appJob,jobprogress,meterdata,meterdata2,trphase,meterdata3,jobRemain,jobRemain2} from '../model/user.model';
-import { BehaviorSubject } from 'rxjs';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 
@@ -66,10 +67,10 @@ export class ConfigService {
     return this.http.get<jobprogress[]>(this.hostUrl+endpoint);
   }
   getStatus(endpoint,params){
-    return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).map(res=>res.json());
+    return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).pipe(map(res=>res.json()));
   }
   postdata (endpoint,params){
-    return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).map(res=>res.json());
+    return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).pipe(map(res=>res.json()));
   }
   
   /*

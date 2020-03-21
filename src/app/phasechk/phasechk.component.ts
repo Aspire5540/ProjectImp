@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConfigService } from '../config/config.service';
-import 'rxjs/add/observable/of';
+
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { trphase, meterdata, meterdata2, meterdata3 } from '../model/user.model';
 import { AuthService } from '../config/auth.service';

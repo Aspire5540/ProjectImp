@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 //import { ILogin } from '../login';
 import { AuthService } from '../config/auth.service';
 import { ConfigService } from '../config/config.service';
-import 'rxjs/add/observable/of';
+
 import {NgForm} from '@angular/forms';
 @Component({
   selector: 'app-login',
