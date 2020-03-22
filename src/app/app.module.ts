@@ -86,7 +86,8 @@ import { LVProComponent } from './lvpro/lvpro.component';
 import { PsimdashboardComponent } from './psimdashboard/psimdashboard.component';
 import { PhasechkComponent } from './phasechk/phasechk.component';
 import { RoicComponent } from './roic/roic.component';
-import { from } from 'rxjs';
+//import { from } from 'rxjs';
+import { NgApexchartsModule } from 'ng-apexcharts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -171,6 +172,7 @@ import { from } from 'rxjs';
     MatTooltipModule,
     MatTreeModule,
     HttpModule,
+    NgApexchartsModule,
   ],
   entryComponents: [ConfirmationDialog],
   providers: [ConfigService,AuthGuard,FileuploadService],

@@ -1,11 +1,90 @@
-<!-----------------------------------Table------------------------------------------------->
 <mat-card>
   <mat-card-header>
     <mat-card-title>รายงานแผนการปรับปรุงและติดตั้งหม้อแปลงไฟฟ้าเพื่อเพิ่มประสิทธิภาพการจ่ายไฟในระบบแรงต่ำ สถานะวันที่
       {{roicdate}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <!--
+    <div class="row">
+
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>กฟฟ. </mat-label>
+          <mat-select (selectionChange)="selectPea($event)">
+            <mat-option *ngFor="let pea of peaname2" [value]="[pea.peaEng,pea.peaCode,pea.peaName]">
+              {{pea.peaCode +" "+pea.peaName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>งบ</mat-label>
+          <mat-select (selectionChange)="selectBudget($event)">
+            <mat-option *ngFor="let budjet of budjets" [value]="budjet.value">
+              {{budjet.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!--
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+        <mat-button-toggle value="bold">kVA</mat-button-toggle>
+        <mat-button-toggle value="italic">จำนวนงาน</mat-button-toggle>
+        <mat-button-toggle value="underline">คชจ.หน้างาน</mat-button-toggle>
+        <mat-button-toggle value="underline">ค่าพัสดุ</mat-button-toggle>
+      </mat-button-toggle-group>
+-->
+    </div>
+
+    <div class="row">
+      <div id="chart" class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <apx-chart
+        [series]="chartOptions1.series" 
+        [chart]="chartOptions1.chart"
+        [plotOptions]="chartOptions1.plotOptions"
+        [labels]="chartOptions1.labels"
+        [stroke]="chartOptions1.stroke"
+        [fill]="chartOptions1.fill"></apx-chart>
+
+        <div class="card card-statistics mt-5">
+          <div class="card-body bg-success">
+            <div class="clearfix">
+              <div class="float-left">
+                <i class="mdi  mdi-chart-line text-white icon-lg"></i>
+              </div>
+              <div class="float-right">
+                <p class="mb-0 text-right wrfont">แผนงาน {{kvaPlnTotal | number}} kVA</p>
+                <div class="fluid-container">
+                  <h3 class="font-weight-medium text-right mb-0 wrfont">ดำเนินการ {{kvaTotal | number}} kVA</h3>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div id="chart" class="col-xl-8 col-lg-8 col-md-12 col-sm-12"> 
+        <div style="height: 600px;">
+        <apx-chart
+        [series]="chartOptions2.series"
+        [chart]="chartOptions2.chart"
+        [dataLabels]="chartOptions2.data"
+        [plotOptions]="chartOptions2.plotOptions"
+        [tooltip]="chartOptions2.tooltip"
+        [xaxis]="chartOptions2.xaxis"></apx-chart>
+      </div>
+    </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<!-----------------------------------Table------------------------------------------------->
+<!--
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>รายงานแผนการปรับปรุงและติดตั้งหม้อแปลงไฟฟ้าเพื่อเพิ่มประสิทธิภาพการจ่ายไฟในระบบแรงต่ำ สถานะวันที่
+      {{roicdate}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    
     <div class="row">
       
       <div class="col-md-6">       
@@ -19,7 +98,7 @@
         </mat-form-field>       
       </div>     
     </div>
-     -->
+    
     <div class="row">
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 grid-margin stretch-card">
         <canvas style="height: 100%;" id='progressBarN2'></canvas>
@@ -249,17 +328,17 @@
           </div>
         </div>
       </div>
-        <div class="col-md-6">
-          <mat-form-field>
-            <mat-label>กฟฟ. </mat-label>
-            <mat-select (selectionChange)="selectPea2($event)">
-              <mat-option *ngFor="let pea of peaname2" [value]="[pea.peaEng,pea.peaCode,pea.peaName]">
-                {{pea.peaCode +" "+pea.peaName}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-    
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>กฟฟ. </mat-label>
+          <mat-select (selectionChange)="selectPea2($event)">
+            <mat-option *ngFor="let pea of peaname2" [value]="[pea.peaEng,pea.peaCode,pea.peaName]">
+              {{pea.peaCode +" "+pea.peaName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
         <canvas id='trBar'></canvas>
       </div>
@@ -315,34 +394,13 @@
     </div>
   </mat-card-content>
 </mat-card>
-
+-->
 <mat-card style="margin-top: 20px;">
   <mat-card-header>
     <mat-card-title>ข้อมูลงานคงค้าง CRTD-TECO สถานะวันที่ {{roicdate}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div class="row">
 
-      <div class="col-md-6">
-        <mat-form-field>
-          <mat-label>กฟฟ. </mat-label>
-          <mat-select (selectionChange)="selectPea($event)">
-            <mat-option *ngFor="let pea of peaname2" [value]="[pea.peaEng,pea.peaCode,pea.peaName]">
-              {{pea.peaCode +" "+pea.peaName}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>งบ</mat-label>
-          <mat-select (selectionChange)="selectBudget($event)">
-            <mat-option *ngFor="let budjet of budjets" [value]="budjet.value">
-              {{budjet.viewValue}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
 
     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 grid-margin stretch-card">
       <div class="card card-statistics">

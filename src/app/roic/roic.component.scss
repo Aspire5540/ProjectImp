@@ -28,3 +28,15 @@ table {
   text-align: center;
   justify-content:center;
 }
+.mat-button-toggle {
+  background-color: #dae8f5;
+  color:  #000000;
+  font-weight: bold;
+  width: 100px;
+}
+
+.mat-button-toggle-checked {
+  background-color: #e0308e;
+  color: rgb(255, 255, 255);
+
+}
