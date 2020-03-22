@@ -32,6 +32,7 @@ export type ChartOptions = {
   colors: string[];
   tooltip: ApexTooltip;
   title: ApexTitleSubtitle;
+
 };
 export type ChartOptions2 = {
   series: ApexNonAxisChartSeries;
