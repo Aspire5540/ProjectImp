@@ -384,7 +384,7 @@ export class SumtableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((wbsdata) => {
-      console.log('Choice :' + this.choice);
+      //console.log('Choice :' + this.choice);
       if (wbsdata) {
         if (this.choice == 1) { this.delWbs(wbsdata); }
         if (this.choice == 2) {this.renameWbs(wbsdata);}

@@ -88,6 +88,10 @@ import { PhasechkComponent } from './phasechk/phasechk.component';
 import { RoicComponent } from './roic/roic.component';
 //import { from } from 'rxjs';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { LoaderComponent } from './loader/loader.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderInterceptorService } from './config/loader-interceptor.service';
+import {LoaderserviceService} from './config/loaderservice.service'
 @NgModule({
   declarations: [
     AppComponent,
@@ -119,6 +123,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     PhasechkComponent,
     RoicComponent,
     ConfirmationDialog,
+    LoaderComponent,
     
   ],
   imports: [
@@ -175,7 +180,11 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     NgApexchartsModule,
   ],
   entryComponents: [ConfirmationDialog],
-  providers: [ConfigService,AuthGuard,FileuploadService],
+  providers: [ConfigService,
+    AuthGuard,
+    FileuploadService,
+    LoaderserviceService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -33,6 +33,7 @@
     "font-awesome": "^4.7.0",
     "mdi": "^2.2.43",
     "ng-apexcharts": "^1.2.1",
+    "ngx-spinner": "^9.0.1",
     "rxjs": "~6.5.4",
     "rxjs-compat": "^6.3.3",
     "tslib": "^1.9.0",

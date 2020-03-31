@@ -17,6 +17,22 @@
         <mat-label>แก้ไข WBS เป็น</mat-label>
         <input matInput [(ngModel)]="newWbs">
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>แก้ไข ชื่องาน เป็น</mat-label>
+        <input matInput [(ngModel)]="newJobName">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>แก้ไข แรงสูง(วงจร-กม.) เป็น</mat-label>
+        <input matInput [(ngModel)]="newLv">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>แก้ไข แรงต่ำ(วงจร-กม.) เป็น</mat-label>
+        <input matInput [(ngModel)]="newMv">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>แก้ไข หม้อแปลง(kVA) เป็น</mat-label>
+        <input matInput [(ngModel)]="newTr">
+      </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
         <button mat-raised-button color="primary" (click)="onConfirmClick()" tabindex="1">{{confirmButtonText}}</button>

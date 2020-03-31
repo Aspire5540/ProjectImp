@@ -71,4 +71,11 @@ export class UploadComponent implements OnInit {
 
     }))
   }
+
+  callApi() {
+    this.http.get('https://172.18.3.216:5001/api/scada/getmv_sub?sub=pla&year=2019&month=10&day=11&region=n2&feeder=out02')
+      .subscribe(data => {
+        console.log(data);
+      })
+    }
 }
