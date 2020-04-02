@@ -36,7 +36,7 @@
     </div>
 
     <div class="row">
-      <div id="chart" class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
         <apx-chart
         [series]="chartOptions1.series" 
         [chart]="chartOptions1.chart"
@@ -62,15 +62,18 @@
           </div>
         </div>
       </div>
-      <div id="chart" class="col-xl-8 col-lg-8 col-md-12 col-sm-12"> 
-        <div style="height: 600px;">
-        <apx-chart
-        [series]="chartOptions2.series"
-        [chart]="chartOptions2.chart"
-        [dataLabels]="chartOptions2.dataLabels"
-        [plotOptions]="chartOptions2.plotOptions"
-        [tooltip]="chartOptions2.tooltip"
-        [xaxis]="chartOptions2.xaxis"></apx-chart>
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12"> 
+        <div>
+          <apx-chart
+          [series]="chartOptions2.series"
+          [chart]="chartOptions2.chart"
+          [dataLabels]="chartOptions2.dataLabels"
+          [plotOptions]="chartOptions2.plotOptions"
+          [tooltip]="chartOptions2.tooltip"
+          [xaxis]="chartOptions2.xaxis"
+          [yaxis]="chartOptions2.yaxis"
+          [stroke]="chartOptions2.stroke"
+        ></apx-chart>
       </div>
     </div>
     </div>
@@ -405,7 +408,16 @@
     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 grid-margin stretch-card">
       <div class="card card-statistics">
         <div class="card-body">
-          <canvas id='myBar3'></canvas>
+          <apx-chart
+          [series]="chartOptions3.series"
+          [chart]="chartOptions3.chart"
+          [dataLabels]="chartOptions3.dataLabels"
+          [plotOptions]="chartOptions3.plotOptions"
+          [tooltip]="chartOptions3.tooltip"
+          [xaxis]="chartOptions3.xaxis"
+          [yaxis]="chartOptions3.yaxis"
+          [stroke]="chartOptions3.stroke"
+        ></apx-chart>
         </div>
       </div>
     </div>

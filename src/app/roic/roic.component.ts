@@ -17,7 +17,8 @@ import {
   ApexXAxis,
   ApexPlotOptions,
   ApexTooltip,
-  ApexFill
+  ApexFill,
+  
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -32,6 +33,7 @@ export type ChartOptions = {
   colors: string[];
   tooltip: ApexTooltip;
   title: ApexTitleSubtitle;
+  fill: ApexFill;
 
 };
 export type ChartOptions2 = {
@@ -40,7 +42,10 @@ export type ChartOptions2 = {
   labels: string[];
   plotOptions: ApexPlotOptions;
   fill: ApexFill;
+  tooltip: ApexTooltip;
   stroke: ApexStroke;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
 };
 @Component({
   selector: 'app-roic',
@@ -48,10 +53,10 @@ export type ChartOptions2 = {
   styleUrls: ['./roic.component.scss']
 })
 export class RoicComponent implements OnInit {
-  @ViewChild("chart") chart: ChartComponent;
+  public pClsChart: Partial<ChartOptions2>;
   public chartOptions1: Partial<ChartOptions2>;
   public chartOptions2: Partial<ChartOptions>;
-
+  public chartOptions3: Partial<ChartOptions>;
   budjets = [
     { value: ['', ''], viewValue: 'ทั้งหมด' },
     { value: ['I-60-B', '.BY.'], viewValue: 'I60.BY' },
@@ -220,29 +225,40 @@ export class RoicComponent implements OnInit {
       if (data.status == 1) {
         var Pea = [];
         var kva = [];
+        var kvaObj=[];
         this.kvaTotal = 0;
         var kvaPln = [];
         var kvaPercent = [];
         this.kvaPlnTotal = 0;
-        data.dataP.forEach(element => {
-          this.roicp[element.Pea] = Number(element.totaltr);
-          this.kvaPlnTotal = this.kvaPlnTotal + Number(element.totaltr);
 
-        });
-        console.log(this.kvaPlnTotal);
+
         data.data.forEach(element => {
-          this.kvaTotal = this.kvaTotal + Number(element.totaltr);
-          Pea.push(this.peaname["B" + element.Pea]);
-          kva.push(Number(element.totaltr));
-          kvaPln.push(this.roicp[element.Pea]);
-          kvaPercent.push((Number(element.totaltr) / this.roicp[element.Pea] * 100).toFixed(2));
+          kvaObj[element.Pea] = Number(element.totaltr);
+          this.kvaTotal = this.kvaTotal + Number(element.totaltr);   
         });
+
+        data.dataP.forEach(element => {
+          Pea.push(this.peaname["B" + element.Pea]);
+          kvaPln.push(element.totaltr);
+          this.kvaPlnTotal = this.kvaPlnTotal + Number(element.totaltr);
+          if (kvaObj[element.Pea]){
+            kva.push(kvaObj[element.Pea]);
+            kvaPercent.push(kvaObj[element.Pea]/element.totaltr*100)
+          }else{
+            kva.push(0);
+            kvaPercent.push(0);
+          }
+          
+     
+        });
+
+
         //APEX CHART
-        console.log(kva);
+        
         this.chartOptions1 = {
           series: [this.kvaTotal / this.kvaPlnTotal * 100],
           chart: {
-            height: 300,
+            height: 400,
             type: "radialBar",
             toolbar: {
               show: false
@@ -320,24 +336,47 @@ export class RoicComponent implements OnInit {
         this.chartOptions2 = {
           series: [
             {
-              name: "CLSD",
-              data: kvaPercent
+              name: "ปิดงาน",
+              data: kva
             },
+            {
+              name: "แผนงาน",
+              data: kvaPln
+            }
           ],
           chart: {
             type: "bar",
-            height: 500,
+            height: 650,
             toolbar: {
               show: false
             },
           },
           plotOptions: {
             bar: {
-              horizontal: true
+              horizontal: true,
+              dataLabels: {
+                position: "top"
+              }
             }
           },
           dataLabels: {
-            enabled: false
+            enabled: true,
+            formatter: function (val,index) {
+              var reslt;
+              //return Math.abs(kva[index.dataPointIndex]) + " kVA";
+              //return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              if(index.seriesIndex==0){
+                reslt=Math.abs(kvaPercent[index.dataPointIndex]).toFixed(0)+ "%, "+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"kVA";
+              }else{
+                reslt=val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"kVA";
+              }
+              return reslt;
+            },
+            offsetX: 100,
+            style: {
+              fontSize: "12px",
+              colors: ["#304758"]
+            }
           },
           tooltip: {
             x: {
@@ -348,21 +387,33 @@ export class RoicComponent implements OnInit {
             y: {
               formatter: function (val, index) {
                 //console.log(index);
-                return Math.abs(kva[index.dataPointIndex]) + " kVA";
+                //return Math.abs(kva[index.dataPointIndex]) + " kVA";
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+' kVA';
               }
             }
           },
           xaxis: {
             categories: Pea,
             labels: {
-              formatter: function (val) {
-                return Math.abs(Math.round(parseInt(val, 10))) + "%";
+              formatter: function (val, index) {
+                //console.log(index);
+                //return Math.abs(kva[index.dataPointIndex]) + " kVA";
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+' kVA'},
+              style: {
+                fontSize: "14px",
               }
             }
-
           },
-
+          yaxis: {
+            labels: {
+              style: {
+                fontSize: "14px",
+              }
+            }
+          },
         };
+
+        
         //===================================================================
         /*
                chartTitle = 'ผลการดำเนินการปรับปรุงและติดตั้งหม้อแปลงไฟฟ้าและระบบจำหน่ายแรงต่ำ กฟฟ. ในสังกัด';
@@ -749,108 +800,122 @@ export class RoicComponent implements OnInit {
         data.data.forEach(element => {
           nwbsArr.push(element.nWBS);
           pClsd.push((Number(element.nWBS) / Number(element.totalWbs) * 100).toFixed(2));
-          WorkCostPea.push(this.peaname[element.Pea]);
-          WorkCostPercentPea.push((Number(element.workCostAct) / Number(element.workCostPln) * 100).toFixed(2));
-          matCostPercentPea.push((Number(element.matCostAct) / Number(element.matCostPln) * 100).toFixed(2));
+          //WorkCostPea.push(this.peaname[element.Pea]);
+          //WorkCostPercentPea.push((Number(element.workCostAct) / Number(element.workCostPln) * 100).toFixed(2));
+          //matCostPercentPea.push((Number(element.matCostAct) / Number(element.matCostPln) * 100).toFixed(2));
 
 
         });
-        //แสดงงานคงค้าง
-        var chartData = {
-          labels: WorkCostPea,
-          datasets: [{
-            label: 'จำนวนงานคงค้าง',
-            data: nwbsArr,
-            backgroundColor: '#07CCD6',
-          }]
-        };
 
-
-
-        var chartTitle = 'จำนวนงานคงค้าง';
-
-        if (this.myBar3) this.myBar3.destroy();
-
-        this.myBar3 = new Chart('myBar3', {
-          type: 'bar',
-          data: chartData,
-          options: {
-            // Elements options apply to all of the options unless overridden in a dataset
-            // In this case, we are setting the border of each horizontal bar to be 2px wide
-            elements: {
-              rectangle: {
-                borderWidth: 2,
-              }
-            },
-            responsive: true,
-            legend: {
-              position: 'bottom',
-              display: true,
-
-            },
-            title: {
-              display: true,
-              text: chartTitle
-            },
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }]
-            }
-          },
-
-        });
-
-        //Percent Clsd
-        chartData = {
-          labels: WorkCostPea,
-          datasets: [
-
+        this.chartOptions3 = {
+          series: [
             {
-              label: 'เปอร์เซนต์คงค้าง',
-              data: pClsd,
-              backgroundColor: '#DAF7A6',
-            }]
-        };
-
-
-
-        if (this.myBarClsd) this.myBarClsd.destroy();
-
-        this.myBarClsd = new Chart('myBarClsd', {
-          type: 'bar',
-          data: chartData,
-          options: {
-            // Elements options apply to all of the options unless overridden in a dataset
-            // In this case, we are setting the border of each horizontal bar to be 2px wide
-            elements: {
-              rectangle: {
-                borderWidth: 2,
+              name: "งานคงค้าง",
+              data: nwbsArr
+            },
+          ],
+          chart: {
+            height: 350,
+            type: "bar"
+          },
+          plotOptions: {
+            bar: {
+              dataLabels: {
+                position: "top" // top, center, bottom
               }
-            },
-            responsive: true,
-            legend: {
-              position: 'bottom',
-              display: true,
-
-            },
-            title: {
-              display: true,
-              text: chartTitle
-            },
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }]
             }
           },
+          dataLabels: {
+            enabled: true,
+            offsetY: -20,
+            style: {
+              fontSize: "12px",
+              colors: ["#304758"]
+            }
+          },
+    
+          xaxis: {
+            categories: WorkCostPea,
+          },
+        };
+        
+        this.pClsChart = {
+          series: [this.kvaTotal / this.kvaPlnTotal * 100],
+          chart: {
+            height: 400,
+            type: "radialBar",
+            toolbar: {
+              show: false
+            }
+          },
+          plotOptions: {
+            radialBar: {
+              startAngle: 0,
+              endAngle: 360,
+              hollow: {
+                margin: 0,
+                size: "70%",
+                background: "#fff",
+                image: undefined,
+                position: "front",
+                dropShadow: {
+                  enabled: true,
+                  top: 3,
+                  left: 0,
+                  blur: 4,
+                  opacity: 0.24
+                }
+              },
+              track: {
+                background: "#fff",
+                strokeWidth: "67%",
+                margin: 0, // margin is in pixels
+                dropShadow: {
+                  enabled: true,
+                  top: -3,
+                  left: 0,
+                  blur: 4,
+                  opacity: 0.35
+                }
+              },
 
-        });
-
+              dataLabels: {
+                show: true,
+                name: {
+                  offsetY: -10,
+                  show: true,
+                  color: "#888",
+                  fontSize: "17px"
+                },
+                value: {
+                  formatter: function (val) {
+                    return parseInt(val.toString(), 10).toString() + "%";
+                  },
+                  color: "#111",
+                  fontSize: "36px",
+                  show: true
+                }
+              }
+            }
+          },
+          fill: {
+            type: "gradient",
+            gradient: {
+              shade: "dark",
+              type: "horizontal",
+              shadeIntensity: 0.5,
+              gradientToColors: ["#ABE5A1"],
+              inverseColors: true,
+              opacityFrom: 1,
+              opacityTo: 1,
+              stops: [0, 100]
+            }
+          },
+          stroke: {
+            lineCap: "round"
+          },
+          labels: ["ผลการดำเนินการ"]
+        };     
 
         //this.nwbs=data.data.nwbs;
         //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;

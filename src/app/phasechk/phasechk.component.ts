@@ -649,7 +649,8 @@ export class PhasechkComponent implements OnInit {
        
           AccTotal=AccTotal+TargetNow[element.Pea];
           if (this.selDataType < 3) {
-            trg = 100 / 11 * (mntList.indexOf(n + 1) + 1);
+            //trg = 100 / 11 * (mntList.indexOf(n + 1) + 1);
+            trg = 36.36 + ((mntList.indexOf(n + 1) + 1)-4)*10.61;
             trgArry.push(trg.toFixed(2));
             pComp.push((progressNow[element.Pea] / TargetNow[element.Pea] * 100).toFixed(2));
             pIn.push((Number(element.nInp) / TargetNow[element.Pea] * 100).toFixed(2));
@@ -659,7 +660,7 @@ export class PhasechkComponent implements OnInit {
             pIn.push((Number(element.nInp)));
             pIn2.push((Number(element.nInp2)));
             //trg = 100 / 11 * (mntList.indexOf(n + 1) + 1);
-            trg = TargetNow[element.Pea] / 11 * (mntList.indexOf(n + 1) + 1);
+            trg = TargetNow[element.Pea]*(36.36 + ((mntList.indexOf(n + 1) + 1)-4)*10.61)/100;
             trgArry.push(trg.toFixed(0));
           }
         });
@@ -782,7 +783,7 @@ export class PhasechkComponent implements OnInit {
               },
               {
                 type: 'bar',
-                label: '%แผนงาน',
+                label: 'แผนงาน',
                 data: trgArry,
                 //steppedLine: true,
                 backgroundColor: '#5689ff',
