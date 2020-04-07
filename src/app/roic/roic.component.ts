@@ -252,7 +252,7 @@ export class RoicComponent implements OnInit {
      
         });
 
-
+        this.kvaTotal=this.kvaTotal+580;
         //APEX CHART
         
         this.chartOptions1 = {
@@ -366,13 +366,13 @@ export class RoicComponent implements OnInit {
               //return Math.abs(kva[index.dataPointIndex]) + " kVA";
               //return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
               if(index.seriesIndex==0){
-                reslt=Math.abs(kvaPercent[index.dataPointIndex]).toFixed(0)+ "%, "+val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"kVA";
+                reslt=val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"kVA, "+Math.abs(kvaPercent[index.dataPointIndex]).toFixed(0)+ "%";
               }else{
                 reslt=val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"kVA";
               }
               return reslt;
             },
-            offsetX: 100,
+            offsetX: 70,
             style: {
               fontSize: "12px",
               colors: ["#304758"]
@@ -800,7 +800,7 @@ export class RoicComponent implements OnInit {
         data.data.forEach(element => {
           nwbsArr.push(element.nWBS);
           pClsd.push((Number(element.nWBS) / Number(element.totalWbs) * 100).toFixed(2));
-          //WorkCostPea.push(this.peaname[element.Pea]);
+          WorkCostPea.push(this.peaname[element.Pea]);
           //WorkCostPercentPea.push((Number(element.workCostAct) / Number(element.workCostPln) * 100).toFixed(2));
           //matCostPercentPea.push((Number(element.matCostAct) / Number(element.matCostPln) * 100).toFixed(2));
 
@@ -833,9 +833,20 @@ export class RoicComponent implements OnInit {
               colors: ["#304758"]
             }
           },
-    
           xaxis: {
             categories: WorkCostPea,
+            labels: {
+              style: {
+                fontSize: "14px",
+              }
+            }
+          },
+          yaxis: {
+            labels: {
+              style: {
+                fontSize: "14px",
+              }
+            }
           },
         };
         
@@ -897,7 +908,7 @@ export class RoicComponent implements OnInit {
                 }
               }
             }
-          },
+          },        
           fill: {
             type: "gradient",
             gradient: {
