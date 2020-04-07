@@ -31,7 +31,7 @@ import {ConfirmationDialog} from './sumtable/confirmation-dialog.component';
 import {FileuploadService} from './config/fileupload.service';
 
 import { HttpClientModule } from '@angular/common/http';
-import {HttpModule} from '@angular/http'
+//import {HttpModule} from '@angular/http'
 import {ConfigService} from './config/config.service';
 //Addddd
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -176,7 +176,7 @@ import {LoaderserviceService} from './config/loaderservice.service'
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    HttpModule,
+    //HttpModule,
     NgApexchartsModule,
   ],
   entryComponents: [ConfirmationDialog],

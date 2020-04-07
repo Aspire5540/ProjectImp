@@ -171,7 +171,7 @@
                   <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเหตุ</th>
                   <td class="table-lg" mat-cell *matCellDef="let trdata">  
                       <mat-form-field>
-                          <mat-label >{{trdata.Status}}</mat-label>
+                          <mat-label >{{trdata['status']}}</mat-label>
                           <mat-select (selectionChange)="selectStatus($event)">
                             <mat-option *ngFor="let Status of Statuss" [value]="[Status.value,trdata]">
                               {{Status.value}}

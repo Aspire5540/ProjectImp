@@ -1,8 +1,5 @@
-
-import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHandler } from '@angular/common/http';
-import {Http,Headers,RequestOptions,Response} from '@angular/http';
+import { HttpClient} from '@angular/common/http';
 import { Observable ,  BehaviorSubject }   from 'rxjs';
 
 import { wbsdata,jobreq,trdata,appJob,jobprogress,meterdata,meterdata2,trphase,meterdata3,jobRemain,jobRemain2} from '../model/user.model';
@@ -24,12 +21,12 @@ export class ConfigService {
   hostUrl = 'http://172.18.226.19/psisservice/';
   //hostUrl = 'http://127.0.0.1/psisservice/';
   
-  headers = new Headers();
-  options = new RequestOptions()
+  //headers = new Headers();
+  //options = new RequestOptions()
 
-  constructor(private http: HttpClient, private http2: Http) {
-    this.headers.append('Content-Type','application/x-www-form-urlencoded');
-    this.options.headers = this.headers;
+  constructor(private http: HttpClient) {
+    //this.headers.append('Content-Type','application/x-www-form-urlencoded');
+    //this.options.headers = this.headers;
    }
   
   getWbs(endpoint): Observable<wbsdata[]> {
@@ -67,12 +64,16 @@ export class ConfigService {
     return this.http.get<jobprogress[]>(this.hostUrl+endpoint);
   }
   getStatus(endpoint,params){
-    return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).pipe(map(res=>res.json()));
+    return this.http.post(this.hostUrl+endpoint,JSON.stringify(params));
   }
+  /*
   postdata (endpoint,params){
     return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).pipe(map(res=>res.json()));
   }
-  
+  */
+  postdata2 (endpoint,params){
+    return this.http.post(this.hostUrl+endpoint,JSON.stringify(params));
+  }
   /*
   postdata2 (endpoint,params){
     return this.http2.post(this.hostUrl+endpoint,JSON.stringify(params),this.options).map((response: Response) => response.json());

@@ -35,20 +35,20 @@ export class LoginComponent implements OnInit {
   
   onSubmit(){
    
-    this.configService.postdata('login.php',this.registerForm.value).subscribe((data=>{
-      //console.log(data);
+    this.configService.postdata2('login.php',this.registerForm.value).subscribe((data=>{
+      console.log(this.registerForm.value,data);
       
-    if(data.status==1){
+    if(data['status']==1){
         this.islogin=true;
         localStorage.setItem('isLoggedIn', "true");
         localStorage.setItem('token', this.registerForm.value.userName);
-        localStorage.setItem('name', data.data["Name"]);
-        localStorage.setItem('peaName', data.data["Peaname"]);
-        localStorage.setItem('peaCode', data.data["Peacode"]);
+        localStorage.setItem('name', data['data']["Name"]);
+        localStorage.setItem('peaName', data['data']["Peaname"]);
+        localStorage.setItem('peaCode', data['data']["Peacode"]);
     
         this.configService.changeMessage();
-        this.configService.postdata('rdpea.php',{ peaCode: data.data["Peacode"]}).subscribe((pea=>{
-          localStorage.setItem('peaEng', pea.data["peaEng"]);
+        this.configService.postdata2('rdpea.php',{ peaCode: data['data']["Peacode"]}).subscribe((pea=>{
+          localStorage.setItem('peaEng', pea['data']["peaEng"]);
           this.configService.changeMessage();   
         }))
         this.router.navigate([this.returnUrl]);
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
         //this.router.navigate([this.returnUrl]);
         
     }else{
-      this.message =data.data;
+      this.message =data['data'];
       this.islogin=false;
     }
       

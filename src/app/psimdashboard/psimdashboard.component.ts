@@ -111,13 +111,13 @@ export class PsimdashboardComponent implements OnInit {
     })
   }
   getpeaList(){ 
-    this.configService.postdata('rdpeaall.php',{}).subscribe((data=>{
-      if(data.status==1){
-        //console.log(data.data);
-        this.peaname=data.data;
+    this.configService.postdata2('rdpeaall.php',{}).subscribe((data=>{
+      if(data['status']==1){
+        //console.log(data['data']);
+        this.peaname=data['data'];
         //console.log(this.peaname);
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }))
@@ -125,48 +125,48 @@ export class PsimdashboardComponent implements OnInit {
   } 
   getClsd(){ 
     //Progress Bar
-    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-60-B',filter2:'.BY.'}).subscribe((data=>{
-      this.I1.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I1.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+    this.configService.postdata2('rdclsd.php',{peaEng:this.selPea,filter1:'I-60-B',filter2:'.BY.'}).subscribe((data=>{
+      this.I1.CRTD=Number(data['CRTD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I1.REL=Number(data['REL'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
 
-      this.I1.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I1.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I1.TECO=Number(data['TECO'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I1.CLSD=Number(data['CLSD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
       
   
     }))
-    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-62-B',filter2:'.BY.'}).subscribe((data=>{
-      this.I2.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I2.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+    this.configService.postdata2('rdclsd.php',{peaEng:this.selPea,filter1:'I-62-B',filter2:'.BY.'}).subscribe((data=>{
+      this.I2.CRTD=Number(data['CRTD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I2.REL=Number(data['REL'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
 
-      this.I2.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I2.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I2.TECO=Number(data['TECO'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I2.CLSD=Number(data['CLSD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
      
   
     }))  
-    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-60-B',filter2:'.MR.1'}).subscribe((data=>{
-      this.I3.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I3.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+    this.configService.postdata2('rdclsd.php',{peaEng:this.selPea,filter1:'I-60-B',filter2:'.MR.1'}).subscribe((data=>{
+      this.I3.CRTD=Number(data['CRTD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I3.REL=Number(data['REL'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
 
-      this.I3.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I3.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I3.TECO=Number(data['TECO'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I3.CLSD=Number(data['CLSD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
      
   
     }))  
-    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-61-B',filter2:'.MR.1'}).subscribe((data=>{
-      this.I4.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I4.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+    this.configService.postdata2('rdclsd.php',{peaEng:this.selPea,filter1:'I-61-B',filter2:'.MR.1'}).subscribe((data=>{
+      this.I4.CRTD=Number(data['CRTD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I4.REL=Number(data['REL'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
 
-      this.I4.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I4.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I4.TECO=Number(data['TECO'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I4.CLSD=Number(data['CLSD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
      
   
     }))  
-    this.configService.postdata('rdclsd.php',{peaEng:this.selPea,filter1:'I-62-B',filter2:'.MR.1'}).subscribe((data=>{
-      this.I5.CRTD=Number(data.CRTD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I5.REL=Number(data.REL)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+    this.configService.postdata2('rdclsd.php',{peaEng:this.selPea,filter1:'I-62-B',filter2:'.MR.1'}).subscribe((data=>{
+      this.I5.CRTD=Number(data['CRTD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I5.REL=Number(data['REL'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
 
-      this.I5.TECO=Number(data.TECO)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
-      this.I5.CLSD=Number(data.CLSD)/(Number(data.REL)+Number(data.TECO)+Number(data.CLSD)+Number(data.CRTD))*100;
+      this.I5.TECO=Number(data['TECO'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
+      this.I5.CLSD=Number(data['CLSD'])/(Number(data['REL'])+Number(data['TECO'])+Number(data['CLSD'])+Number(data['CRTD']))*100;
      
   
     }))  
@@ -174,13 +174,13 @@ export class PsimdashboardComponent implements OnInit {
   } 
   crtLineChart(){
     //กราฟเส้นรายเดือน
-    this.configService.postdata('rd048.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+    this.configService.postdata2('rd048.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
       
       var label=[];
       var pworkCost=[];
       var pmatCost=[];
      
-      data.data.forEach(element => {
+      data['data'].forEach(element => {
         label.push(element.mnt);
         pworkCost.push((Number(element.workCostAct)/Number(element.workCostPln)*100).toFixed(2));
         pmatCost.push((Number(element.matCostAct)/Number(element.matCostPln)*100).toFixed(2));
@@ -250,14 +250,14 @@ export class PsimdashboardComponent implements OnInit {
   }
   rdproject(){
     //กราฟวงกลม
-    this.configService.postdata('rdprogressmnt.php',{peaCode : this.selPeapeaCode,selBudjetType : this.selBudjetType}).subscribe((data=>{
+    this.configService.postdata2('rdprogressmnt.php',{peaCode : this.selPeapeaCode,selBudjetType : this.selBudjetType}).subscribe((data=>{
       
       this.projectArr=[];
       this.porjectRemArr=[];
       this.workCostArr1=[];
       this.matCostArr1=[];
       this.totalwbs=0;
-      data.data.forEach(element => {
+      data['data'].forEach(element => {
       this.projectArr.push(element.projectName); //ชื่อโครงการ
       this.porjectRemArr.push(element.nwbs); //จำนวนงานคงค้าง
       this.workCostArr1.push((Number(element.workCostAct3)/Number(element.workCostPln)*100).toFixed(2));
@@ -430,14 +430,14 @@ export class PsimdashboardComponent implements OnInit {
   getJobProgressPea(){ 
     //จำนวนงานคงค้าง %เบิกจ่าย
     var pClsd=[];
-     this.configService.postdata('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1],selBudjetType : this.selBudjetType}).subscribe((data=>{
-      if(data.status==1){
+     this.configService.postdata2('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1],selBudjetType : this.selBudjetType}).subscribe((data=>{
+      if(data['status']==1){
         this.WorkCostPea=[];
         this.WorkCostPercentPea=[];
   
         this.nwbsArr=[];
         this.matCostPercentPea=[];
-        data.data.forEach(element => { 
+        data['data'].forEach(element => { 
           this.nwbsArr.push(element.nWBS);
           pClsd.push((Number(element.nWBS)/Number(element.totalWbs)*100).toFixed(2));
           this.WorkCostPea.push(element.Pea);
@@ -593,11 +593,11 @@ backgroundColor: '#DAF7A6',
 
 
 
-        //this.nwbs=data.data.nwbs;
-        //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
+        //this.nwbs=data['data'].nwbs;
+        //this.WorkCostPercent=Number(data['data'].workCostAct)/Number(data['data'].workCostPln*0.8)*100;
         
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }));

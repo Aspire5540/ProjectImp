@@ -115,12 +115,12 @@ export class PhasechkComponent implements OnInit {
 
   }
   getinfo(){
-    this.configService.postdata('phase/rdInfo.php', {}).subscribe((data => {
-      if (data.status == 1) {
-        this.dataDate=data.data[0].info;
+    this.configService.postdata2('phase/rdInfo.php', {}).subscribe((data => {
+      if (data['status'] == 1) {
+        this.dataDate=data['data'][0].info;
         console.log(data);
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }));
@@ -149,19 +149,19 @@ export class PhasechkComponent implements OnInit {
 
   selectStatus(event) {
 
-    this.configService.postdata('phase/wristatus.php', { TRNumber: event.value[1].PEA_TR, status: event.value[0], user: localStorage.getItem('name') }).subscribe((data => {
-      if (data.status == 1) {
+    this.configService.postdata2('phase/wristatus.php', { TRNumber: event.value[1].PEA_TR, status: event.value[0], user: localStorage.getItem('name') }).subscribe((data => {
+      if (data['status'] == 1) {
         this.callData();
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))
   }
   getpeaList() {
-    this.configService.postdata('phase/rdpeaall.php', {}).subscribe((data => {
-      if (data.status == 1) {
-        data.data.forEach(element => {
+    this.configService.postdata2('phase/rdpeaall.php', {}).subscribe((data => {
+      if (data['status'] == 1) {
+        data['data'].forEach(element => {
           this.peaname[element.peaCode] = element.peaName;
 
         });
@@ -173,20 +173,20 @@ export class PhasechkComponent implements OnInit {
         }
 
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))
 
   }
   getpeaList2() {
-    this.configService.postdata('phase/rdpeaall2.php', {}).subscribe((data => {
-      if (data.status == 1) {
-        //console.log(data.data);
-        this.peaname2 = data.data;
+    this.configService.postdata2('phase/rdpeaall2.php', {}).subscribe((data => {
+      if (data['status'] == 1) {
+        //console.log(data['data']);
+        this.peaname2 = data['data'];
         //console.log(this.peaname);
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))
@@ -205,7 +205,7 @@ export class PhasechkComponent implements OnInit {
   }
 
   getProgreesMnt() {
-    this.configService.postdata('phase/rdJobProgressPea3.php', { peaCode: this.selPeapeaCode }).subscribe((data => {
+    this.configService.postdata2('phase/rdJobProgressPea3.php', { peaCode: this.selPeapeaCode }).subscribe((data => {
       var totalTr = 0;
       var totalMeter = 0;
       var mnt = ['11/62', '12/62', '1/63', '2/63', '3/63', '4/63', '5/63', '6/63', '7/63', '8/63', '9/63'];
@@ -232,7 +232,7 @@ export class PhasechkComponent implements OnInit {
 
   
 
-      data.data.forEach(element => {
+      data['data'].forEach(element => {
         totalTr = totalTr + Number(element.totalTr);
         totalMeter = totalMeter + Number(element.totalMeter);
       });
@@ -259,7 +259,7 @@ export class PhasechkComponent implements OnInit {
 
       trAcc = 0;
       meterAcc = 0;
-      data.data.forEach(element => {
+      data['data'].forEach(element => {
         if (Number(element.mnt) - lastMnt > 1) {
           for (i = 0; i < Number(element.mnt) - lastMnt - 1; i++) {
             trDone.push((trAcc / totalTr * 100).toFixed(2));
@@ -363,20 +363,20 @@ export class PhasechkComponent implements OnInit {
 
   getStatus() {
 
-    this.configService.postdata('phase/rdstat.php', { peaCode: localStorage.getItem('peaCode'),selDataType:this.selDataType2 }).subscribe((data => {
-      if (data.status == 1) {
-        this.PEA_TR0 = Number(data.data[0]);
-        this.PEA_TR1 = Number(data.data[1]);
-        this.PEA_TR2 = Number(data.data[2]);
-        this.PEA_TR3 = Number(data.data[3]);
-        this.PEA_TR6 = Number(data.data[4]);
-        this.PEA_TR7 = Number(data.data[5]);
+    this.configService.postdata2('phase/rdstat.php', { peaCode: localStorage.getItem('peaCode'),selDataType:this.selDataType2 }).subscribe((data => {
+      if (data['status'] == 1) {
+        this.PEA_TR0 = Number(data['data'][0]);
+        this.PEA_TR1 = Number(data['data'][1]);
+        this.PEA_TR2 = Number(data['data'][2]);
+        this.PEA_TR3 = Number(data['data'][3]);
+        this.PEA_TR6 = Number(data['data'][4]);
+        this.PEA_TR7 = Number(data['data'][5]);
 
-        this.PEA_TR4 = Number(data.data[0]) + Number(data.data[2])  //Total TR
-        this.PEA_TR5 = Number(data.data[3]) + Number(data.data[1]) // Survey
+        this.PEA_TR4 = Number(data['data'][0]) + Number(data['data'][2])  //Total TR
+        this.PEA_TR5 = Number(data['data'][3]) + Number(data['data'][1]) // Survey
 
-        this.PEA_TR1perPEA_TR0 = Number(data.data[1]) / Number(data.data[0]) * 100;
-        this.PEA_TR3perPEA_TR0 = Number(data.data[3]) / Number(data.data[2]) * 100;
+        this.PEA_TR1perPEA_TR0 = Number(data['data'][1]) / Number(data['data'][0]) * 100;
+        this.PEA_TR3perPEA_TR0 = Number(data['data'][3]) / Number(data['data'][2]) * 100;
         this.PEA_TR2perPEA_TR0 = this.PEA_TR5 / this.PEA_TR4 * 100;
 
 
@@ -402,7 +402,7 @@ export class PhasechkComponent implements OnInit {
               var width = chart.chart.width,
                 height = chart.chart.height,
                 ctx = chart.chart.ctx;
-              //text =chart.config.data.dataset[0].data[0];
+              //text =chart.config.data['data']set[0].data[0];
 
               ctx.restore();
               var fontSize = (height / 120).toFixed(2);
@@ -466,7 +466,7 @@ export class PhasechkComponent implements OnInit {
               var width = chart.chart.width,
                 height = chart.chart.height,
                 ctx = chart.chart.ctx;
-              //text =chart.config.data.dataset[0].data[0];
+              //text =chart.config.data['data']set[0].data[0];
 
               ctx.restore();
               var fontSize = (height / 120).toFixed(2);
@@ -531,14 +531,14 @@ export class PhasechkComponent implements OnInit {
               var width = chart.chart.width,
                 height = chart.chart.height,
                 ctx = chart.chart.ctx;
-              //text =chart.config.data.dataset[0].data[0];
+              //text =chart.config.data['data']set[0].data[0];
 
               ctx.restore();
               var fontSize = (height / 120).toFixed(2);
               ctx.font = fontSize + "em sans-serif";
               ctx.textBaseline = "middle";
               ctx.fillStyle = "#FFFEFF";
-              var text = chart.config.data.datasets[0].data[0] + "%",
+              var text = chart.config.data['data'].sets[0].data[0] + "%",
                 textX = Math.round((width - ctx.measureText(text).width) / 2),
                 textY = height / 2;
 
@@ -582,7 +582,7 @@ export class PhasechkComponent implements OnInit {
 
 
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
 
@@ -607,8 +607,8 @@ export class PhasechkComponent implements OnInit {
       selData2=2;
     }
     //rdJobProgressPea2
-    this.configService.postdata('phase/loadGis.php', { peaCode: this.selPeapeaCode, selDataType: selData2 }).subscribe((data => {
-      if (data.status == 1) {
+    this.configService.postdata2('phase/loadGis.php', { peaCode: this.selPeapeaCode, selDataType: selData2 }).subscribe((data => {
+      if (data['status'] == 1) {
         var Pea = [];
         
         var pComp = [];
@@ -636,12 +636,12 @@ export class PhasechkComponent implements OnInit {
         var dataName='';
         var progressNow={};
         var TargetNow={};
-        data.data2.forEach(element => {
+        data['data'].forEach(element => {
           progressNow[element.Pea]=Number(element.nComp);
           TargetNow[element.Pea]=Number(element.totalTr);
         });
 
-        data.data.forEach(element => {
+        data['data'].forEach(element => {
           AccNComp=AccNComp+progressNow[element.Pea];
           AccNIn=AccNIn+Number(element.nInp);
           AccNIn2=AccNIn2+Number(element.nInp2);
@@ -870,7 +870,7 @@ export class PhasechkComponent implements OnInit {
         });
 
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }));

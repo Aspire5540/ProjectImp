@@ -115,15 +115,13 @@ export class LVProComponent implements OnInit {
     this.dataSource1.filter = (filterValue).trim().toLowerCase();
   }
   applyWBS(event) {
-    console.log(event);
-    this.configService.postdata('wriWBS.php',{TRNumber:event[1].PEA_TR,WBS :event[0]}).subscribe((data=>{
-      if(data.status==1){
-         console.log(data.data);
+    this.configService.postdata2('wriWBS.php',{TRNumber:event[1].PEA_TR,WBS :event[0]}).subscribe((data=>{
+      if(data['status']==1){
          this.getTrData();
          this.getStatus();
         //console.log(this.peaname);
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }))  
@@ -131,13 +129,12 @@ export class LVProComponent implements OnInit {
 
   applyRLoad(event) {
     console.log(event);
-    this.configService.postdata('wriRLoad.php',{TRNumber:event[1].PEA_TR,RLoad :event[0]}).subscribe((data=>{
-      if(data.status==1){
-         console.log(data.data);
+    this.configService.postdata2('wriRLoad.php',{TRNumber:event[1].PEA_TR,RLoad :event[0]}).subscribe((data=>{
+      if(data['status']==1){
          this.getTrData();
         //console.log(this.peaname);
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }))  
@@ -145,13 +142,13 @@ export class LVProComponent implements OnInit {
 
   applyRVoltage(event) {
     console.log(event);
-    this.configService.postdata('wriRVoltage.php',{TRNumber:event[1].PEA_TR,RVoltage :event[0]}).subscribe((data=>{
-      if(data.status==1){
-         console.log(data.data);
+    this.configService.postdata2('wriRVoltage.php',{TRNumber:event[1].PEA_TR,RVoltage :event[0]}).subscribe((data=>{
+      if(data['status']==1){
+         console.log(data['data']);
          this.getTrData();
         //console.log(this.peaname);
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }))  
@@ -159,13 +156,13 @@ export class LVProComponent implements OnInit {
 
   selectStatus(event){
     console.log(event);
-    this.configService.postdata('wristatus.php',{TRNumber:event.value[1].PEA_TR,status :event.value[0]}).subscribe((data=>{
-      if(data.status==1){
-         console.log(data.data);
+    this.configService.postdata2('wristatus.php',{TRNumber:event.value[1].PEA_TR,status :event.value[0]}).subscribe((data=>{
+      if(data['status']==1){
+         console.log(data['data']);
          this.getTrData();
         //console.log(this.peaname);
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }))
@@ -180,7 +177,7 @@ export class LVProComponent implements OnInit {
 
   onSubmit() {
 
-    /*if(data.status==1){
+    /*if(data['status']==1){
       this.registerForm.resetForm();
       this.getData();
       alert("เก็บข้อมูลแล้วเสร็จ");
@@ -198,21 +195,21 @@ export class LVProComponent implements OnInit {
   }
 
   getStatus(){
-    this.configService.postdata('rdstat.php',{peaCode : localStorage.getItem('peaCode')}).subscribe((data=>{
-      if(data.status==1){
-        this.PEA_TR0 =data.data[0];
-        this.PEA_TR1 =data.data[1];
-        this.PEA_TR2 =data.data[2];
-        this.PEA_TR3 =data.data[3];
-        this.WBS4 =data.data[4];
-        this.WBS5 =data.data[5];
-        this.WBS6 =data.data[6];
-        this.PEA_TR1perPEA_TR0=Number(data.data[1])/Number(data.data[0])*100;
-        this.PEA_TR2perPEA_TR0=Number(data.data[2])/Number(data.data[0])*100;
-        this.PEA_TR3perPEA_TR0=Number(data.data[3])/Number(data.data[0])*100;
-        this.WBS4perPEA_TR1=Number(data.data[4])/Number(data.data[1])*100;
-        this.WBS5perPEA_TR2=Number(data.data[5])/Number(data.data[2])*100;
-        this.WBS6perPEA_TR3=Number(data.data[6])/Number(data.data[3])*100;
+    this.configService.postdata2('rdstat.php',{peaCode : localStorage.getItem('peaCode')}).subscribe((data=>{
+      if(data['status']==1){
+        this.PEA_TR0 =data['data'][0];
+        this.PEA_TR1 =data['data'][1];
+        this.PEA_TR2 =data['data'][2];
+        this.PEA_TR3 =data['data'][3];
+        this.WBS4 =data['data'][4];
+        this.WBS5 =data['data'][5];
+        this.WBS6 =data['data'][6];
+        this.PEA_TR1perPEA_TR0=Number(data['data'][1])/Number(data['data'][0])*100;
+        this.PEA_TR2perPEA_TR0=Number(data['data'][2])/Number(data['data'][0])*100;
+        this.PEA_TR3perPEA_TR0=Number(data['data'][3])/Number(data['data'][0])*100;
+        this.WBS4perPEA_TR1=Number(data['data'][4])/Number(data['data'][1])*100;
+        this.WBS5perPEA_TR2=Number(data['data'][5])/Number(data['data'][2])*100;
+        this.WBS6perPEA_TR3=Number(data['data'][6])/Number(data['data'][3])*100;
 
         console.log (this.PEA_TR0);
 
@@ -618,7 +615,7 @@ export class LVProComponent implements OnInit {
 
     
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
 
       
@@ -636,8 +633,8 @@ export class LVProComponent implements OnInit {
 }
   /*
   getTrData(){ 
-    this.configService.postdata('TR.php',{TRNumber:this.TRNo}).subscribe((data=>{
-      if(data.status==1){
+    this.configService.postdata2('TR.php',{TRNumber:this.TRNo}).subscribe((data=>{
+      if(data['status']==1){
          console.log(data.data);
         
         //console.log(this.peaname);

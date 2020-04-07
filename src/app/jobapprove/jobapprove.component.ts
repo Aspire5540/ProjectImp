@@ -72,13 +72,13 @@ export class JobapproveComponent implements OnInit {
     
   }
   getFilter(){
-    this.configService.postdata('rdfilter.php',{}).subscribe((data=>{
-      if(data.status==1){
-          data.data.forEach(element => {
+    this.configService.postdata2('rdfilter.php',{}).subscribe((data=>{
+      if(data['status']==1){
+          data['data'].forEach(element => {
             this.budjets.push({value: [element.filter1,element.filter2], viewValue: element.project})
           });
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
     }))
   }
@@ -97,27 +97,27 @@ export class JobapproveComponent implements OnInit {
   }
 
   selWbs(wbsdata){ 
-    this.configService.postdata('addjob.php',{ wbs: wbsdata.wbs, status : 1 }).subscribe((data=>{
-      if(data.status==1){
+    this.configService.postdata2('addjob.php',{ wbs: wbsdata.wbs, status : 1 }).subscribe((data=>{
+      if(data['status']==1){
           this.getData(this.selPea,this.selBudjet);
           this.rdsumcost();
           this.getJobProgressPea();
           //alert("ลบข้อมูลแล้วเสร็จ");
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }))
     
   } 
   getpeaList(){ 
-    this.configService.postdata('rdpeaall.php',{}).subscribe((data=>{
-      if(data.status==1){
-        //console.log(data.data);
-        this.peaname=data.data;
+    this.configService.postdata2('rdpeaall.php',{}).subscribe((data=>{
+      if(data['status']==1){
+        //console.log(data['data']);
+        this.peaname=data['data'];
         //console.log(this.peaname);
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }))
@@ -126,13 +126,13 @@ export class JobapproveComponent implements OnInit {
   getJobProgressPea(){ 
 
     if (this.selected==2){
-      this.configService.postdata('rdsummaryAll.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
-        if(data.status==1){
+      this.configService.postdata2('rdsummaryAll.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+        if(data['status']==1){
           this.WorkCostPea=[];
           this.nwbsArr=[];
           this.nwbsApp=[];
          
-          data.nwbsApp.forEach(element => {
+          data['nwbsApp'].forEach(element => {
             this.WorkCostPea.push(element.Pea);
             this.nwbsApp.push(element.nstatus);
             this.nwbsArr.push(element.totalWbs);
@@ -196,14 +196,14 @@ export class JobapproveComponent implements OnInit {
 
 
     }else{
-    this.configService.postdata('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
-      if(data.status==1){
+    this.configService.postdata2('rdJobProgressPea.php',{peaCode : this.selPeapeaCode,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+      if(data['status']==1){
         this.WorkCostPea=[];
         this.WorkCostPercentPea=[];
   
         this.nwbsArr=[];
         this.matCostPercentPea=[];
-        data.data.forEach(element => {
+        data['data'].forEach(element => {
  
 
 
@@ -269,11 +269,11 @@ export class JobapproveComponent implements OnInit {
           }
         } 
       });
-        //this.nwbs=data.data.nwbs;
-        //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
+        //this.nwbs=data['data'].nwbs;
+        //this.WorkCostPercent=Number(data['data'].workCostAct)/Number(data['data'].workCostPln*0.8)*100;
         
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }));
@@ -282,14 +282,14 @@ export class JobapproveComponent implements OnInit {
 
   }
   getApproved(){ 
-    this.configService.postdata('rdapproved.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
-      if(data.status==1){
+    this.configService.postdata2('rdapproved.php',{peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+      if(data['status']==1){
         
-        this.WorkCostApp=Number(data.data.sumWorkCostPln);
-        this.projectBudget=Number(data.data.budget);
+        this.WorkCostApp=Number(data['data'].sumWorkCostPln);
+        this.projectBudget=Number(data['data'].budget);
         //console.log(this.peaname);
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }));
@@ -297,26 +297,26 @@ export class JobapproveComponent implements OnInit {
   } 
   delWbs(wbsdata){
     //console.log(wbsdata);
-    this.configService.postdata('addjob.php',{ wbs: wbsdata.wbs, status : 0 }).subscribe((data=>{
-      if(data.status==1){
+    this.configService.postdata2('addjob.php',{ wbs: wbsdata.wbs, status : 0 }).subscribe((data=>{
+      if(data['status']==1){
           this.getData(this.selPea,this.selBudjet);
           this.rdsumcost();
           this.getJobProgressPea();
           //alert("ลบข้อมูลแล้วเสร็จ");
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }))
     
   } 
   rdsumcost(){
-    this.configService.postdata('rdsummary.php',{ peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
+    this.configService.postdata2('rdsummary.php',{ peaEng : this.selPea,filter1: this.selBudjet[0],filter2: this.selBudjet[1]}).subscribe((data=>{
   
       this.getData(this.selPea,this.selBudjet);
-      this.nWbs=Number(data.nWbs);
-      this.WorkCost=Number(data.sumWorkCostPln);
-      this.totalWbs=Number(data.totalWbs);
+      this.nWbs=Number(data['nWbs']);
+      this.WorkCost=Number(data['sumWorkCostPln']);
+      this.totalWbs=Number(data['totalWbs']);
      
     }))
   }
@@ -346,15 +346,15 @@ export class JobapproveComponent implements OnInit {
     wdata["filter2"] = this.selBudjet[1];
     console.log(wdata);
     
-    this.configService.postdata('wrAppJob.php',wdata).subscribe((data=>{
-      if(data.status==1){
+    this.configService.postdata2('wrAppJob.php',wdata).subscribe((data=>{
+      if(data['status']==1){
           this.getData(this.selPea,this.selBudjet);
           this.rdsumcost();
           this.getJobProgressPea();
           this.registerForm.resetForm();
           alert("บันทึกแล้วเสร็จ");
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
   
     }))

@@ -370,14 +370,14 @@
             <ng-container matColumnDef="status">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> สถานะงาน </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <div *ngIf="wbsdata.status == 1"><label class="badge badge-warning">In progress</label> </div>
+                <div *ngIf="wbsdata['status'] == 1"><label class="badge badge-warning">In progress</label> </div>
               </td>
             </ng-container>
 
             <ng-container matColumnDef="del">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <div *ngIf="wbsdata.status != 1">
+                <div *ngIf="wbsdata['status'] != 1">
                   <button class="btn btn-danger" mat-raised-button (click)="openDialog(wbsdata,1)">ลบ</button>
                 </div>
               </td>
@@ -386,7 +386,7 @@
             <ng-container matColumnDef="rename">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <div *ngIf="wbsdata.status != 1">
+                <div *ngIf="wbsdata['status'] != 1">
                   <button class="btn btn-primary" mat-raised-button (click)="openDialog(wbsdata,2)">แก้ไข WBS</button>
                 </div>
               </td>

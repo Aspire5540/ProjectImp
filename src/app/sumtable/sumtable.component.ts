@@ -94,13 +94,13 @@ export class SumtableComponent implements OnInit {
    
   }
   getFilter(){
-    this.configService.postdata('rdfilter.php',{}).subscribe((data=>{
-      if(data.status==1){
-          data.data.forEach(element => {
+    this.configService.postdata2('rdfilter.php',{}).subscribe((data=>{
+      if(data['status']==1){
+          data['data'].forEach(element => {
             this.budjets.push({value: [element.filter1,element.filter2], viewValue: element.project})
           });
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
     }))
   }
@@ -127,13 +127,13 @@ export class SumtableComponent implements OnInit {
     //console.log(this.wdata);
 
 
-    this.configService.postdata('wrimjob.php', this.registerForm.value).subscribe((data => {
-      if (data.status == 1) {
+    this.configService.postdata2('wrimjob.php', this.registerForm.value).subscribe((data => {
+      if (data['status'] == 1) {
         this.registerForm.resetForm();
         this.getData();
         alert("เก็บข้อมูลแล้วเสร็จ");
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))
@@ -188,25 +188,25 @@ export class SumtableComponent implements OnInit {
   */
   delWbs(wbsdata) {
     //console.log(wbsdata.wbs);
-    this.configService.postdata('delimjob.php', wbsdata).subscribe((data => {
-      if (data.status == 1) {
+    this.configService.postdata2('delimjob.php', wbsdata).subscribe((data => {
+      if (data['status'] == 1) {
         this.registerForm.resetForm();
         this.getData();
         alert("ลบข้อมูลแล้วเสร็จ");
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))
   }
   renameWbs(wbsdata) {
     //console.log(wbsdata.wbs);
-    this.configService.postdata('renameWBS.php', wbsdata).subscribe((data => {
-      if (data.status == 1) {
+    this.configService.postdata2('renameWBS.php', wbsdata).subscribe((data => {
+      if (data['status'] == 1) {
         this.getData();
         alert("แก้ไขข้อมูลแล้วเสร็จ");
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))
@@ -250,18 +250,18 @@ export class SumtableComponent implements OnInit {
     );
   }
   getJobProgress() {
-    this.configService.postdata('rdprogress.php', { peaEng: localStorage.getItem('peaEng') }).subscribe((data => {
-      if (data.status == 1) {
-        this.nwbsPTDD = data.data.PTDD.nwbs;
-        this.workCostPerPTDD = Number(data.data.PTDD.workCostAct) / Number(data.data.PTDD.workCostPln) * 100;
-        this.nwbsMR = data.data.MR.nwbs;
-        this.workCostPerMR = Number(data.data.MR.workCostAct) / Number(data.data.MR.workCostPln) * 100;
-        this.nwbsBY = data.data.BY.nwbs;
-        this.workCostPerBY = Number(data.data.BY.workCostAct) / Number(data.data.BY.workCostPln) * 100;
-        this.nwbsAll = data.data.BY.All;
-        this.workCostPerAll = Number(data.data.All.workCostAct) / Number(data.data.All.workCostPln) * 100;
-        //this.nwbs=data.data.nwbs;
-        //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
+    this.configService.postdata2('rdprogress.php', { peaEng: localStorage.getItem('peaEng') }).subscribe((data => {
+      if (data['status'] == 1) {
+        this.nwbsPTDD = data['data'].PTDD.nwbs;
+        this.workCostPerPTDD = Number(data['data'].PTDD.workCostAct) / Number(data['data'].PTDD.workCostPln) * 100;
+        this.nwbsMR = data['data'].MR.nwbs;
+        this.workCostPerMR = Number(data['data'].MR.workCostAct) / Number(data['data'].MR.workCostPln) * 100;
+        this.nwbsBY = data['data'].BY.nwbs;
+        this.workCostPerBY = Number(data['data'].BY.workCostAct) / Number(data['data'].BY.workCostPln) * 100;
+        this.nwbsAll = data['data'].BY.All;
+        this.workCostPerAll = Number(data['data'].All.workCostAct) / Number(data['data'].All.workCostPln) * 100;
+        //this.nwbs=data['data'].nwbs;
+        //this.WorkCostPercent=Number(data['data'].workCostAct)/Number(data['data'].workCostPln*0.8)*100;
         if (this.myDonut) this.myDonut.destroy();
 
         this.myDonut = new Chart('myDonut', {
@@ -283,14 +283,14 @@ export class SumtableComponent implements OnInit {
               var width = chart.chart.width,
                 height = chart.chart.height,
                 ctx = chart.chart.ctx;
-              //text =chart.config.data.dataset[0].data[0];
+              //text =chart.config.data['data']set[0].data[0];
 
               ctx.restore();
               var fontSize = (height / 114).toFixed(2);
               ctx.font = fontSize + "em sans-serif";
               ctx.textBaseline = "middle";
               ctx.fillStyle = "#FFFEFF";
-              var text = chart.config.data.datasets[0].data[0] + "%",
+              var text = chart.config.data['data'].sets[0].data[0] + "%",
                 textX = Math.round((width - ctx.measureText(text).width) / 2),
                 textY = height / 2;
 
@@ -319,7 +319,7 @@ export class SumtableComponent implements OnInit {
             tooltips: {
               callbacks: {
                 label: function (tooltipItem, data) {
-                  var label = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + '%';
+                  var label = data['data'].sets[tooltipItem.datasetIndex].data[tooltipItem.index] + '%';
                   return label;
                 }
               }
@@ -333,14 +333,14 @@ export class SumtableComponent implements OnInit {
             var width = chart.chart.width,
                 height = chart.chart.height,
                 ctx = chart.chart.ctx;
-                //text =chart.config.data.dataset[0].data[0];
-            console.log(chart.config.data.datasets[0].data[0]);
+                //text =chart.config.data['data']set[0].data[0];
+            console.log(chart.config.data['data']sets[0].data[0]);
             ctx.restore();
             var fontSize = (height / 114).toFixed(2);
             ctx.font = fontSize + "em sans-serif";
             ctx.textBaseline = "middle";
         
-            var text = chart.config.data.datasets[0].data[0]+"%",
+            var text = chart.config.data['data']sets[0].data[0]+"%",
                 textX = Math.round((width - ctx.measureText(text).width) / 2),
                 textY = height / 2;
         
@@ -351,19 +351,20 @@ export class SumtableComponent implements OnInit {
     */
 
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }));
 
 
   }
+
   trChange(value) {
-    this.configService.postdata('rdtr.php', { PEA_TR: value }).subscribe((data => {
-      if (data.status == 1) {
-        if (data.data) {
-          this.trLoad = data.data.PLoadTOT;
-          this.minV = data.data.minV;
+    this.configService.postdata2('rdtr.php', { PEA_TR: value }).subscribe((data => {
+      if (data['status'] == 1) {
+        if (data['data']) {
+          this.trLoad = data['data'].PLoadTOT;
+          this.minV = data['data'].minV;
           this.ftr = true;
         } else {
           this.ftr = false;
@@ -371,7 +372,7 @@ export class SumtableComponent implements OnInit {
         }
       } else {
 
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))

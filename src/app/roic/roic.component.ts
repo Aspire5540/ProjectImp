@@ -105,7 +105,8 @@ export class RoicComponent implements OnInit {
 
   constructor(private configService: ConfigService) {
 
-
+    this.getpeaList();
+    this.getpeaList2();
 
   }
 
@@ -119,8 +120,7 @@ export class RoicComponent implements OnInit {
     this.peaCode = localStorage.getItem('peaCode');
     this.peaNum = this.peaCode.substr(1, 5);
     this.selPeapeaCode = this.peaCode.substr(0, 4);
-    this.getpeaList();
-    this.getpeaList2();
+ 
     this.getinfo();
     this.getRemianBY();
     this.getJobClsdPea();
@@ -128,11 +128,11 @@ export class RoicComponent implements OnInit {
 
   }
   getinfo() {
-    this.configService.postdata('roic/rdInfo.php', { data: 'roicdate' }).subscribe((data => {
-      if (data.status == 1) {
-        this.roicdate = data.data[0].info;
+    this.configService.postdata2('roic/rdInfo.php', { data: 'roicdate' }).subscribe((data => {
+      if (data['status'] == 1) {
+        this.roicdate = data['data'][0].info;
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }));
@@ -169,9 +169,11 @@ export class RoicComponent implements OnInit {
     this.getRemianData();
   }
   getpeaList() {
-    this.configService.postdata('phase/rdpeaall.php', {}).subscribe((data => {
-      if (data.status == 1) {
-        data.data.forEach(element => {
+    this.configService.postdata2('phase/rdpeaall.php', {}).subscribe((data => {
+      console.log(data);
+      
+      if (data["status"] == 1) {
+        data["data"].forEach(element => {
           this.peaname[element.peaCode] = element.peaName;
 
         });
@@ -184,20 +186,21 @@ export class RoicComponent implements OnInit {
         }
 
       } else {
-        alert(data.data);
+        alert(data["data"]);
       }
-
+      
     }))
+
 
   }
   getpeaList2() {
-    this.configService.postdata('roic/rdpeaall.php', {}).subscribe((data => {
-      if (data.status == 1) {
-        //console.log(data.data);
-        this.peaname2 = data.data;
+    this.configService.postdata2('roic/rdpeaall.php', {}).subscribe((data => {
+      if (data['status'] == 1) {
+        //console.log(data['data']);
+        this.peaname2 = data['data'];
         //console.log(this.peaname);
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))
@@ -221,8 +224,8 @@ export class RoicComponent implements OnInit {
   getJobProgressPea() {
     //จำนวนงานคงค้าง %เบิกจ่าย
     this.getRoicP();
-    this.configService.postdata('roic/rdRoicProgress.php', { peaCode: this.selPeapeaCode, filter1: this.selBudjet[0], filter2: this.selBudjet[1] }).subscribe((data => {
-      if (data.status == 1) {
+    this.configService.postdata2('roic/rdRoicProgress.php', { peaCode: this.selPeapeaCode, filter1: this.selBudjet[0], filter2: this.selBudjet[1] }).subscribe((data => {
+      if (data['status'] == 1) {
         var Pea = [];
         var kva = [];
         var kvaObj=[];
@@ -232,12 +235,12 @@ export class RoicComponent implements OnInit {
         this.kvaPlnTotal = 0;
 
 
-        data.data.forEach(element => {
+        data['data'].forEach(element => {
           kvaObj[element.Pea] = Number(element.totaltr);
           this.kvaTotal = this.kvaTotal + Number(element.totaltr);   
         });
 
-        data.dataP.forEach(element => {
+        data['dataP'].forEach(element => {
           Pea.push(this.peaname["B" + element.Pea]);
           kvaPln.push(element.totaltr);
           this.kvaPlnTotal = this.kvaPlnTotal + Number(element.totaltr);
@@ -576,7 +579,7 @@ export class RoicComponent implements OnInit {
                });
        */
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }));
@@ -586,8 +589,8 @@ export class RoicComponent implements OnInit {
   getTrPea() {
     //จำนวนงานคงค้าง %เบิกจ่าย
     this.getRoicP();
-    this.configService.postdata('roic/rdTrProgress.php', { peaCode: this.selPeapeaCode2 }).subscribe((data => {
-      if (data.status == 1) {
+    this.configService.postdata2('roic/rdTrProgress.php', { peaCode: this.selPeapeaCode2 }).subscribe((data => {
+      if (data['status'] == 1) {
         var Pea = [];
         var workCostActTR = [];
         var workCostPlnTR = [];
@@ -599,7 +602,7 @@ export class RoicComponent implements OnInit {
 
 
 
-        data.data.forEach(element => {
+        data['data'].forEach(element => {
           this.workCostActTRTotal = this.workCostActTRTotal + Number(element.workCostActTR);
           this.workCostActBYTotal = this.workCostActBYTotal + Number(element.workCostActBY);
           Pea.push(this.peaname["B" + element.Pea]);
@@ -683,7 +686,7 @@ export class RoicComponent implements OnInit {
             tooltips: {
               callbacks: {
                 label: function (tooltipItem, data) {
-                  var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                  var label = data['data']sets[tooltipItem.datasetIndex].label || '';
 
                   if (label) {
                     label += ': ';
@@ -766,7 +769,7 @@ export class RoicComponent implements OnInit {
             tooltips: {
               callbacks: {
                 label: function (tooltipItem, data) {
-                  var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                  var label = data['data']sets[tooltipItem.datasetIndex].label || '';
 
                   if (label) {
                     label += ': ';
@@ -781,7 +784,7 @@ export class RoicComponent implements OnInit {
         });
 
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }));
@@ -790,14 +793,14 @@ export class RoicComponent implements OnInit {
   getJobClsdPea() {
     //จำนวนงานคงค้าง %เบิกจ่าย
     var pClsd = [];
-    this.configService.postdata('rdJobProgressPea.php', { peaCode: this.selPeapeaCode, filter1: this.selBudjet[0], filter2: this.selBudjet[1] }).subscribe((data => {
-      if (data.status == 1) {
+    this.configService.postdata2('rdJobProgressPea.php', { peaCode: this.selPeapeaCode, filter1: this.selBudjet[0], filter2: this.selBudjet[1] }).subscribe((data => {
+      if (data['status'] == 1) {
         var WorkCostPea = [];
-        var WorkCostPercentPea = [];
+        //var WorkCostPercentPea = [];
 
         var nwbsArr = [];
-        var matCostPercentPea = [];
-        data.data.forEach(element => {
+        //var matCostPercentPea = [];
+        data['data'].forEach(element => {
           nwbsArr.push(element.nWBS);
           pClsd.push((Number(element.nWBS) / Number(element.totalWbs) * 100).toFixed(2));
           WorkCostPea.push(this.peaname[element.Pea]);
@@ -806,7 +809,7 @@ export class RoicComponent implements OnInit {
 
 
         });
-
+        //console.log(nwbsArr,WorkCostPea);
         this.chartOptions3 = {
           series: [
             {
@@ -928,11 +931,11 @@ export class RoicComponent implements OnInit {
           labels: ["ผลการดำเนินการ"]
         };     
 
-        //this.nwbs=data.data.nwbs;
-        //this.WorkCostPercent=Number(data.data.workCostAct)/Number(data.data.workCostPln*0.8)*100;
+        //this.nwbs=data['data'].nwbs;
+        //this.WorkCostPercent=Number(data['data'].workCostAct)/Number(data['data'].workCostPln*0.8)*100;
 
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }));
@@ -944,8 +947,8 @@ export class RoicComponent implements OnInit {
  getBudgetPea() {
    //จำนวนงานคงค้าง %เบิกจ่าย
    this.getRoicP();
-   this.configService.postdata('roic/rdBudgetProgress.php', { peaCode: 'B000' }).subscribe((data => {
-     if (data.status == 1) {
+   this.configService.postdata2('roic/rdBudgetProgress.php', { peaCode: 'B000' }).subscribe((data => {
+     if (data['status'] == 1) {
        var Pea = [];
        var workCostAct = [];
        var workCostPln = [];
@@ -959,7 +962,7 @@ export class RoicComponent implements OnInit {
        this.matCostPlnTotal = 0;
 
 
-       data.data.forEach(element => {
+       data['data'].forEach(element => {
          Pea.push(this.peaname["B" + element.Pea]);
          workCostAct.push(Number(element.workCostAct));
          workCostPln.push(Number(element.workCostPln));
@@ -1051,7 +1054,7 @@ export class RoicComponent implements OnInit {
            tooltips: {
              callbacks: {
                label: function (tooltipItem, data) {
-                 var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                 var label = data['data']sets[tooltipItem.datasetIndex].label || '';
 
                  if (label) {
                    label += ': ';
@@ -1137,7 +1140,7 @@ export class RoicComponent implements OnInit {
            tooltips: {
              callbacks: {
                label: function (tooltipItem, data) {
-                 var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                 var label = data['data']sets[tooltipItem.datasetIndex].label || '';
 
                  if (label) {
                    label += ': ';
@@ -1153,7 +1156,7 @@ export class RoicComponent implements OnInit {
 
 
      } else {
-       alert(data.data);
+       alert(data['data']);
      }
 
    }));
@@ -1162,11 +1165,11 @@ export class RoicComponent implements OnInit {
   getRoicP() {
     //จำนวนงานคงค้าง %เบิกจ่าย
 
-    this.configService.postdata('roic/rdRoicPln.php', { peaCode: 'B000' }).subscribe((data => {
+    this.configService.postdata2('roic/rdRoicPln.php', { peaCode: 'B000' }).subscribe((data => {
 
-      if (data.status == 1) {
+      if (data['status'] == 1) {
         this.kvaPlnTotal -= 0;
-        data.data.forEach(element => {
+        data['data'].forEach(element => {
           this.roicp[element.Pea] = Number(element.totaltr);
           this.kvaPlnTotal = this.kvaPlnTotal + Number(element.totaltr);
 
@@ -1174,7 +1177,7 @@ export class RoicComponent implements OnInit {
 
 
       } else {
-        alert(data.data);
+        alert(data['data']);
       }
 
     }));

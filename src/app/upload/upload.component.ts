@@ -49,33 +49,26 @@ export class UploadComponent implements OnInit {
   }
   onSubmit(){
 
-    this.configService.postdata('w048tosql.php',this.registerForm.value).subscribe((data=>{
-      if(data.status==1){
+    this.configService.postdata2('w048tosql.php',this.registerForm.value).subscribe((data=>{
+      if(data['status']==1){
           this.registerForm.resetForm();
           alert("เก็บข้อมูลแล้วเสร็จ");
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))
   }
   onSubmit2(){
 
-    this.configService.postdata('phase/gistosql.php',{}).subscribe((data=>{
-      if(data.status==1){
+    this.configService.postdata2('phase/gistosql.php',{}).subscribe((data=>{
+      if(data['status']==1){
           this.registerForm.resetForm();
           alert("เก็บข้อมูลแล้วเสร็จ");
       }else{
-        alert(data.data);
+        alert(data['data']);
       }
 
     }))
   }
-
-  callApi() {
-    this.http.get('https://172.18.3.216:5001/api/scada/getmv_sub?sub=pla&year=2019&month=10&day=11&region=n2&feeder=out02')
-      .subscribe(data => {
-        console.log(data);
-      })
-    }
 }
