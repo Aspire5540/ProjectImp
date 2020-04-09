@@ -14,7 +14,7 @@ import {FileuploadService} from '../config/fileupload.service';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  @ViewChild('f') registerForm: NgForm;
+  @ViewChild('f', { static: false }) registerForm: NgForm;
 
   URL ="http://127.0.0.1/psisservice/uploadssap/";
   uploadDocResponse = '';

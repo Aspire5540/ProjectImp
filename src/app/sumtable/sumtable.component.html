@@ -316,7 +316,7 @@
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">งานที่ขออนุมัติเปิดงาน</h4>
+        <h4>งานที่ขออนุมัติเปิดงาน</h4>
         <div class="row">
           <div class="col-md-3">
             <mat-form-field>
@@ -328,7 +328,17 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-label>เลือกสถานะงาน</mat-label>
+              <mat-select (selectionChange)="selectApprove($event)">
+                <mat-option *ngFor="let status of appStatus" [value]="status.value">
+                  {{status.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
             <mat-form-field appearance="legacy">
               <mat-label>ค้นหาข้อมูล</mat-label>
               <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput
@@ -370,7 +380,7 @@
             <ng-container matColumnDef="status">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> สถานะงาน </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <div *ngIf="wbsdata['status'] == 1"><label class="badge badge-warning">In progress</label> </div>
+                <div *ngIf="wbsdata['status'] == 1"><label class="badge badge-warning" style="font-size: small;">กำลังดำเนินการ</label> </div>
               </td>
             </ng-container>
 

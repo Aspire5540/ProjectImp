@@ -12,7 +12,7 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  @ViewChild('f') registerForm: NgForm;
+  @ViewChild('f', { static: true }) registerForm: NgForm;
   //model: ILogin = { userid: "admin", password: "admin123" };
   loginForm: FormGroup;
   message: string;

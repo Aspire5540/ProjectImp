@@ -95,10 +95,10 @@ export class RoicComponent implements OnInit {
   roicdate: string;
   displayedColumns = ['wbs', 'jobName', 'workCostPln', 'workCostAct', 'percent', 'jobStatus', 'userStatus'];
   displayedColumns2 = ['wbs', 'jobName', 'workCostPln', 'workCostAct', 'percent', 'jobStatus', 'userStatus'];
-  @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild('paginator2') paginator2: MatPaginator;
-  @ViewChild('sort') sort: MatSort;
-  @ViewChild('sort2') sort2: MatSort;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
+  @ViewChild('paginator2', { static: false }) paginator2: MatPaginator;
+  @ViewChild('sort', { static: true }) sort: MatSort;
+  @ViewChild('sort2', { static: false }) sort2: MatSort;
 
   public dataSource = new MatTableDataSource<jobRemain>();
   public dataSource2 = new MatTableDataSource<jobRemain2>();

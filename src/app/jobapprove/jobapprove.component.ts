@@ -14,7 +14,7 @@ import {Chart} from 'chart.js';
 })
 export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
-  @ViewChild('f') registerForm: NgForm;
+  @ViewChild('f', { static: false }) registerForm: NgForm;
   selPeapeaCode = 'B000';
   projectName='';
   WorkCost =0 ;
@@ -33,12 +33,18 @@ export class JobapproveComponent implements OnInit {
   myPieChart: Chart;
   chartData: any;
   chartTitle:string;
-
+  selectAppChoice='';
  budjets=[];
   dataTypes=[
     {value: 0, viewValue: 'จำนวนงานคงค้าง'},
     {value: 1, viewValue: '% เบิกจ่าย'},
     {value: 2, viewValue: 'งานที่ขออนุมัติ'},
+
+  ];
+  appStatus=[
+    {value: 0, viewValue: 'ยังไม่อนุมัติ'},
+    {value: 1, viewValue: 'อนุมัติแล้ว'},
+    {value: '', viewValue: 'ทั้งหมด'},
 
   ];
   selPea='';
@@ -48,8 +54,8 @@ export class JobapproveComponent implements OnInit {
   nWbs =0;
   displayedColumns = ['wbs', 'jobName','mv','lv','tr', 'causeName', 'solveMet','note','workCostPln','user','del'];
 
-  @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild('sort') sort: MatSort;
+  @ViewChild('paginator', { static: false }) paginator: MatPaginator;
+  @ViewChild('sort', { static: false }) sort: MatSort;
 
   constructor(private configService :ConfigService) {}
   ngOnInit() {
@@ -84,7 +90,7 @@ export class JobapproveComponent implements OnInit {
   }
   getData = (pea,data) => {
     
-    this.configService.getJob('rdimjobview.php?peaCode='+pea+'&filter1='+data[0]+'&filter2='+data[1])
+    this.configService.getJob('rdimjobview.php?peaCode='+pea+'&filter1='+data[0]+'&filter2='+data[1]+'&status='+this.selectAppChoice)
     .subscribe(res => {
       this.dataSource.data = res as jobreq[];
       this.dataSource.paginator = this.paginator; 
@@ -319,6 +325,10 @@ export class JobapproveComponent implements OnInit {
       this.totalWbs=Number(data['totalWbs']);
      
     }))
+  }
+  selectApprove(event){
+    this.selectAppChoice=event.value;
+    this.getData(this.selPea,this.selBudjet);
   }
   selectBudget(event){
 

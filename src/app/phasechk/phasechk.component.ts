@@ -21,13 +21,13 @@ export class PhasechkComponent implements OnInit {
   displayedColumns1 = ['PEA_Meter', 'PhaseMeterGis','LOCATION'];
   //displayedColumns2 = ['PEA_TR','Feeder','PEA_Meter','CustName','SUBTYPECOD', 'kWh','rate','rateMeter','Voltage','Line_Type'];
   //TRNo = "00-050333";
-  @ViewChild('f') registerForm: NgForm;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('paginator1') paginator1: MatPaginator;
-  @ViewChild('sort1') sort1: MatSort;
-  @ViewChild('paginator2') paginator2: MatPaginator;
-  @ViewChild('sort2') sort2: MatSort;
+  @ViewChild('f', { static: false }) registerForm: NgForm;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('paginator1', { static: true }) paginator1: MatPaginator;
+  @ViewChild('sort1', { static: true }) sort1: MatSort;
+  @ViewChild('paginator2', { static: false }) paginator2: MatPaginator;
+  @ViewChild('sort2', { static: false }) sort2: MatSort;
   condition = 0;
   peaCode = "";
   peaNum: string;
@@ -636,7 +636,7 @@ export class PhasechkComponent implements OnInit {
         var dataName='';
         var progressNow={};
         var TargetNow={};
-        data['data'].forEach(element => {
+        data['data2'].forEach(element => {
           progressNow[element.Pea]=Number(element.nComp);
           TargetNow[element.Pea]=Number(element.totalTr);
         });

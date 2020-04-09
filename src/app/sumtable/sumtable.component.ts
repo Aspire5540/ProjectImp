@@ -16,7 +16,7 @@ import { ConfirmationDialog } from './confirmation-dialog.component';
   styleUrls: ['./sumtable.component.scss']
 })
 export class SumtableComponent implements OnInit {
-  @ViewChild('f') registerForm: NgForm;
+  @ViewChild('f', { static: true }) registerForm: NgForm;
   choice: number;
   //Select option
   myDonut: Chart;
@@ -41,6 +41,13 @@ export class SumtableComponent implements OnInit {
   wdata = [];
   budjets=[];
   filter=['',''];
+  appStatus=[
+    {value: 0, viewValue: 'ยังไม่อนุมัติ'},
+    {value: 1, viewValue: 'อยู่ระหว่างขออนุมัติฯ'},
+    {value: '', viewValue: 'ทั้งหมด'},
+
+  ];
+  selectAppChoice='';
   //file upload
   URL = "http://172.18.226.19/psisservice/uploads/";
   //URL = "http://127.0.0.1/psisservice/uploads/";
@@ -56,10 +63,10 @@ export class SumtableComponent implements OnInit {
   displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet', 'note', 'status','rename', 'del'];
   displayedColumns1 = ['wbs', 'jobName', 'mv', 'lv', 'tr', 'totalcost', 'matCostInPln', 'workCostPln', 'appNo'];
   notes = ['1.งานร้องเรียน', '2.PM/PS', '3.งานเร่งด่วน', '4.งานปกติ']
-  @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild('paginator1') paginator1: MatPaginator;
-  @ViewChild('sort') sort: MatSort;
-  @ViewChild('sort1') sort1: MatSort;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
+  @ViewChild('paginator1', { static: true }) paginator1: MatPaginator;
+  @ViewChild('sort', { static: true }) sort: MatSort;
+  @ViewChild('sort1', { static: true }) sort1: MatSort;
   //,public authService: AuthService,private http: HttpClient
   constructor(private configService: ConfigService, private uploadService: FileuploadService, private dialog: MatDialog) { }
   ngOnInit() {
@@ -79,7 +86,7 @@ export class SumtableComponent implements OnInit {
     this.configService.exportAsExcelFile(this.dataSource1.data, 'งานที่อนุมัติ');
  }
   getData = () => {
-    this.configService.getWbs('rdimjob.php?peaEng=' + localStorage.getItem('peaEng')+'&filter1='+this.filter[0]+'&filter2='+this.filter[1])
+    this.configService.getWbs('rdimjob.php?peaEng=' + localStorage.getItem('peaEng')+'&filter1='+this.filter[0]+'&filter2='+this.filter[1]+'&status='+this.selectAppChoice)
       .subscribe(res => {
         this.dataSource.data = res as wbsdata[];
       })
@@ -377,6 +384,11 @@ export class SumtableComponent implements OnInit {
 
     }))
   }
+  selectApprove(event){
+    this.selectAppChoice=event.value;
+    this.getData();
+  }
+
   openDialog(wbs, choice): void {
     this.choice = choice;
     const dialogRef = this.dialog.open(ConfirmationDialog, {
