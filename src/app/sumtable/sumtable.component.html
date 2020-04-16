@@ -96,7 +96,7 @@
 
 
 
-
+<app-loader></app-loader>
 <div class="row">
   <div class="col-12 grid-margin">
     <div class="card">
@@ -171,7 +171,7 @@
 
             <div class="col-md-3">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">สาเหตุ</label>
+                <label class="col-sm-6 col-form-label  input-lg">สาเหตุ</label>
                 <div class="col-sm-9">
                   <select class="form-control form-control-sm  input-lg" name="causeName" ngModel>
                     <option value="" disabled>สาเหตุการดำเนินการ</option>
@@ -183,10 +183,10 @@
               </div>
             </div>
 
-            <div class="col-md-5" *ngIf="show">
+            <div class="col-md-3" *ngIf="show">
 
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">การแก้ไข</label>
+                <label class="col-sm-6 col-form-label  input-lg">การแก้ไข</label>
                 <div class="col-sm-9">
                   <select class="form-control form-control-sm  input-lg" name="solveMet" ngModel>
                     <option value="" disabled>วิธีการแก้ไข</option>
@@ -198,9 +198,9 @@
               </div>
 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">หมายเหตุ</label>
+                <label class="col-sm-6 col-form-label  input-lg">หมายเหตุ</label>
                 <div class="col-sm-9">
                   <select class="form-control form-control-sm  input-lg" name="note" ngModel>
                     <option value="" disabled>หมายเหตุ</option>
@@ -211,15 +211,22 @@
                 </div>
               </div>
             </div>
-
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-9 col-form-label  input-lg">ระยะเวลาดำเนินการ</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="nday" placeholder="จำนวนวัน" ngModel>
+                </div>
+              </div>
+            </div>
           </div>
           <!-----------------------------END------------------------------------------------>
 
           <div class="row">
 
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">แรงสูง</label>
+                <label class="col-sm-6 col-form-label  input-lg">แรงสูง</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control form-control-warning input-lg" name="mv" placeholder="วงจร-กม"
                     ngModel>
@@ -227,18 +234,18 @@
               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">หม้อแปลง</label>
+                <label class="col-sm-6 col-form-label  input-lg">หม้อแปลง</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" name="tr" placeholder="kVA" ngModel>
                 </div>
               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">แรงต่ำ</label>
+                <label class="col-sm-6 col-form-label  input-lg">แรงต่ำ</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control  input-lg" name="lv" placeholder="วงจร-กม" ngModel>
                 </div>
@@ -246,39 +253,83 @@
             </div>
           </div>
           <!-----------------------------END------------------------------------------------>
-          <div *ngIf="show" class="row">
-
-            <div class="col-md-4">
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">PEA หม้อแปลง</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control  input-lg" name="peatr"
-                    (change)="trChange($event.target.value)" placeholder="00-000000" ngModel>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">แรงดันปลายสาย</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control  input-lg" name="vdrop" placeholder="โวลต์" ngModel>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label  input-lg">%โหลดหม้อแปลง</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control  input-lg" name="loadTr" placeholder="%" ngModel>
-                </div>
-              </div>
-            </div>
-
+          <div  *ngIf="show" class="mb-3"> 
+            <p>ระบุข้อมูลหม้อแปลงที่ดำเนินการแก้ไข</p>
           </div>
-          <div *ngIf="ftr" class="row">
-            <p class="text-primary input-lg">แรงดันปลายสาย {{minV}} โวลต์ | โหลดหม้อแปลง {{trLoad}}% </p>
+          <div *ngIf="show" class="row">
+            <div class="col-md-3">
+              <div class="col-sm-8">
+                <label for="peatr">PEA หม้อแปลง</label>
+                <input type="text" class="form-control  input-lg" name="peatr" id="peatr"
+                  (change)="trChange($event.target.value)" placeholder="00-000000" ngModel>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="col-sm-8">
+                <label for="kva">ขนาดหม้อแปลง</label>
+                <input type="text" class="form-control  input-lg" name="kva" (change)="trChange($event.target.value)"
+                  id="kva" placeholder="kVA" ngModel>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="col-sm-8">
+                <label for="vin">แรงดันต้นทาง</label>
+                <input type="text" class="form-control  input-lg" name="vin" placeholder="โวลต์" id="vin" ngModel>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="col-sm-8">
+                <label for="vdrop">แรงดันปลายสาย</label>
+                <input type="text" class="form-control  input-lg" name="vdrop" placeholder="โวลต์" id="vdrop" ngModel>
+              </div>
+            </div>
+            <div *ngIf="ftr" class="row">
+              <p class="text-primary input-lg">แรงดันปลายสาย {{minV}} โวลต์ | โหลดหม้อแปลง {{trLoad}}% </p>
+            </div>
+          </div>
+          <!-----------------------------ROW----------------------------------------------->
+
+          <div *ngIf="show" class="row">
+            <div class="col-md-3">
+              <div class="col-sm-8">
+                <label for="loadTr">%โหลดหม้อแปลง</label>
+                <input type="text" class="form-control  input-lg" name="loadTr" placeholder="%" id="loadTr" ngModel>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="col-sm-8">
+                <label for="trTap">TAP หม้อแปลง</label>
+                <input type="text" class="form-control  input-lg" name="trTap" id="trTap" placeholder="TAP1,2,3,4,5" ngModel>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="col-sm-12">
+                <label for="len">ระยะทางไกลสุดจากหม้อแปลง</label>
+                <input type="text" class="form-control  input-lg" name="len" id="len" placeholder="เมตร" ngModel>
+              </div>
+            </div>          
+          </div>
+          <div *ngIf="show" class="row">
+            <div class="col-md-3">
+              <div class="col-sm-12">
+                <label for="ia">กรแสเฟส A แต่ละฟีดเดอร์</label>
+                <input type="text" class="form-control  input-lg" name="ia" placeholder="F1,F2,F3,F4" id="ia" ngModel>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="col-sm-12">
+                <label for="ib">กรแสเฟส B แต่ละฟีดเดอร์</label>
+                <input type="text" class="form-control  input-lg" name="ib" id="ib" placeholder="F1,F2,F3,F4" ngModel>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="col-sm-12">
+                <label for="ic">กรแสเฟส C แต่ละฟีดเดอร์</label>
+                <input type="text" class="form-control  input-lg" name="ic" id="ic" placeholder="F1,F2,F3,F4" ngModel>
+              </div>
+            </div>          
           </div>
           <!-----------------------------END------------------------------------------------>
           <div class="row">
@@ -301,7 +352,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
               <button type="submit" [disabled]="!f.valid" class="btn btn-success mr-2">Submit</button>
             </div>
           </div>
@@ -380,7 +431,8 @@
             <ng-container matColumnDef="status">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> สถานะงาน </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <div *ngIf="wbsdata['status'] == 1"><label class="badge badge-warning" style="font-size: small;">กำลังดำเนินการ</label> </div>
+                <div *ngIf="wbsdata['status'] == 1"><label class="badge badge-warning"
+                    style="font-size: small;">กำลังดำเนินการ</label> </div>
               </td>
             </ng-container>
 
@@ -397,12 +449,18 @@
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
                 <div *ngIf="wbsdata['status'] != 1">
-                  <button class="btn btn-primary" mat-raised-button (click)="openDialog(wbsdata,2)">แก้ไข WBS</button>
+                  <button class="btn btn-primary" mat-raised-button (click)="openDialog(wbsdata,2)">WBS</button>
                 </div>
               </td>
-
             </ng-container>
-
+            <ng-container matColumnDef="reTr">
+              <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+              <td class="table-lg" mat-cell *matCellDef="let wbsdata">
+                <div *ngIf="wbsdata['status'] != 1">
+                  <button class="btn btn-primary" mat-raised-button (click)="openDialog(wbsdata,3)">TR</button>
+                </div>
+              </td>
+            </ng-container>
             <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>

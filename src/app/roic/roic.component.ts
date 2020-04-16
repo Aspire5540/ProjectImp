@@ -255,7 +255,7 @@ export class RoicComponent implements OnInit {
      
         });
 
-        this.kvaTotal=this.kvaTotal+580;
+        //this.kvaTotal=this.kvaTotal+580;
         //APEX CHART
         
         this.chartOptions1 = {

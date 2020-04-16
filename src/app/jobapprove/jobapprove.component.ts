@@ -1,16 +1,21 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { ConfigService } from '../config/config.service';
-
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
 import { jobreq  } from '../model/user.model';
-import { HttpClient,HttpHandler } from '@angular/common/http';
 import {MatSort} from '@angular/material/sort';
 import {Chart} from 'chart.js';
 @Component({
   selector: 'app-jobapprove',
   templateUrl: './jobapprove.component.html',
-  styleUrls: ['./jobapprove.component.scss']
+  styleUrls: ['./jobapprove.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+    ]),
+  ],
 })
 export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
@@ -94,7 +99,7 @@ export class JobapproveComponent implements OnInit {
     .subscribe(res => {
       this.dataSource.data = res as jobreq[];
       this.dataSource.paginator = this.paginator; 
-      this.dataSource.sort = this.sort;
+      this.dataSource.sort = this.sort; 
     })
   }
   applyFilter(filterValue: string) {

@@ -16,7 +16,17 @@ export class ConfirmationDialog {
   newMv:number;
   newLv:number;
   newTr:number;
-
+  newPeaTr:string;
+  newKva:number;
+  newVin:number;
+  newVdrop:number;
+  newLoadTr:number;
+  newTrTap:string;
+  newIa:number;
+  newIb:number;
+  newIc:number;
+  newLen:number;
+  newNday:number;
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<ConfirmationDialog>) {
@@ -30,6 +40,21 @@ export class ConfirmationDialog {
     this.newMv=data.wbs.mv;
     this.newLv=data.wbs.lv;
     this.newTr=data.wbs.tr;
+    this.newNday=data.wbs.nday;
+
+    this.newPeaTr=data.wbs.peatr;
+    this.newKva=data.wbs.kva;
+    this.newVin=data.wbs.vin;
+    this.newVdrop=data.wbs.vdrop;
+    this.newLoadTr=data.wbs.loadTr;
+    this.newTrTap=data.wbs.trTap;
+    this.newIa=data.wbs.ia;
+    this.newIb=data.wbs.ib;
+    this.newIc=data.wbs.ic;
+    this.newLen=data.wbs.len;
+
+
+
       }
   }
 
@@ -39,6 +64,19 @@ export class ConfirmationDialog {
     this.wbs["newMv"]=this.newMv;
     this.wbs["newLv"]=this.newLv;
     this.wbs["newTr"]=this.newTr;
+    this.wbs["newNday"]=this.newNday;
+
+    this.wbs["newPeaTr"]=this.newPeaTr;
+    this.wbs["newKva"]=this.newKva;
+    this.wbs["newVin"]=this.newVin;
+    this.wbs["newVdrop"]=this.newVdrop;
+    this.wbs["newLoadTr"]=this.newLoadTr;
+    this.wbs["newTrTap"]=this.newTrTap;
+    this.wbs["newIa"]=this.newIa;
+    this.wbs["newIb"]=this.newIb;
+    this.wbs["newIc"]=this.newIc;
+    this.wbs["newLen"]=this.newLen;
+
     this.dialogRef.close(this.wbs);
   }
 

@@ -60,7 +60,7 @@ export class SumtableComponent implements OnInit {
   public dataSource = new MatTableDataSource<wbsdata>();
   public dataSource1 = new MatTableDataSource<appJob>();
   //displayedColumns = ['name', 'email', 'phone', 'company'];
-  displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet', 'note', 'status','rename', 'del'];
+  displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet', 'note', 'status','rename','reTr', 'del'];
   displayedColumns1 = ['wbs', 'jobName', 'mv', 'lv', 'tr', 'totalcost', 'matCostInPln', 'workCostPln', 'appNo'];
   notes = ['1.งานร้องเรียน', '2.PM/PS', '3.งานเร่งด่วน', '4.งานปกติ']
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
@@ -177,6 +177,7 @@ export class SumtableComponent implements OnInit {
         'งานเสริมความมั่นคง',
       ];
       this.solveMets = ['ตัดจ่ายใหม่',
+        'แยกจ่ายหม้อแปลง',
         'เพิ่มขนาดหม้อแปลง',
         'ปรับปรุง 1 เฟส 2 สาย เป็น 3 สาย',
         'ปรับปรุงหม้อแปลง 1 เฟส เป็น 3 เฟส',
@@ -388,7 +389,18 @@ export class SumtableComponent implements OnInit {
     this.selectAppChoice=event.value;
     this.getData();
   }
+  reTr(wbsdata) {
+    //console.log(wbsdata.wbs);
+    this.configService.postdata2('reTR.php', wbsdata).subscribe((data => {
+      if (data['status'] == 1) {
+        this.getData();
+        alert("แก้ไขข้อมูลแล้วเสร็จ");
+      } else {
+        alert(data['data']);
+      }
 
+    }))
+  }
   openDialog(wbs, choice): void {
     this.choice = choice;
     const dialogRef = this.dialog.open(ConfirmationDialog, {
@@ -401,6 +413,7 @@ export class SumtableComponent implements OnInit {
       if (wbsdata) {
         if (this.choice == 1) { this.delWbs(wbsdata); }
         if (this.choice == 2) {this.renameWbs(wbsdata);}
+        if (this.choice == 3) {this.reTr(wbsdata);}
       }
     });
   }
