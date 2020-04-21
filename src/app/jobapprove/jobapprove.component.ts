@@ -20,6 +20,7 @@ import {Chart} from 'chart.js';
 export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
   @ViewChild('f', { static: false }) registerForm: NgForm;
+  expandedElement: jobreq | null;
   selPeapeaCode = 'B000';
   projectName='';
   WorkCost =0 ;
@@ -57,7 +58,7 @@ export class JobapproveComponent implements OnInit {
   selBudjet=['',''];
   selected=2;
   nWbs =0;
-  displayedColumns = ['wbs', 'jobName','mv','lv','tr', 'causeName', 'solveMet','note','workCostPln','user','del'];
+  displayedColumns = ['wbs', 'jobName','mv','lv','tr', 'causeName', 'solveMet','note','workCostPln','del'];
 
   @ViewChild('paginator', { static: false }) paginator: MatPaginator;
   @ViewChild('sort', { static: false }) sort: MatSort;

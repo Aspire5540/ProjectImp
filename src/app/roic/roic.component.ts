@@ -63,6 +63,7 @@ export class RoicComponent implements OnInit {
     { value: ['I-62-B', '.BY.'], viewValue: 'I62.BY' },
     { value: ['I-62-B', '.TR.'], viewValue: 'I62.TR' },
   ];
+  unit=' kVA';
   myBarClsd: Chart;
   myBar3: Chart;
   peaname = {};
@@ -86,6 +87,7 @@ export class RoicComponent implements OnInit {
   kvaPlnTotal = 0;
   kvaTotal = 0;
   kvaD1Total = 0;
+  graphChoice='kva';
   workCostActTRTotal: number;
   workCostActBYTotal: number;
   workCostActTotal: number;
@@ -123,7 +125,7 @@ export class RoicComponent implements OnInit {
  
     this.getinfo();
     this.getRemianBY();
-    this.getJobClsdPea();
+    //this.getJobClsdPea();
     this.dataSource.paginator = this.paginator;
 
   }
@@ -212,7 +214,7 @@ export class RoicComponent implements OnInit {
     this.selPeapeaCode = event.value[1];
     this.currentMatherPea = this.peaname[this.selPeapeaCode];
     this.getRemianData();
-    this.getJobClsdPea();
+    //this.getJobClsdPea();
     this.getJobProgressPea();
 
   }
@@ -223,8 +225,8 @@ export class RoicComponent implements OnInit {
   }
   getJobProgressPea() {
     //จำนวนงานคงค้าง %เบิกจ่าย
-    this.getRoicP();
-    this.configService.postdata2('roic/rdRoicProgress.php', { peaCode: this.selPeapeaCode, filter1: this.selBudjet[0], filter2: this.selBudjet[1] }).subscribe((data => {
+    //this.getRoicP();
+    this.configService.postdata2('roic/rdRoicProgress.php', { peaCode: this.selPeapeaCode, filter1: this.selBudjet[0], filter2: this.selBudjet[1], Choice:this.graphChoice }).subscribe((data => {
       if (data['status'] == 1) {
         var Pea = [];
         var kva = [];
@@ -233,8 +235,17 @@ export class RoicComponent implements OnInit {
         var kvaPln = [];
         var kvaPercent = [];
         this.kvaPlnTotal = 0;
-
-
+        
+        if (this.graphChoice=='kva'){
+          this.unit=' kVA';
+        }else if (this.graphChoice=='nJob'){
+          this.unit=' งาน';
+        }else if (this.graphChoice=='workCost'){
+          this.unit=' ล้านบาท';
+        }else if (this.graphChoice=='matCost'){
+          this.unit=' ล้านบาท';
+        }
+        var unit=this.unit;
         data['data'].forEach(element => {
           kvaObj[element.Pea] = Number(element.totaltr);
           this.kvaTotal = this.kvaTotal + Number(element.totaltr);   
@@ -369,9 +380,9 @@ export class RoicComponent implements OnInit {
               //return Math.abs(kva[index.dataPointIndex]) + " kVA";
               //return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
               if(index.seriesIndex==0){
-                reslt=val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"kVA, "+Math.abs(kvaPercent[index.dataPointIndex]).toFixed(0)+ "%";
+                reslt=val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+unit+" , "+Math.abs(kvaPercent[index.dataPointIndex]).toFixed(0)+ "%";
               }else{
-                reslt=val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"kVA";
+                reslt=val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+unit;
               }
               return reslt;
             },
@@ -790,159 +801,7 @@ export class RoicComponent implements OnInit {
     }));
   }
  */
-  getJobClsdPea() {
-    //จำนวนงานคงค้าง %เบิกจ่าย
-    var pClsd = [];
-    this.configService.postdata2('rdJobProgressPea.php', { peaCode: this.selPeapeaCode, filter1: this.selBudjet[0], filter2: this.selBudjet[1] }).subscribe((data => {
-      if (data['status'] == 1) {
-        var WorkCostPea = [];
-        //var WorkCostPercentPea = [];
-
-        var nwbsArr = [];
-        //var matCostPercentPea = [];
-        data['data'].forEach(element => {
-          nwbsArr.push(element.nWBS);
-          pClsd.push((Number(element.nWBS) / Number(element.totalWbs) * 100).toFixed(2));
-          WorkCostPea.push(this.peaname[element.Pea]);
-          //WorkCostPercentPea.push((Number(element.workCostAct) / Number(element.workCostPln) * 100).toFixed(2));
-          //matCostPercentPea.push((Number(element.matCostAct) / Number(element.matCostPln) * 100).toFixed(2));
-
-
-        });
-        //console.log(nwbsArr,WorkCostPea);
-        this.chartOptions3 = {
-          series: [
-            {
-              name: "งานคงค้าง",
-              data: nwbsArr
-            },
-          ],
-          chart: {
-            height: 350,
-            type: "bar"
-          },
-          plotOptions: {
-            bar: {
-              dataLabels: {
-                position: "top" // top, center, bottom
-              }
-            }
-          },
-          dataLabels: {
-            enabled: true,
-            offsetY: -20,
-            style: {
-              fontSize: "12px",
-              colors: ["#304758"]
-            }
-          },
-          xaxis: {
-            categories: WorkCostPea,
-            labels: {
-              style: {
-                fontSize: "14px",
-              }
-            }
-          },
-          yaxis: {
-            labels: {
-              style: {
-                fontSize: "14px",
-              }
-            }
-          },
-        };
-        
-        this.pClsChart = {
-          series: [this.kvaTotal / this.kvaPlnTotal * 100],
-          chart: {
-            height: 400,
-            type: "radialBar",
-            toolbar: {
-              show: false
-            }
-          },
-          plotOptions: {
-            radialBar: {
-              startAngle: 0,
-              endAngle: 360,
-              hollow: {
-                margin: 0,
-                size: "70%",
-                background: "#fff",
-                image: undefined,
-                position: "front",
-                dropShadow: {
-                  enabled: true,
-                  top: 3,
-                  left: 0,
-                  blur: 4,
-                  opacity: 0.24
-                }
-              },
-              track: {
-                background: "#fff",
-                strokeWidth: "67%",
-                margin: 0, // margin is in pixels
-                dropShadow: {
-                  enabled: true,
-                  top: -3,
-                  left: 0,
-                  blur: 4,
-                  opacity: 0.35
-                }
-              },
-
-              dataLabels: {
-                show: true,
-                name: {
-                  offsetY: -10,
-                  show: true,
-                  color: "#888",
-                  fontSize: "17px"
-                },
-                value: {
-                  formatter: function (val) {
-                    return parseInt(val.toString(), 10).toString() + "%";
-                  },
-                  color: "#111",
-                  fontSize: "36px",
-                  show: true
-                }
-              }
-            }
-          },        
-          fill: {
-            type: "gradient",
-            gradient: {
-              shade: "dark",
-              type: "horizontal",
-              shadeIntensity: 0.5,
-              gradientToColors: ["#ABE5A1"],
-              inverseColors: true,
-              opacityFrom: 1,
-              opacityTo: 1,
-              stops: [0, 100]
-            }
-          },
-          stroke: {
-            lineCap: "round"
-          },
-          labels: ["ผลการดำเนินการ"]
-        };     
-
-        //this.nwbs=data['data'].nwbs;
-        //this.WorkCostPercent=Number(data['data'].workCostAct)/Number(data['data'].workCostPln*0.8)*100;
-
-      } else {
-        alert(data['data']);
-      }
-
-    }));
-
-
-
-  }
+  
   /*
  getBudgetPea() {
    //จำนวนงานคงค้าง %เบิกจ่าย
@@ -1162,31 +1021,16 @@ export class RoicComponent implements OnInit {
    }));
  }
 */
-  getRoicP() {
-    //จำนวนงานคงค้าง %เบิกจ่าย
 
-    this.configService.postdata2('roic/rdRoicPln.php', { peaCode: 'B000' }).subscribe((data => {
+  onValChange(val){
+    this.graphChoice=val;
+    this.getJobProgressPea();
 
-      if (data['status'] == 1) {
-        this.kvaPlnTotal -= 0;
-        data['data'].forEach(element => {
-          this.roicp[element.Pea] = Number(element.totaltr);
-          this.kvaPlnTotal = this.kvaPlnTotal + Number(element.totaltr);
-
-        });
-
-
-      } else {
-        alert(data['data']);
-      }
-
-    }));
   }
-
   selectBudget(event) {
     this.selBudjet = event.value;
     this.getRemianData();
-    this.getJobClsdPea();
+    //this.getJobClsdPea();
     this.getJobProgressPea();
   }
   exportAsXLSX(): void {

@@ -253,7 +253,7 @@
             </div>
           </div>
           <!-----------------------------END------------------------------------------------>
-          <div  *ngIf="show" class="mb-3"> 
+          <div *ngIf="show" class="mb-3">
             <p>ระบุข้อมูลหม้อแปลงที่ดำเนินการแก้ไข</p>
           </div>
           <div *ngIf="show" class="row">
@@ -300,7 +300,8 @@
             <div class="col-md-3">
               <div class="col-sm-8">
                 <label for="trTap">TAP หม้อแปลง</label>
-                <input type="text" class="form-control  input-lg" name="trTap" id="trTap" placeholder="TAP1,2,3,4,5" ngModel>
+                <input type="text" class="form-control  input-lg" name="trTap" id="trTap" placeholder="TAP1,2,3,4,5"
+                  ngModel>
               </div>
             </div>
             <div class="col-md-3">
@@ -308,7 +309,7 @@
                 <label for="len">ระยะทางไกลสุดจากหม้อแปลง</label>
                 <input type="text" class="form-control  input-lg" name="len" id="len" placeholder="เมตร" ngModel>
               </div>
-            </div>          
+            </div>
           </div>
           <div *ngIf="show" class="row">
             <div class="col-md-3">
@@ -329,7 +330,7 @@
                 <label for="ic">กรแสเฟส C แต่ละฟีดเดอร์</label>
                 <input type="text" class="form-control  input-lg" name="ic" id="ic" placeholder="F1,F2,F3,F4" ngModel>
               </div>
-            </div>          
+            </div>
           </div>
           <!-----------------------------END------------------------------------------------>
           <div class="row">
@@ -415,17 +416,54 @@
 
             <ng-container matColumnDef="causeName">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> สาเหตุการดำเนินการ </th>
-              <td class="table-lg" mat-cell *matCellDef="let wbsdata">{{wbsdata.causeName}}</td>
+              <td class="table-lg" mat-cell *matCellDef="let wbsdata">
+                <mat-form-field style="width: 80%;">
+                  <mat-label>{{wbsdata.causeName}}</mat-label>
+                  <mat-select (selectionChange)="selectStatus1($event)">
+                    <div *ngIf="(wbsdata['projectType'] == 'impPro' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
+                    <mat-option *ngFor="let causeName of causeNamesIm" [value]="[causeName,wbsdata.wbs]">
+                      {{causeName}}
+                    </mat-option>
+                  </div>
+                  <div *ngIf="(wbsdata['projectType'] == 'movePole' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
+                    <mat-option *ngFor="let causeName of causeNamesPole" [value]="[causeName,wbsdata.wbs]">
+                      {{causeName}}
+                    </mat-option>
+                  </div>
+                  </mat-select>
+                </mat-form-field>
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="solveMet">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> วิธีการแก้ไข </th>
-              <td class="table-lg" mat-cell *matCellDef="let wbsdata"> {{wbsdata.solveMet}} </td>
+              <td class="table-lg" mat-cell *matCellDef="let wbsdata">
+                <mat-form-field style="width: 80%;"> 
+                  <mat-label>{{wbsdata.solveMet}}</mat-label>
+                  <mat-select (selectionChange)="selectStatus2($event)">
+                    <div *ngIf="(wbsdata['projectType'] == 'impPro' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
+                    <mat-option *ngFor="let solveMet of solveMetsIm" [value]="[solveMet,wbsdata.wbs]">
+                      {{solveMet}}
+                    </mat-option>
+                  </div>
+                  </mat-select>
+                </mat-form-field>               
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="note">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเหตุ</th>
-              <td class="table-lg" mat-cell *matCellDef="let wbsdata"> {{wbsdata.note}} </td>
+              <td class="table-lg" mat-cell *matCellDef="let wbsdata">            
+                <mat-form-field style="width: 80%; padding: 0px;margin: 0px;">
+                  <mat-label >{{wbsdata.note}}</mat-label>
+                  <mat-select (selectionChange)="selectStatus3($event)">
+                    <div *ngIf="(wbsdata['projectType'] == 'impPro' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
+                    <mat-option *ngFor="let note of notes" [value]="[note,wbsdata.wbs]">
+                      {{note}}
+                    </mat-option>
+                  </div>
+                  </mat-select>
+                </mat-form-field>     </td>
             </ng-container>
 
             <ng-container matColumnDef="status">
@@ -439,7 +477,7 @@
             <ng-container matColumnDef="del">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <div *ngIf="wbsdata['status'] != 1">
+                <div *ngIf="(wbsdata['status'] != 1 && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
                   <button class="btn btn-danger" mat-raised-button (click)="openDialog(wbsdata,1)">ลบ</button>
                 </div>
               </td>
@@ -448,7 +486,7 @@
             <ng-container matColumnDef="rename">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <div *ngIf="wbsdata['status'] != 1">
+                <div *ngIf="(wbsdata['status'] != 1 && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
                   <button class="btn btn-primary" mat-raised-button (click)="openDialog(wbsdata,2)">WBS</button>
                 </div>
               </td>
@@ -456,7 +494,7 @@
             <ng-container matColumnDef="reTr">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <div *ngIf="wbsdata['status'] != 1">
+                <div *ngIf="(wbsdata['status'] != 1 && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
                   <button class="btn btn-primary" mat-raised-button (click)="openDialog(wbsdata,3)">TR</button>
                 </div>
               </td>

@@ -25,6 +25,8 @@ export class SumtableComponent implements OnInit {
   projects = [];
   causeNames = [];
   solveMets = [];
+  userPeaCode=localStorage.getItem('peaCode');
+  //userPeaCode='B01101';
   nwbsPTDD: number;
   workCostPerPTDD: number;
   nwbsMR: number;
@@ -41,6 +43,22 @@ export class SumtableComponent implements OnInit {
   wdata = [];
   budjets=[];
   filter=['',''];
+  causeNamesPole = ['กีดขว้างงานสร้างถนน (งานราชการ)',
+  'อยู่ในที่ผู้ใช้ไฟฟ้า (งานผู้ใช้ไฟ)',
+  'งานเสริมความมั่นคง',
+];
+causeNamesIm = ['แรงดันตก',
+'หม้อแปลงโหลดเกินพิกัด',
+'แรงดันตกและโหลดเกินพิกัด',
+'งานเสริมความมั่นคง',
+];
+solveMetsIm = ['ตัดจ่ายใหม่',
+'แยกจ่ายหม้อแปลง',
+'เพิ่มขนาดหม้อแปลง',
+'ปรับปรุง 1 เฟส 2 สาย เป็น 3 สาย',
+'ปรับปรุงหม้อแปลง 1 เฟส เป็น 3 เฟส',
+'เพิ่มขนาดสาย',
+'ติดตั้ง/สับเปลี่ยนวัสดุ']
   appStatus=[
     {value: 0, viewValue: 'ยังไม่อนุมัติ'},
     {value: 1, viewValue: 'อยู่ระหว่างขออนุมัติฯ'},
@@ -70,7 +88,12 @@ export class SumtableComponent implements OnInit {
   //,public authService: AuthService,private http: HttpClient
   constructor(private configService: ConfigService, private uploadService: FileuploadService, private dialog: MatDialog) { }
   ngOnInit() {
-
+    if (this.userPeaCode.slice(-1)=='1' || this.userPeaCode.slice(-1)=='0'){
+      this.userPeaCode=this.userPeaCode.substr(0,4);
+    }else{
+      this.userPeaCode='B999';
+    }
+    
     this.getData();
     this.getAppData(['','']);
     this.getJobProgress();
@@ -86,7 +109,7 @@ export class SumtableComponent implements OnInit {
     this.configService.exportAsExcelFile(this.dataSource1.data, 'งานที่อนุมัติ');
  }
   getData = () => {
-    this.configService.getWbs('rdimjob.php?peaEng=' + localStorage.getItem('peaEng')+'&filter1='+this.filter[0]+'&filter2='+this.filter[1]+'&status='+this.selectAppChoice)
+    this.configService.getWbs('rdimjob.php?peaCode=' + localStorage.getItem('peaCode')+'&filter1='+this.filter[0]+'&filter2='+this.filter[1]+'&status='+this.selectAppChoice)
       .subscribe(res => {
         this.dataSource.data = res as wbsdata[];
       })
@@ -147,6 +170,44 @@ export class SumtableComponent implements OnInit {
 
 
   }
+  selectStatus1(event){
+    this.configService.postdata2('wriCause.php',{wbs:event.value[1],changeVal :event.value[0],choice:1}).subscribe((data=>{
+      if(data['status']==1){
+         console.log(data['data']);
+         this.getData();
+        //console.log(this.peaname);
+      }else{
+        alert(data['data']);
+      }
+  
+    }))
+  }
+  selectStatus2(event){
+    this.configService.postdata2('wriCause.php',{wbs:event.value[1],changeVal :event.value[0],choice:2}).subscribe((data=>{
+      if(data['status']==1){
+         console.log(data['data']);
+         this.getData();
+        //console.log(this.peaname);
+      }else{
+        alert(data['data']);
+      }
+  
+    }))
+  }
+  selectStatus3(event){
+    this.configService.postdata2('wriCause.php',{wbs:event.value[1],changeVal :event.value[0],choice:3}).subscribe((data=>{
+      if(data['status']==1){
+         console.log(data['data']);
+         this.getData();
+        //console.log(this.peaname);
+      }else{
+        alert(data['data']);
+      }
+  
+    }))
+  }
+
+
   chgProject() {
 
     if (this.registerForm.value["projectType"] == "movePole") {

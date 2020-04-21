@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { VERSION, MatDialogRef, MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { FileuploadService } from '../config/fileupload.service';
 
 @Component({
   selector: 'confirmation-dialog',
@@ -9,6 +10,8 @@ export class ConfirmationDialog {
   message: string = "Are you sure?"
   confirmButtonText = "ใช่"
   cancelButtonText = "ยกเลิก"
+  uploadResponse = '';
+  uploadDocResponse = '';
   wbs:string;
   choice:number;
   newWbs:string;
@@ -27,7 +30,7 @@ export class ConfirmationDialog {
   newIc:number;
   newLen:number;
   newNday:number;
-  constructor(
+  constructor(private uploadService: FileuploadService,
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<ConfirmationDialog>) {
     if(data){
@@ -79,5 +82,38 @@ export class ConfirmationDialog {
 
     this.dialogRef.close(this.wbs);
   }
+  handleFileInput(event) {
+    //console.log(event.target.files[0]);
 
+    const formData = new FormData();
+    formData.append('avatar', event.target.files[0]);
+    formData.append('wbs', this.wbs["wbs"]);
+    this.uploadService.upload2(formData).subscribe(
+      (res) => {
+        this.uploadResponse = res.status;
+        //console.log(res);
+      },
+      (err) => {
+        //console.log(err);
+      }
+    );
+  }
+
+  handleFileDoc(event) {
+    //console.log(event.target.files[0]);
+    console.log(event);
+    const formData = new FormData();
+    formData.append('avatar', event.target.files[0]);
+    formData.append('wbs', this.wbs["wbs"]);
+    console.log(formData);
+    this.uploadService.uploadDoc2(formData).subscribe(
+      (res) => {
+        this.uploadDocResponse = res.status;
+        console.log(res);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 }

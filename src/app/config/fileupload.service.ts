@@ -18,12 +18,21 @@ export class FileuploadService {
   
     return this.http.post<any>(uploadURL, data);
   }
+  public upload2(data) {
+    let uploadURL = `${this.SERVER_URL}/upload2.php`;
+  
+    return this.http.post<any>(uploadURL, data);
+  }
   public uploadDoc(data) {
     let uploadURL = `${this.SERVER_URL}/uploadDoc.php`;
     
     return this.http.post<any>(uploadURL, data);
   }
-
+  public uploadDoc2(data) {
+    let uploadURL = `${this.SERVER_URL}/uploadDoc2.php`;
+    
+    return this.http.post<any>(uploadURL, data);
+  }
   public uploadZap048(data) {
     let uploadURL = `${this.SERVER_URL}/uploadZap048.php`; 
     return this.http.post<any>(uploadURL, data);
