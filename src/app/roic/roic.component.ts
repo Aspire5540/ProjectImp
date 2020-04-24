@@ -95,6 +95,7 @@ export class RoicComponent implements OnInit {
   matCostActTotal: number;
   matCostPlnTotal: number;
   roicdate: string;
+  car:string;
   displayedColumns = ['wbs', 'jobName', 'workCostPln', 'workCostAct', 'percent', 'jobStatus', 'userStatus'];
   displayedColumns2 = ['wbs', 'jobName', 'workCostPln', 'workCostAct', 'percent', 'jobStatus', 'userStatus'];
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
@@ -118,7 +119,8 @@ export class RoicComponent implements OnInit {
 
     this.dataSource.sort = this.sort;
     this.dataSource2.sort = this.sort2;
-
+    //this.car = this.route.snapshot.queryParams["carBrand"];
+    console.log(this.car);
     this.peaCode = localStorage.getItem('peaCode');
     this.peaNum = this.peaCode.substr(1, 5);
     this.selPeapeaCode = this.peaCode.substr(0, 4);

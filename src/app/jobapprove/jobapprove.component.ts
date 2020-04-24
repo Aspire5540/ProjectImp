@@ -3,7 +3,7 @@ import {NgForm} from '@angular/forms';
 import { ConfigService } from '../config/config.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource,MatPaginator} from '@angular/material';
-import { jobreq  } from '../model/user.model';
+import { jobreq,appJob  } from '../model/user.model';
 import {MatSort} from '@angular/material/sort';
 import {Chart} from 'chart.js';
 @Component({
@@ -19,6 +19,7 @@ import {Chart} from 'chart.js';
 })
 export class JobapproveComponent implements OnInit {
   public dataSource = new MatTableDataSource<jobreq>();
+  public dataSource1 = new MatTableDataSource<appJob>();
   @ViewChild('f', { static: false }) registerForm: NgForm;
   expandedElement: jobreq | null;
   selPeapeaCode = 'B000';
@@ -59,10 +60,14 @@ export class JobapproveComponent implements OnInit {
   selected=2;
   nWbs =0;
   displayedColumns = ['wbs', 'jobName','mv','lv','tr', 'causeName', 'solveMet','note','workCostPln','del'];
-
+  displayedColumns1 = ['wbs', 'jobName', 'mv', 'lv', 'tr', 'totalcost', 'matCostInPln', 'workCostPln', 'appNo'];
+  notes = ['1.งานร้องเรียน', '2.PM/PS', '3.งานเร่งด่วน', '4.งานปกติ']
   @ViewChild('paginator', { static: false }) paginator: MatPaginator;
   @ViewChild('sort', { static: false }) sort: MatSort;
-
+  
+  @ViewChild('paginator1', { static: true }) paginator1: MatPaginator;
+  @ViewChild('sort1', { static: true }) sort1: MatSort;
+  
   constructor(private configService :ConfigService) {}
   ngOnInit() {
     
@@ -71,17 +76,25 @@ export class JobapproveComponent implements OnInit {
     this.peaCode = localStorage.getItem('peaCode');
     this.dataSource.paginator = this.paginator; 
     this.dataSource.sort = this.sort;
+    this.dataSource1.paginator = this.paginator1;
+    this.dataSource1.sort = this.sort1;
     this.getpeaList();
     this.getFilter();
     //this.getJobProgress();
     this.getJobProgressPea();
-
+    
 
   }
   selectDataType(event){
     this.selected=event.value;
     this.getJobProgressPea();
     
+  }
+  getAppData = (filter) => {
+    this.configService.getAppJob('rdAppJob.php?peaEng=' + localStorage.getItem('peaEng')+'&filter1='+filter[0]+'&filter2='+filter[1])
+      .subscribe(res => {
+        this.dataSource1.data = res as appJob[];
+      })
   }
   getFilter(){
     this.configService.postdata2('rdfilter.php',{}).subscribe((data=>{
@@ -107,7 +120,10 @@ export class JobapproveComponent implements OnInit {
     //console.log((filterValue+" "+localStorage.getItem('peaEng')).trim().toLowerCase());
     this.dataSource.filter = (filterValue).trim().toLowerCase();
   }
+  applyFilter1(filterValue: string) {
 
+    this.dataSource1.filter = (filterValue).trim().toLowerCase();
+  }
   selWbs(wbsdata){ 
     this.configService.postdata2('addjob.php',{ wbs: wbsdata.wbs, status : 1 }).subscribe((data=>{
       if(data['status']==1){
@@ -345,6 +361,7 @@ export class JobapproveComponent implements OnInit {
     //this.getJobProgress();
     this.rdsumcost();
     this.getJobProgressPea();
+    this.getAppData(event.value);
   }
   selectPea(event){
    
@@ -379,4 +396,7 @@ export class JobapproveComponent implements OnInit {
   exportAsXLSX():void {
     this.configService.exportAsExcelFile(this.dataSource.data, 'sample');
  }
+ exportAsXLSX2():void {
+  this.configService.exportAsExcelFile(this.dataSource1.data, 'งานที่อนุมัติ');
+}
 }

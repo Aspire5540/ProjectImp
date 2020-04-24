@@ -218,12 +218,15 @@
                     [@detailExpand]="jobreq == expandedElement ? 'expanded' : 'collapsed'">
 
                     <div class="example-element-description">
-                      <div>User :{{jobreq.user}} &nbsp;&nbsp; PEA หม้อแปลง : <a target="_blank" href="http://172.18.226.19/transformer/Vmap.php?pea_no={{jobreq.peatr}}&submit=submit">{{jobreq.peatr}}</a> &nbsp;&nbsp; 
+                      <div>User :{{jobreq.user}} &nbsp;&nbsp; PEA หม้อแปลง : <a target="_blank"
+                          href="http://172.18.226.19/transformer/Vmap.php?pea_no={{jobreq.peatr}}&submit=submit">{{jobreq.peatr}}</a>
+                        &nbsp;&nbsp;
                         &nbsp;&nbsp; แรงดันต้นทาง : {{jobreq.vin}} V &nbsp;&nbsp; แรงดันปลายสาย : {{jobreq.vdrop}} V
                         &nbsp;&nbsp; ระยะทางไกลสุดจากหม้อแปลง : {{jobreq.len}} เมตร &nbsp;&nbsp;
                       </div>
                       <div>
-                        โหลด : {{jobreq.loadTr}}% &nbsp;&nbsp; กระแสเฟส A : {{jobreq.ia}} A &nbsp;&nbsp; กระแสเฟส B : {{jobreq.ib}} A 
+                        โหลด : {{jobreq.loadTr}}% &nbsp;&nbsp; กระแสเฟส A : {{jobreq.ia}} A &nbsp;&nbsp; กระแสเฟส B :
+                        {{jobreq.ib}} A
                         &nbsp;&nbsp; กระแสเฟส C : {{jobreq.ic}} A
 
 
@@ -287,4 +290,84 @@
 
   </div>
 
+
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">งานที่อนุมัติแล้ว</h4>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="legacy">
+                <mat-label>ค้นหาข้อมูล</mat-label>
+                <input matInput placeholder="ระบุข้อมูลที่ต้องการค้นหา" matInput
+                  (keyup)="applyFilter1($event.target.value)">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              Dowload
+              <button (click)="exportAsXLSX2()"><i class="fa fa-file-excel-o"
+                  style="font-size:20px;color:blue"></i></button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="mat-elevation-z8" mat-table matSort #sort1="matSort" [dataSource]="dataSource1">
+
+              <ng-container matColumnDef="wbs">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> wbs </th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob"> {{appJob.wbs}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="jobName">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>ชื่องาน </th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob">{{appJob.jobName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="mv">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> แรงสูง (วงจร-กม.) </th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob">{{appJob.mv}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="lv">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> แรงต่ำ (วงจร-กม.) </th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob"> {{appJob.lv}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="tr">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หม้อแปลง (kVA)</th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob"> {{appJob.tr}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="totalcost">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>เงินลงทุนตามประมาณการ</th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob"> {{appJob.totalcost | number}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="matCostInPln">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>พัสดุเข้างานอนุมัติ</th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob"> {{appJob.matCostInPln | number}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="workCostPln">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>คชจ.หน้างานอนุมัติ</th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob"> {{appJob.workCostPln| number}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="appNo">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>อนุมัติครั้งที่</th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob"> {{appJob.appNo}} </td>
+              </ng-container>
+
+              <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+              <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+            </table>
+            <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div><!-- ปิด check B000-->

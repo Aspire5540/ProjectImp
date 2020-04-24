@@ -135,7 +135,7 @@ solveMetsIm = ['ตัดจ่ายใหม่',
     }))
   }
   getAppData = (filter) => {
-    this.configService.getAppJob('rdAppJob.php?peaEng=' + localStorage.getItem('peaEng')+'&filter1='+filter[0]+'&filter2='+filter[1])
+    this.configService.getAppJob('rdAppJob.php?peaCode=' + localStorage.getItem('peaCode')+'&filter1='+filter[0]+'&filter2='+filter[1])
       .subscribe(res => {
         this.dataSource1.data = res as appJob[];
       })

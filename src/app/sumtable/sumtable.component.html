@@ -420,16 +420,18 @@
                 <mat-form-field style="width: 80%;">
                   <mat-label>{{wbsdata.causeName}}</mat-label>
                   <mat-select (selectionChange)="selectStatus1($event)">
-                    <div *ngIf="(wbsdata['projectType'] == 'impPro' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
-                    <mat-option *ngFor="let causeName of causeNamesIm" [value]="[causeName,wbsdata.wbs]">
-                      {{causeName}}
-                    </mat-option>
-                  </div>
-                  <div *ngIf="(wbsdata['projectType'] == 'movePole' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
-                    <mat-option *ngFor="let causeName of causeNamesPole" [value]="[causeName,wbsdata.wbs]">
-                      {{causeName}}
-                    </mat-option>
-                  </div>
+                    <div
+                      *ngIf="(wbsdata['projectType'] == 'impPro' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
+                      <mat-option *ngFor="let causeName of causeNamesIm" [value]="[causeName,wbsdata.wbs]">
+                        {{causeName}}
+                      </mat-option>
+                    </div>
+                    <div
+                      *ngIf="(wbsdata['projectType'] == 'movePole' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
+                      <mat-option *ngFor="let causeName of causeNamesPole" [value]="[causeName,wbsdata.wbs]">
+                        {{causeName}}
+                      </mat-option>
+                    </div>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -438,32 +440,35 @@
             <ng-container matColumnDef="solveMet">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> วิธีการแก้ไข </th>
               <td class="table-lg" mat-cell *matCellDef="let wbsdata">
-                <mat-form-field style="width: 80%;"> 
+                <mat-form-field style="width: 80%;">
                   <mat-label>{{wbsdata.solveMet}}</mat-label>
                   <mat-select (selectionChange)="selectStatus2($event)">
-                    <div *ngIf="(wbsdata['projectType'] == 'impPro' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
-                    <mat-option *ngFor="let solveMet of solveMetsIm" [value]="[solveMet,wbsdata.wbs]">
-                      {{solveMet}}
-                    </mat-option>
-                  </div>
+                    <div
+                      *ngIf="(wbsdata['projectType'] == 'impPro' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
+                      <mat-option *ngFor="let solveMet of solveMetsIm" [value]="[solveMet,wbsdata.wbs]">
+                        {{solveMet}}
+                      </mat-option>
+                    </div>
                   </mat-select>
-                </mat-form-field>               
+                </mat-form-field>
               </td>
             </ng-container>
 
             <ng-container matColumnDef="note">
               <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>หมายเหตุ</th>
-              <td class="table-lg" mat-cell *matCellDef="let wbsdata">            
+              <td class="table-lg" mat-cell *matCellDef="let wbsdata">
                 <mat-form-field style="width: 80%; padding: 0px;margin: 0px;">
-                  <mat-label >{{wbsdata.note}}</mat-label>
+                  <mat-label>{{wbsdata.note}}</mat-label>
                   <mat-select (selectionChange)="selectStatus3($event)">
-                    <div *ngIf="(wbsdata['projectType'] == 'impPro' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
-                    <mat-option *ngFor="let note of notes" [value]="[note,wbsdata.wbs]">
-                      {{note}}
-                    </mat-option>
-                  </div>
+                    <div
+                      *ngIf="(wbsdata['projectType'] == 'impPro' && wbsdata['peaCode'] == userPeaCode) || userPeaCode=='B000'">
+                      <mat-option *ngFor="let note of notes" [value]="[note,wbsdata.wbs]">
+                        {{note}}
+                      </mat-option>
+                    </div>
                   </mat-select>
-                </mat-form-field>     </td>
+                </mat-form-field>
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="status">

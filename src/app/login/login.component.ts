@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 //import { ILogin } from '../login';
 import { AuthService } from '../config/auth.service';
 import { ConfigService } from '../config/config.service';
@@ -22,13 +22,15 @@ export class LoginComponent implements OnInit {
 
 
 
-  constructor(private configService :ConfigService,private formBuilder: FormBuilder,private router: Router, public authService: AuthService) { }
+  constructor(private configService :ConfigService,private formBuilder: FormBuilder,private route: ActivatedRoute,private router: Router, public authService: AuthService) { }
 
 
   ngOnInit() {
    
 
-    this.returnUrl = '/phasecheck';
+    //this.returnUrl = '/phasecheck';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/phasecheck';
+    console.log(this.returnUrl);
     this.authService.logout();
     this.configService.changeMessage();
   }
@@ -36,7 +38,7 @@ export class LoginComponent implements OnInit {
   onSubmit(){
    
     this.configService.postdata2('login.php',this.registerForm.value).subscribe((data=>{
-      console.log(this.registerForm.value,data);
+      //console.log(this.registerForm.value,data);
       
     if(data['status']==1){
         this.islogin=true;
