@@ -26,7 +26,7 @@ import {LVProComponent} from'./lvpro/lvpro.component';
 import {PsimdashboardComponent} from './psimdashboard/psimdashboard.component';
 import {PhasechkComponent} from './phasechk/phasechk.component';
 import {RoicComponent} from './roic/roic.component';
-
+import {EzxComponent} from './ezx/ezx.component'
 //,canActivate:[AuthGuard]
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -54,7 +54,7 @@ const routes: Routes = [
   { path: 'psim', component: PsimdashboardComponent,canActivate:[AuthGuard] },
   { path: 'phasecheck', component: PhasechkComponent,canActivate:[AuthGuard] },
   { path: 'roic', component: RoicComponent,canActivate:[AuthGuard] },
-  { path: 'PSIM/roic', component: RoicComponent,canActivate:[AuthGuard] },
+  { path: 'ezx', component: EzxComponent},
   
 ];
 

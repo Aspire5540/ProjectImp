@@ -444,7 +444,7 @@
           </ng-container>
           <ng-container matColumnDef="workCostPln">
             <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ค่าใช้จ่ายหน้างานอนุมัติ </th>
-            <td class="table-lg" mat-cell *matCellDef="let jobRemain">{{jobRemain.workCostPln*0.8|number:'1.0-2'}}</td>
+            <td class="table-lg" mat-cell *matCellDef="let jobRemain">{{jobRemain.workCostPln|number:'1.0-2'}}</td>
           </ng-container>
           <ng-container matColumnDef="workCostAct">
             <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> ค่าใช้จ่ายหน้างานเบิกจ่าย </th>
@@ -453,7 +453,7 @@
           <ng-container matColumnDef="percent">
             <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header> % เบิกจ่ายค่าใช้จ่ายหน้างาน </th>
             <td class="table-lg" mat-cell *matCellDef="let jobRemain">
-              {{jobRemain.workCostAct/(jobRemain.workCostPln*0.8)*100|number:'1.0-2'}}</td>
+              {{jobRemain.workCostAct/(jobRemain.workCostPln)*100|number:'1.0-2'}}</td>
           </ng-container>
 
           <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns"></tr>

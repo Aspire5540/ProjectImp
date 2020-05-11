@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { Observable ,  BehaviorSubject }   from 'rxjs';
 
-import { wbsdata,jobreq,trdata,appJob,jobprogress,meterdata,meterdata2,trphase,meterdata3,jobRemain,jobRemain2} from '../model/user.model';
+import { wbsdata,jobreq,trdata,appJob,jobprogress,meterdata,meterdata2,
+  trphase,meterdata3,jobRemain,jobRemain2,ezxdevice} from '../model/user.model';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 
@@ -28,9 +29,11 @@ export class ConfigService {
     //this.headers.append('Content-Type','application/x-www-form-urlencoded');
     //this.options.headers = this.headers;
    }
-  
-  getWbs(endpoint): Observable<wbsdata[]> {
+   getWbs(endpoint): Observable<wbsdata[]> {
     return this.http.get<wbsdata[]>(this.hostUrl+endpoint);
+  }
+  getezxdevice(endpoint): Observable<ezxdevice[]> {
+    return this.http.get<ezxdevice[]>(this.hostUrl+endpoint);
   }
   getJobRemain(endpoint): Observable<jobRemain[]> {
     return this.http.get<jobRemain[]>(this.hostUrl+endpoint);

@@ -184,3 +184,11 @@ export interface meterdata3 {
   PhaseMeterGis : string;
   LOCATION:string;
 }
+export class ezxdevice {
+  DeviceID: number;
+  deviceName: string;
+  unit: string;
+  DeviceQ: number;
+  unitPrice: number;
+  total: number;
+}

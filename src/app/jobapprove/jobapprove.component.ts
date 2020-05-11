@@ -65,8 +65,8 @@ export class JobapproveComponent implements OnInit {
   @ViewChild('paginator', { static: false }) paginator: MatPaginator;
   @ViewChild('sort', { static: false }) sort: MatSort;
   
-  @ViewChild('paginator1', { static: true }) paginator1: MatPaginator;
-  @ViewChild('sort1', { static: true }) sort1: MatSort;
+  @ViewChild('paginator1', { static: false }) paginator1: MatPaginator;
+  @ViewChild('sort1', { static: false }) sort1: MatSort;
   
   constructor(private configService :ConfigService) {}
   ngOnInit() {
@@ -94,6 +94,8 @@ export class JobapproveComponent implements OnInit {
     this.configService.getAppJob('rdAppJob.php?peaEng=' + localStorage.getItem('peaEng')+'&filter1='+filter[0]+'&filter2='+filter[1])
       .subscribe(res => {
         this.dataSource1.data = res as appJob[];
+        this.dataSource1.paginator = this.paginator1;
+        this.dataSource1.sort = this.sort1;
       })
   }
   getFilter(){

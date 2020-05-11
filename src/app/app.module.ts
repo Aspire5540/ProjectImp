@@ -91,7 +91,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { LoaderComponent } from './loader/loader.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptorService } from './config/loader-interceptor.service';
-import {LoaderserviceService} from './config/loaderservice.service'
+import {LoaderserviceService} from './config/loaderservice.service';
+import { EzxComponent } from './ezx/ezx.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -124,6 +125,7 @@ import {LoaderserviceService} from './config/loaderservice.service'
     RoicComponent,
     ConfirmationDialog,
     LoaderComponent,
+    EzxComponent,
     
   ],
   imports: [
