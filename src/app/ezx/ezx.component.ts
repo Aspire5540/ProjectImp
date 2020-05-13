@@ -7,7 +7,9 @@ import {startWith, map} from 'rxjs/operators';
 import {MatTableDataSource, MatPaginator } from '@angular/material';
 import {ezxdevice} from '../model/user.model';
 import { MatSort } from '@angular/material/sort';
-
+import {ConfirmdlgComponent } from '../confirmdlg/confirmdlg.component';
+import { MatDialog} from '@angular/material/dialog';
+import { format } from 'url';
 
 @Component({
   selector: 'app-ezx',
@@ -26,7 +28,7 @@ export class EzxComponent implements OnInit {
   police = "";
   onOpen=false;
   debt = "";
-  DateDamge = "";
+  DateDamge :any;
   IdNum = "";
   InsCom = "";
   Name = "";
@@ -49,12 +51,14 @@ export class EzxComponent implements OnInit {
   joblist=[];
   deviceList=[];
   selectType="";
-  displayedColumns = ['DeviceID', 'deviceName',  'DeviceQ','unit', 'unitPrice', 'total'];
+  DeviceQ=0;
+  fixPrice=0;
+  displayedColumns = ['DeviceID', 'deviceName',  'DeviceQ','unit', 'unitPrice', 'total','del'];
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild('sort', { static: true }) sort: MatSort;
   public dataSource = new MatTableDataSource<ezxdevice>();
 
-  constructor(private _adapter: DateAdapter<any>, private configService: ConfigService) { 
+  constructor(private _adapter: DateAdapter<any>, private configService: ConfigService, private dialog: MatDialog) { 
     this._adapter.setLocale('th'); 
     this.getJobList();
     this.getDeviceList();
@@ -97,6 +101,10 @@ export class EzxComponent implements OnInit {
       if (data['status'] == 1) {
         //alert("บันทึกแล้วเสร็จ");
         this.getProjectDevice();
+        this.DeviceQ=0;
+        this.fixPrice=0;
+        this.control.setValue('');
+        console.log(this.control);
       } else {
         alert(data['data']);
       }
@@ -125,7 +133,7 @@ export class EzxComponent implements OnInit {
   }
   selectJob(event){
     this.configService.postdata2('ezx/selectjob.php', {indexKey:event.value}).subscribe((data => {
-      console.log(data["data"][0]);     
+        
       if (data["status"] == 1) {
         this.indexKey=data["data"][0].indexKey;
         this.DateDamge=data["data"][0].DateDamge;
@@ -159,6 +167,12 @@ export class EzxComponent implements OnInit {
     this.registerForm.resetForm();
     this.indexKey='';
   }
+  changeFormat(){
+    var newDate;
+    newDate=this.DateDamge.substr(8,2)+"/"+this.DateDamge.substr(5,2)+"/"+this.DateDamge.substr(0,4);
+
+    return newDate;
+  }
   getDeviceList(){
     this.configService.postdata2('ezx/rddevice.php', {}).subscribe((data => {
       this.deviceList=[];    
@@ -188,7 +202,6 @@ export class EzxComponent implements OnInit {
 
         });
 
-
       } else {
         alert(data["data"]);
       }
@@ -196,5 +209,36 @@ export class EzxComponent implements OnInit {
     }))
 
 
+  }
+  openDialog(DeviceID, choice): void {
+    
+    const dialogRef = this.dialog.open(ConfirmdlgComponent, {
+      width: '300px',
+      data: { DeviceID: DeviceID, choice: choice,selectType:this.selectType }
+    });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      //console.log('Choice :' + this.choice);
+      if (data) {
+        if (choice == 1) { 
+          
+          this.configService.postdata2('ezx/deldevice.php',data).subscribe((data => {
+            if (data['status'] == 1) {
+              //alert("ลบข้อมูลแล้วเสร็จ");
+              this.getProjectDevice();
+            } else {
+              alert(data['data']);
+            }
+      
+          }))
+
+
+        }
+
+      }
+    });
+  }
+  getTotalCost() {
+    return this.dataSource.data.map(t => t.total).reduce((acc, value) => Number(acc) + Number(value), 0);
   }
 }

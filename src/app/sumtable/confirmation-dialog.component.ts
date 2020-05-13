@@ -7,7 +7,7 @@ import { FileuploadService } from '../config/fileupload.service';
   templateUrl: 'confirmation-dialog.html',
 })
 export class ConfirmationDialog {
-  message: string = "Are you sure?"
+  message: string = "ต้องการลบใช่หรือไม่?"
   confirmButtonText = "ใช่"
   cancelButtonText = "ยกเลิก"
   uploadResponse = '';

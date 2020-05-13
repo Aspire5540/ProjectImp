@@ -108,6 +108,9 @@ solveMetsIm = ['ตัดจ่ายใหม่',
   exportAsXLSX():void {
     this.configService.exportAsExcelFile(this.dataSource1.data, 'งานที่อนุมัติ');
  }
+ exportAsXLSX2():void {
+  this.configService.exportAsExcelFile(this.dataSource.data, 'งานที่ขออนุมัติ');
+}
   getData = () => {
     this.configService.getWbs('rdimjob.php?peaCode=' + localStorage.getItem('peaCode')+'&filter1='+this.filter[0]+'&filter2='+this.filter[1]+'&status='+this.selectAppChoice)
       .subscribe(res => {

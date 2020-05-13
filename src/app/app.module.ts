@@ -92,7 +92,8 @@ import { LoaderComponent } from './loader/loader.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptorService } from './config/loader-interceptor.service';
 import {LoaderserviceService} from './config/loaderservice.service';
-import { EzxComponent } from './ezx/ezx.component'
+import { EzxComponent } from './ezx/ezx.component';
+import { ConfirmdlgComponent } from './confirmdlg/confirmdlg.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -126,6 +127,7 @@ import { EzxComponent } from './ezx/ezx.component'
     ConfirmationDialog,
     LoaderComponent,
     EzxComponent,
+    ConfirmdlgComponent,
     
   ],
   imports: [
@@ -181,7 +183,7 @@ import { EzxComponent } from './ezx/ezx.component'
     //HttpModule,
     NgApexchartsModule,
   ],
-  entryComponents: [ConfirmationDialog],
+  entryComponents: [ConfirmationDialog,ConfirmdlgComponent],
   providers: [ConfigService,
     AuthGuard,
     FileuploadService,
