@@ -170,7 +170,7 @@
 
             <mat-card-actions>
                 <button type="submit" [disabled]="!f.valid" mat-raised-button color="primary"> บันทึกข้อมูล</button>
-                <button type="button" mat-raised-button color="primary" (click)="report()"> พิมพ์รายงาน</button>
+                <button type="button" mat-raised-button color="primary"  [disabled]="!onOpen" (click)="report()"> พิมพ์รายงาน</button>
             </mat-card-actions>
         </div>
     </form>
