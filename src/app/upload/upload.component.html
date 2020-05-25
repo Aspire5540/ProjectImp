@@ -73,4 +73,29 @@
       </div>
     </div>
   </div>
+  <div class="col-6 grid-margin">
+    <div class="card">
+      <div class="card-body">     
+        <h1 class="card-title"> Upload to LVPro</h1>        
+        <form class="form-sample" #gisForm="ngForm" (ngSubmit)="uploadLvpro()">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="input-lg" for="file">1.เลือกไฟล์</label>
+                    <input type="file"
+                           id="file"
+                           name="filename"
+                           (change)="handleFileLvpro($event)" ngModel required>
+                    <label class="input-lg"> {{uploadDocResponse3}} </label>                  
+                </div>
+            </div>
+          </div>
+            <div class="col-md-3">
+              <button type="submit" [disabled]="!gisForm.valid" class="btn btn-success mr-2">Submit</button>
+            </div>
+        
+         </form>
+      </div>
+    </div>
+  </div>
 </div>

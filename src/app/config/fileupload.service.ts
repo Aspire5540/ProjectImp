@@ -41,5 +41,9 @@ export class FileuploadService {
     let uploadURL = `${this.SERVER_URL}/uploadGIS.php`; 
     return this.http.post<any>(uploadURL, data);
   } 
+  public uploadLvpro(data) {
+    let uploadURL = `${this.SERVER_URL}/uploadLvpro.php`; 
+    return this.http.post<any>(uploadURL, data);
+  } 
 }
 

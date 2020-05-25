@@ -24,7 +24,8 @@
                         <button type="button" mat-mini-fab color="accent" (click)="newJob()">+</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button"  mat-raised-button color="primary" (click)="openDialog('',2)">ลบงาน</button>
+                        <button type="button" mat-raised-button color="primary"
+                            (click)="openDialog('',2)">ลบงาน</button>
                     </div>
                     <div class="row col-md-6">
                         <div class="col-md-6">
@@ -170,7 +171,8 @@
 
             <mat-card-actions>
                 <button type="submit" [disabled]="!f.valid" mat-raised-button color="primary"> บันทึกข้อมูล</button>
-                <button type="button" mat-raised-button color="primary"  [disabled]="!onOpen" (click)="report()"> พิมพ์รายงาน</button>
+                <button type="button" mat-raised-button color="primary" [disabled]="!onOpen" (click)="report()">
+                    พิมพ์รายงาน</button>
             </mat-card-actions>
         </div>
     </form>

@@ -19,6 +19,7 @@ export class UploadComponent implements OnInit {
   URL ="http://127.0.0.1/psisservice/uploadssap/";
   uploadDocResponse = '';
   uploadDocResponse2 = '';
+  uploadDocResponse3 = '';
   constructor(private configService :ConfigService,public authService: AuthService,private http: HttpClient,private uploadService : FileuploadService) { }
   peaCode="";
   ngOnInit() {
@@ -47,6 +48,16 @@ export class UploadComponent implements OnInit {
       }
     );
   }
+  handleFileLvpro(event) {
+    //console.log(event.target.files[0]);
+    const formData = new FormData();
+    formData.append('avatar', event.target.files[0]);
+    this.uploadService.uploadLvpro(formData).subscribe(res => {
+        this.uploadDocResponse3 = res.status;   
+        //console.log(res);   
+      }
+    );
+  }
   onSubmit(){
 
     this.configService.postdata2('w048tosql.php',this.registerForm.value).subscribe((data=>{
@@ -60,8 +71,18 @@ export class UploadComponent implements OnInit {
     }))
   }
   onSubmit2(){
-
     this.configService.postdata2('phase/gistosql.php',{}).subscribe((data=>{
+      if(data['status']==1){
+          this.registerForm.resetForm();
+          alert("เก็บข้อมูลแล้วเสร็จ");
+      }else{
+        alert(data['data']);
+      }
+
+    }))
+  }
+  uploadLvpro(){
+    this.configService.postdata2('uploadsql/lvprotosql.php',{}).subscribe((data=>{
       if(data['status']==1){
           this.registerForm.resetForm();
           alert("เก็บข้อมูลแล้วเสร็จ");
