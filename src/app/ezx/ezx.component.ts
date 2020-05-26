@@ -73,6 +73,7 @@ export class EzxComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.peaCode = localStorage.getItem('peaCode');
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.filteredDevice = this.control.valueChanges.pipe(
@@ -249,7 +250,7 @@ export class EzxComponent implements OnInit {
   }
   getJobList() {
 
-    this.configService.postdata2('ezx/rdjob.php', {}).subscribe((data => {
+    this.configService.postdata2('ezx/rdjob.php', {peaCode: localStorage.getItem('peaCode')}).subscribe((data => {
       this.joblist = [];
       if (data["status"] == 1) {
         data["data"].forEach(element => {

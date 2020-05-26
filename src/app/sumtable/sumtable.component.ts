@@ -79,7 +79,7 @@ solveMetsIm = ['ตัดจ่ายใหม่',
   public dataSource1 = new MatTableDataSource<appJob>();
   //displayedColumns = ['name', 'email', 'phone', 'company'];
   displayedColumns = ['wbs', 'jobName', 'causeName', 'solveMet', 'note', 'status','rename','reTr', 'del'];
-  displayedColumns1 = ['wbs', 'jobName', 'mv', 'lv', 'tr', 'totalcost', 'matCostInPln', 'workCostPln', 'appNo'];
+  displayedColumns1 = ['wbs', 'jobName', 'mv', 'lv', 'tr', 'totalcost', 'matCostInPln', 'workCostPln', 'appNo','appDoc'];
   notes = ['1.งานร้องเรียน', '2.PM/PS', '3.งานเร่งด่วน', '4.งานปกติ']
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild('paginator1', { static: true }) paginator1: MatPaginator;

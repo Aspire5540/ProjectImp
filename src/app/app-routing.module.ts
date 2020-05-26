@@ -54,7 +54,7 @@ const routes: Routes = [
   { path: 'psim', component: PsimdashboardComponent,canActivate:[AuthGuard] },
   { path: 'phasecheck', component: PhasechkComponent,canActivate:[AuthGuard] },
   { path: 'roic', component: RoicComponent,canActivate:[AuthGuard] },
-  { path: 'ezx', component: EzxComponent},
+  { path: 'ezx', component: EzxComponent,canActivate:[AuthGuard] },
   
 ];
 

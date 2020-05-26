@@ -60,7 +60,7 @@ export class JobapproveComponent implements OnInit {
   selected=2;
   nWbs =0;
   displayedColumns = ['wbs', 'jobName','mv','lv','tr', 'causeName', 'solveMet','note','workCostPln','del'];
-  displayedColumns1 = ['wbs', 'jobName', 'mv', 'lv', 'tr', 'totalcost', 'matCostInPln', 'workCostPln', 'appNo'];
+  displayedColumns1 = ['wbs', 'jobName', 'mv', 'lv', 'tr', 'totalcost', 'matCostInPln', 'workCostPln', 'appNo','appDoc'];
   notes = ['1.งานร้องเรียน', '2.PM/PS', '3.งานเร่งด่วน', '4.งานปกติ']
   @ViewChild('paginator', { static: false }) paginator: MatPaginator;
   @ViewChild('sort', { static: false }) sort: MatSort;

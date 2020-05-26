@@ -93,6 +93,7 @@ export interface appJob {
   totalcost : number;
   matCostInPln:number;
   appNo:string;
+  appDoc:string;
 
 }
 export interface jobRemain {

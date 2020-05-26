@@ -359,6 +359,11 @@
                 <td class="table-lg" mat-cell *matCellDef="let appJob"> {{appJob.appNo}} </td>
               </ng-container>
 
+              <ng-container matColumnDef="appDoc">
+                <th class="table-lg" mat-header-cell *matHeaderCellDef mat-sort-header>เลขที่บันทึก</th>
+                <td class="table-lg" mat-cell *matCellDef="let appJob"> {{appJob.appDoc}} </td>
+              </ng-container>
+              
               <tr class="table-lg" mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
               <tr class="table-lg" mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
             </table>
