@@ -275,14 +275,13 @@ export class EzxComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmdlgComponent, {
       width: '300px',
-      data: { DeviceID: this.indexKey, choice: choice, selectType: this.selectType }
+      data: { DeviceID: DeviceID, choice: choice, selectType: this.selectType,indexKey:this.indexKey}
     });
 
     dialogRef.afterClosed().subscribe((data) => {
       //console.log('Choice :' + this.choice);
       if (data) {
         if (choice == 1) {
-
           this.configService.postdata2('ezx/deldevice.php', data).subscribe((data => {
             if (data['status'] == 1) {
               //alert("ลบข้อมูลแล้วเสร็จ");

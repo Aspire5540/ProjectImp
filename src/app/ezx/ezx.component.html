@@ -12,8 +12,8 @@
         <div *ngIf="checked">
             <mat-card-content>
                 <div class="row">
-                    <div class="col-md-10">
-                        <mat-form-field>
+                    <div class="col-md-8">
+                        <mat-form-field class="example-full-width">
                             <mat-label>เปิดงาน</mat-label>
                             <mat-select (selectionChange)="selectJob($event)" name="selectEvt" ngModel>
                                 <mat-option *ngFor="let list of joblist" [value]="list.value">
@@ -21,7 +21,10 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
                         <button type="button" mat-mini-fab color="accent" (click)="newJob()">+</button>
+
                     </div>
                     <div class="col-md-2">
                         <button type="button" mat-raised-button color="primary"
