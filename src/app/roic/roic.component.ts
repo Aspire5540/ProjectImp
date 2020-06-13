@@ -134,6 +134,8 @@ export class RoicComponent implements OnInit {
     this.configService.postdata2('roic/rdInfo.php', { data: 'roicdate' }).subscribe((data => {
       if (data['status'] == 1) {
         this.roicdate = data['data'][0].info;
+        //--------------------------------
+        //this.roicdate="31 พ.ค. 2563";
       } else {
         alert(data['data']);
       }
@@ -267,7 +269,7 @@ export class RoicComponent implements OnInit {
      
         });
 
-        //this.kvaTotal=this.kvaTotal+580;
+        //this.kvaTotal=505;
         //APEX CHART
         
         this.chartOptions1 = {
